@@ -5624,7 +5624,7 @@ Requirements:
                             </span>
                           </div>
                           <span className="text-[9px] text-gray-400 font-mono">
-                            {log.displayTime}
+                            {formatSmartTime(log.id) || log.displayTime}
                           </span>
                         </div>
 
