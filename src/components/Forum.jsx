@@ -18,7 +18,7 @@ import {
 import AppWindow from "./AppWindow";
 import useStickyState from "../hooks/useStickyState";
 // 假设这些工具函数在 utils/helpers.js，请根据实际情况调整引用
-import { replacePlaceholders, formatTime, getTimeBasedGuidance } from "../utils/helpers";
+import { replacePlaceholders, formatTime, formatSmartTime, getTimeBasedGuidance } from "../utils/helpers";
 
 const Forum = ({
   isOpen,
@@ -129,11 +129,18 @@ const Forum = ({
         (err) => showToast("error", err),
       );
       if (data && data.posts) {
+        // 假时间戳：过去 3~30 天随机分布
+        const now = Date.now();
+        const randPast = (minDays, maxDays) => now - (minDays + Math.random() * (maxDays - minDays)) * 86400000;
         setForumData({
           name: data.forumName || "本地社区",
           posts: data.posts.map((p) => ({
             ...p,
-            replies: p.replies || [],
+            replies: (p.replies || []).map((r) => ({
+              ...r,
+              createdAt: randPast(3, 30),
+            })),
+            createdAt: randPast(3, 30),
             replyCount: (p.replies || []).length,
           })),
           isInitialized: true,
@@ -186,7 +193,11 @@ const Forum = ({
             ...data.posts.map((p) => ({
               ...p,
               id: `gen_${Date.now()}_${Math.random()}`,
-              replies: p.replies || [],
+              replies: (p.replies || []).map((r) => ({
+                ...r,
+                createdAt: Date.now() - (1 + Math.random() * 7) * 86400000,
+              })),
+              createdAt: Date.now() - (1 + Math.random() * 7) * 86400000,
               replyCount: (p.replies || []).length,
             })),
             ...prev.posts,
@@ -345,6 +356,7 @@ ${realNameContext}
             ? forumSettings.charNick || "匿名用户"
             : r.author,
           content: r.content,
+          createdAt: Date.now() - (0.5 + Math.random() * 3) * 86400000,
           isCharacter: r.isCharacter || false,
           isUser: false,
         }));
@@ -451,6 +463,7 @@ ${realNameContext}
           title: data.title,
           content: data.content,
           time: "刚刚",
+          createdAt: Date.now(),
           replyCount: (data.replies || []).length,
           views: Math.floor(Math.random() * 100) + 50,
           isUserCreated: false,
@@ -511,6 +524,7 @@ ${realNameContext}
       title: draft.title,
       content: draft.content,
       time: "刚刚",
+      createdAt: Date.now(),
       replyCount: 0,
       views: 0,
       isUserCreated: true,
@@ -718,7 +732,7 @@ ${realNameContext}
                     {thread.author}
                   </div>
                   <span>·</span>
-                  <span>{thread.time}</span>
+                  <span>{thread.createdAt ? formatSmartTime(thread.createdAt) : thread.time}</span>
                   {(thread.isUserCreated || thread.authorType === "char") && (
                     <button
                       onClick={() => handleDeletePost(thread.id)}
@@ -966,7 +980,7 @@ ${realNameContext}
                   >
                     {post.author}
                   </span>
-                  <span>{post.time}</span>
+                  <span>{post.createdAt ? formatSmartTime(post.createdAt) : post.time}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="flex items-center gap-1">
