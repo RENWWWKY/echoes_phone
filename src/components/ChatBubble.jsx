@@ -22,8 +22,10 @@ import { echoesDB } from "../utils/appHelpers";
    ============================================ */
 
 // CSS 骰子组件
-const DiceFace = ({ value, rolling: externalRolling }) => {
-  const [rolling, setRolling] = useState(false);
+const DiceFace = ({ value }) => {
+  const [displayValue, setDisplayValue] = useState(value);
+  const [rolling, setRolling] = useState(true);
+
   const dotPositions = {
     1: [[1, 1]],
     2: [[0, 2], [2, 0]],
@@ -32,21 +34,29 @@ const DiceFace = ({ value, rolling: externalRolling }) => {
     5: [[0, 0], [0, 2], [1, 1], [2, 0], [2, 2]],
     6: [[0, 0], [0, 2], [1, 0], [1, 2], [2, 0], [2, 2]],
   };
-  const dots = dotPositions[value] || dotPositions[1];
 
   useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      setRolling(true);
-      const t = setTimeout(() => setRolling(false), 600);
-      return () => clearTimeout(t);
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
+    let count = 0;
+    const total = 10;
+    const interval = setInterval(() => {
+      count++;
+      if (count < total) {
+        setDisplayValue(Math.floor(Math.random() * 6) + 1);
+      } else {
+        setDisplayValue(value);
+        setRolling(false);
+        clearInterval(interval);
+      }
+    }, 60);
+    return () => clearInterval(interval);
+  }, [value]);
+
+  const dots = dotPositions[displayValue] || dotPositions[1];
 
   return (
     <div
       className="relative w-10 h-10 bg-white rounded-lg shadow-md border border-gray-200"
-      style={rolling ? { animation: "diceRoll 0.6s ease-out" } : undefined}
+      style={rolling ? { animation: "diceShake 0.6s ease-in-out" } : undefined}
     >
       <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 p-1.5">
         {dots.map(([r, c], i) => (

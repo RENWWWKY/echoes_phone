@@ -259,10 +259,15 @@ div {
 .delay-2 { animation-delay: 0.3s; }
 .delay-3 { animation-delay: 0.2s; }
 
-@keyframes diceRoll {
-  0% { transform: rotate(0deg) scale(0.8); }
-  25% { transform: rotate(90deg) scale(1.1); }
-  50% { transform: rotate(180deg) scale(0.9); }
-  75% { transform: rotate(270deg) scale(1.05); }
-  100% { transform: rotate(360deg) scale(1); }
+@keyframes diceShake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  10% { transform: translateX(-4px) rotate(-8deg); }
+  20% { transform: translateX(4px) rotate(8deg); }
+  30% { transform: translateX(-3px) rotate(-6deg); }
+  40% { transform: translateX(3px) rotate(6deg); }
+  50% { transform: translateX(-2px) rotate(-4deg); }
+  60% { transform: translateX(2px) rotate(4deg); }
+  70% { transform: translateX(-1px) rotate(-2deg); }
+  80% { transform: translateX(1px) rotate(2deg); }
+  90% { transform: translateX(0) rotate(0deg); }
 }
