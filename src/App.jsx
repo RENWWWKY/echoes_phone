@@ -155,6 +155,41 @@ import {
   IMG_TAG_START,
 } from "./utils/appHelpers.jsx";
 
+// CSS 骰子组件
+const DiceFace = ({ value, rolling: externalRolling }) => {
+  const [autoRoll, setAutoRoll] = useState(true);
+  const dotPositions = {
+    1: [[1, 1]],
+    2: [[0, 2], [2, 0]],
+    3: [[0, 2], [1, 1], [2, 0]],
+    4: [[0, 0], [0, 2], [2, 0], [2, 2]],
+    5: [[0, 0], [0, 2], [1, 1], [2, 0], [2, 2]],
+    6: [[0, 0], [0, 2], [1, 0], [1, 2], [2, 0], [2, 2]],
+  };
+  const dots = dotPositions[value] || dotPositions[1];
+  const isRolling = externalRolling ?? autoRoll;
+
+  React.useEffect(() => {
+    if (autoRoll) {
+      const t = setTimeout(() => setAutoRoll(false), 650);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  return (
+    <div
+      className="relative w-10 h-10 bg-white rounded-lg shadow-md border border-gray-200"
+      style={{ animation: isRolling ? "diceRoll 0.6s ease-out" : "none" }}
+    >
+      <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 p-1.5">
+        {dots.map(([r, c], i) => (
+          <div key={i} className="w-2 h-2 rounded-full bg-gray-800" style={{ gridRow: r + 1, gridColumn: c + 1 }} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [charStickers, setCharStickers, charStickersLoaded] = useStickyState(
     DEFAULT_CHAR_STICKERS,
@@ -4603,13 +4638,12 @@ Requirements:
                                   );
                                 } else if (msg.isDice) {
                                   return (
-                                    <div className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${
+                                    <div className={`p-2 rounded-2xl ${
                                       msg.sender === "me"
-                                        ? "bg-[#2C2C2C] text-white"
-                                        : "bg-white border border-gray-200 text-gray-800"
+                                        ? "bg-[#2C2C2C]"
+                                        : "bg-white border border-gray-200"
                                     }`}>
-                                      <Dices size={20} />
-                                      <span className="text-lg font-bold">{msg.dice?.result || "?"}</span>
+                                      <DiceFace value={msg.dice?.result || 1} rolling={false} />
                                     </div>
                                   );
                                 }
