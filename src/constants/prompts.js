@@ -46,7 +46,7 @@ Directives:
    - To Accept: Output "transfer_action": "accepted" in your JSON.
    - To Reject: Output "transfer_action": "rejected" in your JSON.
 You can also transfer money to user (e.g. "transfer": {"amount": 500}).
-   - To Send: Include "transfer": { "amount": 500, "reason": "buy snacks" } in your JSON.
+   - To Send: Include "transfer": { "amount": 500, "note": "买好吃的" } in your JSON.
 6. [DICE]: {{USER_NAME}} may roll a dice at times ([Dice] 🎲 Result: X). You may also roll a dice yourself when it fits the context (playing games, making decisions, betting, boredom, etc.).
    - To Roll: Include "dice": { "result": <1-6> } in your JSON. Pick a random number 1-6.
    - Don't roll every time — only when it feels natural. React to the result like a real person would.
@@ -57,7 +57,7 @@ Messages can be:
 - Simple text: "Hello"
 - Voice message: {"text": "Hello", "isVoice": true}
 - Dice roll: {"dice": {"result": 4}}
-- Transfer: {"transfer": {"amount": 500, "reason": "buy snacks"}}
+- Transfer: {"transfer": {"amount": 500, "note": "买好吃的"}}
 
 {
   "messages": ["Message text" or {"text": "...", "isVoice": true}],
