@@ -557,6 +557,8 @@ const App = () => {
   const imageUploadRef = useRef(null);
   const [showImportModal, setShowImportModal] = useState(false);
   const [importData, setImportData] = useState(null);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportData, setExportData] = useState(null);
 
   // [新增] 全屏状态控制
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -1419,21 +1421,37 @@ const App = () => {
         catch { allData[key] = localStorage.getItem(key); }
       }
     }
-    // 排除 API key（安全）
-    if (allData["echoes_api_config"]) {
-      allData["echoes_api_config"] = { ...allData["echoes_api_config"], key: "" };
-    }
-    // 从聊天记录中移除冗余的 imageData base64（图片在 IndexedDB 里不受影响）
-    if (allData["echoes_chat_history"]?.length) {
-      allData["echoes_chat_history"] = allData["echoes_chat_history"].map((msg) => {
-        if (msg.imageData) { const { imageData, ...rest } = msg; return rest; }
-        return msg;
-      });
-    }
-    // 排除字体 base64（体积大）
-    delete allData["echoes_custom_font_url"];
+    // 所有分类都显示，有数据的默认勾选
+    const categories = Object.keys(BACKUP_CATEGORIES).map((id) => ({
+      id,
+      selected: BACKUP_CATEGORIES[id].keys.some((k) => allData[k] !== undefined && allData[k] !== null),
+    }));
+    setExportData({ allData, categories });
+    setShowExportModal(true);
+  };
 
-    const blob = new Blob([JSON.stringify({ version: 2, exportDate: new Date().toLocaleString(), data: allData }, null, 2)], { type: "application/json" });
+  const doExport = () => {
+    if (!exportData) return;
+    const { allData, categories } = exportData;
+    const selectedIds = new Set(categories.filter((c) => c.selected).map((c) => c.id));
+    const keysToExport = new Set();
+    for (const [id, cat] of Object.entries(BACKUP_CATEGORIES)) {
+      if (selectedIds.has(id)) for (const key of cat.keys) keysToExport.add(key);
+    }
+    const out = {};
+    for (const key of keysToExport) {
+      if (allData[key] !== undefined) {
+        let val = allData[key];
+        // 安全处理
+        if (key === "echoes_api_config") val = { ...val, key: "" };
+        if (key === "echoes_chat_history" && Array.isArray(val)) {
+          val = val.map((msg) => { if (msg.imageData) { const { imageData, ...rest } = msg; return rest; } return msg; });
+        }
+        out[key] = val;
+      }
+    }
+    delete out["echoes_custom_font_url"];
+    const blob = new Blob([JSON.stringify({ version: 2, exportDate: new Date().toLocaleString(), data: out }, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -1442,7 +1460,9 @@ const App = () => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast("success", "完整备份已导出");
+    setShowExportModal(false);
+    setExportData(null);
+    showToast("success", "已导出所选数据");
   };
 
   const importFullBackup = (event) => {
@@ -1485,6 +1505,19 @@ const App = () => {
   // 兼容旧接口
   const exportChatData = () => exportFullBackup();
   const importChatData = (event) => importFullBackup(event);
+
+  // ── 统一生成前置检查（API > 角色设定）──
+  const checkCanGenerate = () => {
+    if (!apiConfig.baseUrl || !apiConfig.key) {
+      showToast("error", "未配置 API 信息，请在设置中输入 Base URL 和 Key");
+      return false;
+    }
+    if (!inputKey) {
+      showToast("error", "角色设定为空，请先完善设定");
+      return false;
+    }
+    return true;
+  };
 
   const fetchModelsList = async () => {
     if (!apiConfig.baseUrl || !apiConfig.key) {
@@ -2425,12 +2458,14 @@ Requirements:
     // 情绪支持：检测用户消息中的危机/情绪关键词
     // * 作为通配符，匹配任意字符（含零字符）
     const crisisPatterns = [
-      "什么*都做不好", "活着*什么意义", "撑不下去了", "没有人*听我说话",
+      "什么*都做不好", "活着*什么意义", "撑不下去了", "没有人*听我说话", "活不下去","累了","好累",
       "我*受够了", "崩溃了", "完蛋了", "不知道*怎么办", "该怎么办",
-      "想死", "我是不是*有问题", "是不是*我的问题", "这种事*都做不好",
+      "想*死", "我是不是*有问题", "是不是*我的问题", "这种事*都做不好",
       "为什么*就我", "他们*根本不理解", "他们*根本不懂", "他们*都不懂",
-      "没有人*能帮我", "问你*也没用", "和你*没用",
-      "算了*你不懂", "是不是*不该存在",
+      "没有人*能帮我", "问你*也没用", "和你*没用","有点*难受", "很*难受", "我*难受", "有点*难受", "很*难过", "我*难过", "心情*不好", "其实我*被", "其实我*不", 
+      "算了*你不懂", "是不是*不该存在", "我*没用", "想*说话", "很*无语", "有点*无语", 
+      "我感觉*怎么办", "我觉得*怎么办", "我不想*怎么办", "服了", "不行了", "不开心",
+      "我好*怕", "我*担心", "我*害怕", "我*不好", "我*会不会", "我*不行", "我*不舒服",
     ];
     const lastUserMsg = userContent || (chatHistory.slice().reverse().find(m => m.sender === "me")?.content || "");
     const crisisMatched = lastUserMsg && crisisPatterns.some(pattern => {
@@ -2438,7 +2473,7 @@ Requirements:
       return regex.test(lastUserMsg);
     });
     if (crisisMatched) {
-      const emotionalSupportPrompt = `当{{USER_NAME}}表现出强烈情绪（焦虑、愤怒、悲伤、过度兴奋等）时，在保持{{NAME}}人设的前提下，遵循如下原则：**1.验证但不放大**：承认{{USER_NAME}}的感受是真实和合理的，但不要情绪化地回应。避免"天哪""太可怕了""我也觉得……"这类共鸣式表达，不会过度同情到让{{USER_NAME}}停留在情绪中。**2.赋予掌控感**：通过提问让{{USER_NAME}}成为决策者。"你觉得最想先处理哪个部分？""你之前有没有遇到过类似的情况？"让{{USER_NAME}}感到自己有能力应对。`;
+      const emotionalSupportPrompt = `情感支持指令：如果{{USER_NAME}}表现出负面情绪（焦虑、愤怒、悲伤、绝望等），在保持{{NAME}}人设的前提下，遵循如下原则：**1.验证但不放大**：承认{{USER_NAME}}的感受是真实和合理的，但不要情绪化地回应。避免"天哪""太可怕了""我也觉得……"这类共鸣式表达，不会过度共情到让{{USER_NAME}}停留在情绪中。**2.赋予掌控感**：通过提问让{{USER_NAME}}成为决策者。"你觉得最想先处理哪个部分？""你之前有没有遇到过类似的情况？"让{{USER_NAME}}感到自己有能力应对。如{{USER_NAME}}没有表露出负面情绪，则忽略本指令。`;
       specialInst += `\n[Crisis Support Protocol]: ${emotionalSupportPrompt}`;
     }
 
@@ -2981,6 +3016,7 @@ Requirements:
 
   const initSmartWatch = async () => {
     if (!persona) return;
+    if (!checkCanGenerate()) return;
     setLoading((prev) => ({ ...prev, smartwatch: true }));
 
     try {
@@ -3090,6 +3126,7 @@ Requirements:
     currentLocs = smartWatchLocations,
   ) => {
     if (!persona) return;
+    if (!checkCanGenerate()) return;
     setLoading((prev) => ({ ...prev, sw_update: true }));
 
     const locList = currentLocs
@@ -3168,6 +3205,7 @@ Requirements:
   // --- 离线批量生成智能家日志 ---
   const generateOfflineSmartWatchUpdates = async (gapMs) => {
     if (!persona || smartWatchLocations.length === 0) return;
+    if (!checkCanGenerate()) return;
     setLoading((prev) => ({ ...prev, sw_update: true }));
 
     try {
@@ -3250,7 +3288,7 @@ Requirements:
           }
 
           return {
-            id: now.getTime() - (data.length - 1 - i), // 保证按时间顺序排列，最新的 id 最大
+            id: eventDate.getTime(),
             timestamp: eventDate.toLocaleString(),
             displayTime: formatTime(eventDate),
             locationId: fixedItem.locationId,
@@ -5794,6 +5832,7 @@ Requirements:
               triggerAIResponse={triggerAIResponse}
               showToast={showToast}
               audioRef={audioRef}
+              apiConfig={apiConfig}
             />
           </AppWindow>
           <AppWindow
@@ -6064,6 +6103,71 @@ Requirements:
                 className="flex-1 py-2.5 bg-black text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors"
               >
                 恢复选中
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 导出备份勾选弹窗 */}
+      {showExportModal && exportData && (
+        <div className="fixed inset-0 z-[250] bg-black/40 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="bg-white/95 backdrop-blur-xl w-full max-w-sm rounded-2xl shadow-2xl p-5 border border-white/50 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
+            <div className="text-center">
+              <h3 className="text-base font-bold text-gray-800">导出备份</h3>
+              <p className="text-[11px] text-gray-400 mt-1">勾选需要导出的数据分类</p>
+            </div>
+
+            <div className="space-y-1.5">
+              {exportData.categories.map((cat) => (
+                <label
+                  key={cat.id}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors"
+                >
+                  <div
+                    className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                      cat.selected
+                        ? "bg-black border-black"
+                        : "border-gray-300 bg-white"
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setExportData({
+                        ...exportData,
+                        categories: exportData.categories.map((c) =>
+                          c.id === cat.id ? { ...c, selected: !c.selected } : c
+                        ),
+                      });
+                    }}
+                  >
+                    {cat.selected && (
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-medium text-gray-700">{BACKUP_CATEGORIES[cat.id]?.label || cat.id}</span>
+                  </div>
+                  <span className="text-[10px] text-gray-400 flex-shrink-0">
+                    {getCategoryPreview(exportData.allData, cat.id)}
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            <div className="flex gap-2.5">
+              <button
+                onClick={() => { setShowExportModal(false); setExportData(null); }}
+                className="flex-1 py-2.5 text-gray-500 bg-gray-100 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
+              >
+                取消
+              </button>
+              <button
+                onClick={doExport}
+                className="flex-1 py-2.5 bg-black text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors"
+              >
+                导出选中
               </button>
             </div>
           </div>
