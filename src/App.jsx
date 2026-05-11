@@ -120,6 +120,7 @@ import {
   ArrowRightToLine,
   Bell,
   BellOff,
+  Dices,
 } from "lucide-react";
 import { getUserId, fetchActiveMessages, clearActiveMessages } from "./utils/activeMessages";
 import ActiveMessageToast from "./components/ActiveMessageToast";
@@ -4600,6 +4601,17 @@ Requirements:
                                       isMe={msg.sender === "me"}
                                     />
                                   );
+                                } else if (msg.isDice) {
+                                  return (
+                                    <div className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${
+                                      msg.sender === "me"
+                                        ? "bg-[#2C2C2C] text-white"
+                                        : "bg-white border border-gray-200 text-gray-800"
+                                    }`}>
+                                      <Dices size={20} />
+                                      <span className="text-lg font-bold">{msg.dice?.result || "?"}</span>
+                                    </div>
+                                  );
                                 }
 
                                 // E. 普通文本/转发卡片 (Fallback)
@@ -4996,7 +5008,7 @@ Requirements:
                           className="flex flex-col items-center gap-1 text-gray-600 hover:text-black min-w-[40px]"
                         >
                           <div className="p-2 bg-gray-100 rounded-full">
-                            🎲
+                            <Dices size={20} />
                           </div>
                           <span className="text-[10px]">骰子</span>
                         </button>

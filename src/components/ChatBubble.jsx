@@ -10,6 +10,7 @@ import {
   Check,
   Share,
   MoreHorizontal,
+  Dices,
 } from "lucide-react";
 import { echoesDB } from "../utils/appHelpers";
 
@@ -190,7 +191,7 @@ const ChatBubble = ({
           <div className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${
             isMe ? "bg-[#7A2A3A] text-white" : "bg-white border border-gray-200 text-gray-800"
           }`}>
-            <span className="text-2xl">🎲</span>
+            <Dices size={20} />
             <span className="text-lg font-bold">{msg.dice?.result || "?"}</span>
           </div>
         )}
