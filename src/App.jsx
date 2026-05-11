@@ -155,47 +155,98 @@ import {
   IMG_TAG_START,
 } from "./utils/appHelpers.jsx";
 
-// CSS 骰子组件
-const DiceFace = ({ value }) => {
-  const [displayValue, setDisplayValue] = useState(value);
-  const [rolling, setRolling] = useState(true);
+// 3D 骰子面（1-6 点）
+const FaceDots = ({ n }) => {
+  const dots = {
+    1: [[1,1]],
+    2: [[0,2],[2,0]],
+    3: [[0,2],[1,1],[2,0]],
+    4: [[0,0],[0,2],[2,0],[2,2]],
+    5: [[0,0],[0,2],[1,1],[2,0],[2,2]],
+    6: [[0,0],[0,2],[1,0],[1,2],[2,0],[2,2]],
+  }[n];
+  return (
+    <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 p-1.5">
+      {Array.from({length:9}).map((_,i)=>{
+        const r=Math.floor(i/3), c=i%3;
+        const active=dots.some(([dr,dc])=>dr===r&&dc===c);
+        return <div key={i} className="flex items-center justify-center">
+          {active && <div className="w-2 h-2 rounded-full bg-gray-800" />}
+        </div>;
+      })}
+    </div>
+  );
+};
 
-  const dotPositions = {
-    1: [[1, 1]],
-    2: [[0, 2], [2, 0]],
-    3: [[0, 2], [1, 1], [2, 0]],
-    4: [[0, 0], [0, 2], [2, 0], [2, 2]],
-    5: [[0, 0], [0, 2], [1, 1], [2, 0], [2, 2]],
-    6: [[0, 0], [0, 2], [1, 0], [1, 2], [2, 0], [2, 2]],
+// 3D 骰子组件
+const DiceFace = ({ value }) => {
+  // 目标面对应 3D 旋转角度：让顶面(默认front rotated to top)显示
+  const targetAngles = {
+    1: "rotateX(-90deg)",  // front→top
+    2: "rotateX(180deg)",  // bottom→top
+    3: "rotateY(90deg) rotateX(-90deg)",
+    4: "rotateY(-90deg) rotateX(-90deg)",
+    5: "",  // top already on top
+    6: "rotateX(90deg)",  // back→top
   };
+  const target = targetAngles[value] || "";
+
+  const [rolling, setRolling] = useState(true);
+  const [angle, setAngle] = useState(`${Math.random()*720}deg ${Math.random()*720}deg 0deg`);
 
   useEffect(() => {
+    // 滚动阶段：每 80ms 随机旋转
     let count = 0;
-    const total = 10;
+    const total = 8;
     const interval = setInterval(() => {
       count++;
       if (count < total) {
-        setDisplayValue(Math.floor(Math.random() * 6) + 1);
+        const rx = Math.floor(Math.random() * 4) * 90;
+        const ry = Math.floor(Math.random() * 4) * 90;
+        setAngle(`rotateX(${rx + Math.random()*180}deg) rotateY(${ry + Math.random()*180}deg) rotateZ(0deg)`);
       } else {
-        setDisplayValue(value);
         setRolling(false);
         clearInterval(interval);
       }
-    }, 60);
+    }, 80);
     return () => clearInterval(interval);
-  }, [value]);
+  }, []);
 
-  const dots = dotPositions[displayValue] || dotPositions[1];
+  // 非滚动时显示目标面
+  const style = rolling
+    ? { transform: angle, transition: "none" }
+    : { transform: target, transition: "transform 0.4s cubic-bezier(0.22, 0.89, 0.38, 1.02)" };
 
   return (
-    <div
-      className="relative w-10 h-10 bg-white rounded-lg shadow-md border border-gray-200"
-      style={rolling ? { animation: "diceShake 0.6s ease-in-out" } : undefined}
-    >
-      <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 p-1.5">
-        {dots.map(([r, c], i) => (
-          <div key={i} className="w-2 h-2 rounded-full bg-gray-800" style={{ gridRow: r + 1, gridColumn: c + 1 }} />
-        ))}
+    <div style={{ perspective: 120, width: 44, height: 44 }}>
+      <div
+        className="relative w-full h-full"
+        style={{ transformStyle: "preserve-3d", ...style }}
+      >
+        {/* Front: 1 */}
+        <div className="absolute inset-0 bg-white rounded-lg shadow-inner border border-gray-200" style={{ transform: "translateZ(22px)" }}>
+          <FaceDots n={1} />
+        </div>
+        {/* Back: 6 */}
+        <div className="absolute inset-0 bg-white rounded-lg shadow-inner border border-gray-200" style={{ transform: "rotateY(180deg) translateZ(22px)" }}>
+          <FaceDots n={6} />
+        </div>
+        {/* Right: 4 */}
+        <div className="absolute inset-0 bg-white rounded-lg shadow-inner border border-gray-200" style={{ transform: "rotateY(90deg) translateZ(22px)" }}>
+          <FaceDots n={4} />
+        </div>
+        {/* Left: 3 */}
+        <div className="absolute inset-0 bg-white rounded-lg shadow-inner border border-gray-200" style={{ transform: "rotateY(-90deg) translateZ(22px)" }}>
+          <FaceDots n={3} />
+        </div>
+        {/* Top: 5 */}
+        <div className="absolute inset-0 bg-white rounded-lg shadow-inner border border-gray-200" style={{ transform: "rotateX(90deg) translateZ(22px)" }}>
+          <FaceDots n={5} />
+        </div>
+        {/* Bottom: 2 */}
+        <div className="absolute inset-0 bg-white rounded-lg shadow-inner border border-gray-200" style={{ transform: "rotateX(-90deg) translateZ(22px)" }}>
+          <FaceDots n={2} />
+        </div>
       </div>
     </div>
   );
