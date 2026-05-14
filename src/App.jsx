@@ -156,8 +156,8 @@ import {
 } from "./utils/appHelpers.jsx";
 
 // 3D 骰子面（1-6 点）
-// 2D 骰子面（静态展示）
-const StaticDice = ({ value, bg = "#2a2a2a", dotColor = "#ffffff" }) => {
+// 2D 骰子面（静态展示，白底黑点）
+const StaticDice = ({ value }) => {
   const dots = {
     1: [[1,1]],
     2: [[0,2],[2,0]],
@@ -167,12 +167,12 @@ const StaticDice = ({ value, bg = "#2a2a2a", dotColor = "#ffffff" }) => {
     6: [[0,0],[0,2],[1,0],[1,2],[2,0],[2,2]],
   }[value];
   return (
-    <div className="w-14 h-14 rounded-2xl grid grid-cols-3 grid-rows-3 p-2.5 shadow-sm" style={{ background: bg }}>
+    <div className="w-14 h-14 rounded-2xl grid grid-cols-3 grid-rows-3 p-2.5 shadow-sm" style={{ background: "#ffffff" }}>
       {Array.from({length:9}).map((_,i)=>{
         const r=Math.floor(i/3), c=i%3;
         const active=dots.some(([dr,dc])=>dr===r&&dc===c);
         return <div key={i} className="flex items-center justify-center">
-          {active && <div className="w-3 h-3 rounded-full" style={{ background: dotColor }} />}
+          {active && <div className="w-3 h-3 rounded-full bg-gray-900" />}
         </div>;
       })}
     </div>
@@ -221,6 +221,26 @@ const DiceFace = ({ value, animate = false, onDone }) => {
     return <StaticDice value={value} />;
   }
 
+  // 每个面上的点数（纯白底黑点，阴影靠渐变区分）
+  const Dots = ({ n }) => {
+    const dots = {
+      1: [[1,1]], 2: [[0,2],[2,0]], 3: [[0,2],[1,1],[2,0]],
+      4: [[0,0],[0,2],[2,0],[2,2]], 5: [[0,0],[0,2],[1,1],[2,0],[2,2]],
+      6: [[0,0],[0,2],[1,0],[1,2],[2,0],[2,2]],
+    }[n];
+    return (
+      <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 p-1.5">
+        {Array.from({length:9}).map((_,i)=>{
+          const r=Math.floor(i/3), c=i%3;
+          const active=dots.some(([dr,dc])=>dr===r&&dc===c);
+          return <div key={i} className="flex items-center justify-center">
+            {active && <div className="w-2 h-2 rounded-full bg-gray-900" />}
+          </div>;
+        })}
+      </div>
+    );
+  };
+
   const faceCls = `absolute inset-0 rounded-xl flex items-center justify-center`;
   const fs = { width: SIZE, height: SIZE };
 
@@ -236,29 +256,29 @@ const DiceFace = ({ value, animate = false, onDone }) => {
           transition: "transform 0.16s cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}
       >
-        {/* 顶面(5) */}
-        <div className={faceCls} style={{ ...fs, transform: `rotateX(90deg) translateZ(${H}px)`, background: "#ffffff" }}>
-          <StaticDice value={5} bg="#fff" dotColor="#1a1a1a" />
+        {/* 顶面(5) — 结果面，最亮 */}
+        <div className={faceCls} style={{ ...fs, transform: `rotateX(90deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%)" }}>
+          <Dots n={5} />
         </div>
-        {/* 底面(2) */}
-        <div className={faceCls} style={{ ...fs, transform: `rotateX(-90deg) translateZ(${H}px)`, background: "#e8e8e8" }}>
-          <StaticDice value={2} bg="#e8e8e8" dotColor="#1a1a1a" />
+        {/* 底面(2) — 最暗 */}
+        <div className={faceCls} style={{ ...fs, transform: `rotateX(-90deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #d0d0d0 0%, #c0c0c0 100%)" }}>
+          <Dots n={2} />
         </div>
         {/* 前面(1) */}
-        <div className={faceCls} style={{ ...fs, transform: `translateZ(${H}px)`, background: "#f0f0f0" }}>
-          <StaticDice value={1} bg="#f0f0f0" dotColor="#1a1a1a" />
+        <div className={faceCls} style={{ ...fs, transform: `translateZ(${H}px)`, background: "linear-gradient(135deg, #e8e8e8 0%, #dcdcdc 100%)" }}>
+          <Dots n={1} />
         </div>
         {/* 后面(6) */}
-        <div className={faceCls} style={{ ...fs, transform: `rotateY(180deg) translateZ(${H}px)`, background: "#f0f0f0" }}>
-          <StaticDice value={6} bg="#f0f0f0" dotColor="#1a1a1a" />
+        <div className={faceCls} style={{ ...fs, transform: `rotateY(180deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #e0e0e0 0%, #d4d4d4 100%)" }}>
+          <Dots n={6} />
         </div>
         {/* 右面(4) */}
-        <div className={faceCls} style={{ ...fs, transform: `rotateY(90deg) translateZ(${H}px)`, background: "#e8e8e8" }}>
-          <StaticDice value={4} bg="#e8e8e8" dotColor="#1a1a1a" />
+        <div className={faceCls} style={{ ...fs, transform: `rotateY(90deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #e4e4e4 0%, #d8d8d8 100%)" }}>
+          <Dots n={4} />
         </div>
         {/* 左面(3) */}
-        <div className={faceCls} style={{ ...fs, transform: `rotateY(-90deg) translateZ(${H}px)`, background: "#e8e8e8" }}>
-          <StaticDice value={3} bg="#e8e8e8" dotColor="#1a1a1a" />
+        <div className={faceCls} style={{ ...fs, transform: `rotateY(-90deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #e4e4e4 0%, #d8d8d8 100%)" }}>
+          <Dots n={3} />
         </div>
       </div>
     </div>
@@ -4712,7 +4732,7 @@ Requirements:
                                     />
                                   );
                                 } else if (msg.isDice) {
-                                  return <StaticDice value={msg.dice?.result || 1} />;
+                                  return (<DiceFace value={msg.dice?.result || 1} animate={!msg.diceRolled} onDone={() => { msg.diceRolled = true; }} />);
                                 }
 
                                 // E. 普通文本/转发卡片 (Fallback)
