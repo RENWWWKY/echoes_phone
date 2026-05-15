@@ -184,44 +184,47 @@ const DiceFace = ({ value, animate = false, onDone }) => {
   const SIZE = 56;
   const H = SIZE / 2;
 
-  const [rolling, setRolling] = useState(animate);
-  const [angle, setAngle] = useState(`rotateX(${Math.random()*360}deg) rotateY(${Math.random()*360}deg)`);
-
-  // 固定视角：始终同一个透视角度
+  // targetAngles: 每个点数对应的最终 3D 姿态
   const targetAngles = {
-    1: `rotateX(50deg) rotateY(28deg) rotateX(-90deg)`,
-    2: `rotateX(50deg) rotateY(28deg) rotateX(90deg)`,
-    3: `rotateX(50deg) rotateY(28deg) rotateX(-90deg) rotateY(90deg)`,
-    4: `rotateX(50deg) rotateY(28deg) rotateX(-90deg) rotateY(-90deg)`,
-    5: `rotateX(50deg) rotateY(28deg)`,
-    6: `rotateX(50deg) rotateY(28deg) rotateX(-90deg) rotateY(180deg)`,
+    1: { rx: -40, ry: 28 },
+    2: { rx: 140, ry: 28 },
+    3: { rx: -40, ry: 118 },
+    4: { rx: -40, ry: -62 },
+    5: { rx: 50, ry: 28 },
+    6: { rx: -40, ry: 208 },
   };
+
+  const [angle, setAngle] = useState(() => animate ? { rx: 0, ry: 0 } : targetAngles[value]);
+  const [done, setDone] = useState(!animate);
 
   useEffect(() => {
     if (!animate) return;
-    let count = 0;
-    const total = 8;
-    const interval = setInterval(() => {
-      count++;
-      if (count < total) {
-        const rx = Math.floor(Math.random() * 720) + 180;
-        const ry = Math.floor(Math.random() * 720) + 180;
-        setAngle(`rotateX(${rx}deg) rotateY(${ry}deg)`);
+    const target = targetAngles[value];
+    const steps = 14; // 翻滚步数
+    let step = 0;
+    let raf;
+
+    const tick = () => {
+      step++;
+      const delay = 40 + (step / (steps + 1)) * 50; // 逐步变慢
+      if (step <= steps) {
+        setAngle({
+          rx: step < steps ? Math.random() * 720 + 180 : target.rx,
+          ry: step < steps ? Math.random() * 720 + 180 : target.ry,
+        });
+        raf = setTimeout(tick, delay);
       } else {
-        setRolling(false);
-        clearInterval(interval);
+        // 精确停在目标角度
+        setAngle(target);
+        setDone(true);
         onDone?.();
       }
-    }, 120);
-    return () => clearInterval(interval);
+    };
+
+    raf = setTimeout(tick, 60);
+    return () => clearTimeout(raf);
   }, []);
 
-  // 动画结束后只显示 2D 结果面
-  if (!animate || !rolling) {
-    return <StaticDice value={value} />;
-  }
-
-  // 每个面上的点数（纯白底黑点，阴影靠渐变区分）
   const Dots = ({ n }) => {
     const dots = {
       1: [[1,1]], 2: [[0,2],[2,0]], 3: [[0,2],[1,1],[2,0]],
@@ -243,6 +246,7 @@ const DiceFace = ({ value, animate = false, onDone }) => {
 
   const faceCls = `absolute inset-0 rounded-xl flex items-center justify-center`;
   const fs = { width: SIZE, height: SIZE };
+  const currentTransform = `rotateX(${angle.rx}deg) rotateY(${angle.ry}deg)`;
 
   return (
     <div style={{ perspective: 200, width: 56, height: 56, overflow: "visible" }}>
@@ -252,8 +256,8 @@ const DiceFace = ({ value, animate = false, onDone }) => {
           width: SIZE,
           height: SIZE,
           transformStyle: "preserve-3d",
-          transform: angle,
-          transition: "transform 0.16s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          transform: currentTransform,
+          transition: done ? "" : "none",
         }}
       >
         {/* 顶面(5) — 结果面，最亮 */}
