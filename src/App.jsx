@@ -4586,7 +4586,7 @@ Requirements:
                     </div>
                   ),
                   Footer: () => (
-                    <div className="pb-4">
+                    <div className="pb-8">
                       {(loading.chat || isTyping) && (
                         <div className="flex gap-2 items-center ml-12 pl-2 px-4 py-4">
                           <div className="w-1.5 h-1.5 bg-gray-400 rounded-full typing-dot" style={{ animationDelay: "0s" }}></div>
