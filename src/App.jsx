@@ -4763,24 +4763,39 @@ Requirements:
                                         : "bg-white border border-gray-100 text-gray-800 rounded-tl-none"
                                     }`}
                                   >
-                                    {msg.isForward ? (
+                                    {msg.isForward ? (() => {
+                                      const fwd = msg.forwardData;
+                                      const isForumType = fwd?.type === "post" || fwd?.type === "comment";
+                                      const labelMap = {
+                                        post: "帖子", comment: "评论",
+                                        diary: "日记", receipt: "消费", browser: "浏览",
+                                        incognito: "隐私浏览", smartwatch: "监控日志"
+                                      };
+                                      const typeLabel = labelMap[fwd?.type] || "转发";
+                                      return (
                                       <div className="text-left max-w-[240px] pl-3 border-l-2 border-white/30 my-1">
                                         <div className="flex items-center gap-2 mb-1 opacity-70">
                                           <Share size={10} />
                                           <span className="text-[10px] font-bold uppercase tracking-wider">
-                                            {msg.forwardData.type === "post"
-                                              ? "帖子"
-                                              : "评论"}
+                                            {typeLabel}
                                           </span>
                                         </div>
-                                        <div className="text-[10px] text-white/80 mb-1 font-bold">
-                                          @{msg.forwardData.author}
-                                        </div>
-                                        <div className="text-xs text-white/80 line-clamp-3 leading-relaxed font-light">
-                                          {msg.forwardData.content}
-                                        </div>
+                                        {isForumType ? (
+                                          <>
+                                            <div className="text-[10px] text-white/80 mb-1 font-bold">
+                                              @{fwd?.author}
+                                            </div>
+                                            <div className="text-xs text-white/80 line-clamp-3 leading-relaxed font-light">
+                                              {fwd?.content}
+                                            </div>
+                                          </>
+                                        ) : (
+                                          <div className="text-xs text-white/80 line-clamp-5 leading-relaxed">
+                                            {msg.text}
+                                          </div>
+                                        )}
                                       </div>
-                                    ) : (
+                                    )})() : (
                                       msg.text
                                     )}
                                   </div>
