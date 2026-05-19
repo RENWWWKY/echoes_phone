@@ -117,7 +117,9 @@ const OFFICIAL_SKINS = [
 #echoes-chat [class*="bg-[#1a1a1a]"] * { color: #2c3e50 !important; }
 #echoes-chat .bg-\[\#1a1a1a\]\/95 { background: rgba(255,255,255,0.95) !important; color: #2c3e50 !important; }
 #echoes-chat .bg-\[\#1a1a1a\]\/95 * { color: #2c3e50 !important; }
-#echoes-chat .hover\:bg-white\/20:hover { background: rgba(93,169,173,0.2) !important; }
+#echoes-chat .text-red-300 { color: #8a6d59 !important; }
+#echoes-chat .hover\:bg-white\/20:active, #echoes-chat .hover\:bg-white\/20:hover { background: rgba(44,62,80,0.08) !important; }
+#echoes-chat .hover\:bg-red-500\/50:active, #echoes-chat .hover\:bg-red-500\/50:hover { background: rgba(138,109,89,0.15) !important; }
 #echoes-chat .border-white\/20 { border-color: rgba(0,0,0,0.1) !important; }
 #echoes-chat .text-red-300 { color: #e07a5f !important; }
 
@@ -220,6 +222,10 @@ const OFFICIAL_SKINS = [
 #echoes-chat [class*="rounded-\\[24px\\]"].glass-panel svg,
 #echoes-chat .flex.justify-around svg { stroke: #8b7355; }
 #echoes-chat [class*="bg-\\[\\#1a1a1a\\]"] { background: #fff8f0 !important; color: #4a3728 !important; }
+#echoes-chat [class*="bg-\\[\\#1a1a1a\\]"] * { color: #4a3728 !important; }
+#echoes-chat .text-red-300 { color: #c4956a !important; }
+#echoes-chat .hover\:bg-white\/20:active, #echoes-chat .hover\:bg-white\/20:hover { background: rgba(74,55,40,0.08) !important; }
+#echoes-chat .hover\:bg-red-500\/50:active, #echoes-chat .hover\:bg-red-500\/50:hover { background: rgba(196,149,106,0.15) !important; }
 #echoes-chat .bg-green-500 { background: #8bb06a !important; }
 /* 弹窗背景保留半透明 */
 #echoes-chat .fixed.inset-0 { background: rgba(0,0,0,0.5) !important; }
@@ -494,6 +500,10 @@ const OFFICIAL_SKINS = [
 #echoes-chat [class*="rounded-\[24px\]"].glass-panel { background:#fff0f5 !important; border:2px solid #00e5ff !important; border-color:#00e5ff !important; box-shadow:4px 4px 0 #ff6b9d !important; }
 #echoes-chat [class*="rounded-\[24px\]"].glass-panel svg,#echoes-chat .flex.justify-around svg { stroke:#cc7799; }
 #echoes-chat [class*="bg-\[\#1a1a1a\]"] { background:#fff0f5 !important; color:#554455 !important; border:2px solid #ffccdd !important; border-color:#ffccdd !important; }
+#echoes-chat [class*="bg-\[\#1a1a1a\]"] * { color:#554455 !important; }
+#echoes-chat .text-red-300 { color:#cc7799 !important; }
+#echoes-chat .hover\:bg-white\/20:active, #echoes-chat .hover\:bg-white\/20:hover { background: rgba(85,68,85,0.08) !important; }
+#echoes-chat .hover\:bg-red-500\/50:active, #echoes-chat .hover\:bg-red-500\/50:hover { background: rgba(204,119,153,0.15) !important; }
 #echoes-chat .bg-green-500 { background: linear-gradient(135deg,#ff6b9d 0%,#ff8fab 50%,#00e5ff 100%) !important; color:#fff !important; border:2px solid #00e5ff !important; }
 #echoes-chat .text-red-500 { color:#ff6b9d !important; text-shadow:1px 1px 0 #00e5ff !important; }
 #echoes-chat .bg-green-50\/50 { background:#ffe0f0 !important; }
@@ -796,6 +806,10 @@ const OFFICIAL_SKINS = [
 #echoes-chat [class*="rounded-\\[24px\\]"].glass-panel { background:#faf5f8 !important; border-color:rgba(212,149,154,0.3) !important; border-radius:18px !important; }
 #echoes-chat [class*="rounded-\\[24px\\]"].glass-panel svg,#echoes-chat .flex.justify-around svg { stroke:#8b7088; }
 #echoes-chat [class*="bg-\\[\\#1a1a1a\\]"] { background:#faf5f8 !important; color:#4a3548 !important; }
+#echoes-chat [class*="bg-\\[\\#1a1a1a\\]"] * { color:#4a3548 !important; }
+#echoes-chat .text-red-300 { color:#d4959a !important; }
+#echoes-chat .hover\:bg-white\/20:active, #echoes-chat .hover\:bg-white\/20:hover { background: rgba(74,53,72,0.08) !important; }
+#echoes-chat .hover\:bg-red-500\/50:active, #echoes-chat .hover\:bg-red-500\/50:hover { background: rgba(212,149,154,0.15) !important; }
 #echoes-chat .bg-green-500 { background:#b8a8c8 !important; }
 #echoes-chat .text-red-500 { color:#cc8899 !important; }
 #echoes-chat .bg-green-50\\/50 { background:#eee8f4 !important; }
