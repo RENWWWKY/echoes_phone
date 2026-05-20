@@ -4425,7 +4425,7 @@ Requirements:
                     return (
                       <div
                         key={msgKey}
-                        className="relative group flex justify-center my-4 animate-in fade-in duration-300 px-4 mb-6"
+                        className="relative group flex justify-center my-4 px-4 mb-6"
                         onContextMenu={!isMultiSelectMode ? (e) => handleContextMenu(e, i) : undefined}
                         onTouchStart={!isMultiSelectMode ? () => handleTouchStart(i) : undefined}
                         onTouchEnd={!isMultiSelectMode ? handleTouchEnd : undefined}
@@ -4465,7 +4465,7 @@ Requirements:
                     )}
                     <div
                       onClick={() => { if (isMultiSelectMode) toggleMessageSelection(i); }}
-                      className={`flex flex-col gap-1 ${msg.sender === "me" ? "items-end" : "items-start"} group relative animate-in fade-in slide-in-from-bottom-2 ${isMultiSelectMode ? "cursor-pointer hover:bg-gray-100/50 p-2 rounded-xl transition-colors" : ""}`}
+                      className={`flex flex-col gap-1 ${msg.sender === "me" ? "items-end" : "items-start"} group relative ${isMultiSelectMode ? "cursor-pointer hover:bg-gray-100/50 p-2 rounded-xl transition-colors" : ""}`}
                     >
                       <div className={`flex gap-3 relative ${msg.sender === "me" ? "flex-row-reverse" : "flex-row"} max-w-full`}>
                         {isMultiSelectMode && (
