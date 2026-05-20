@@ -4414,7 +4414,7 @@ Requirements:
                 ref={virtuosoRef}
                 data={chatHistory}
                 className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
-                followOutput={expandedChatStatusIndex === null ? "smooth" : false}
+                followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? "smooth" : false}
                 initialTopMostItemIndex={chatHistory.length - 1}
                 itemContent={(i, msg) => {
                   const msgKey = msg.id || i;
