@@ -1115,7 +1115,7 @@ const App = () => {
         behavior: "auto",
       });
     }
-  }, [chatHistory, activeApp, loading.chat, isTyping]);
+  }, [activeApp]);
 
   // --- [新增] 数据结构迁移：自动给旧数据加上分组 ---
   useEffect(() => {
