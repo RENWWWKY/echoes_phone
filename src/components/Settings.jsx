@@ -292,7 +292,7 @@ const SettingsPanel = ({
                 >
                   <div
                     className={`absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all ${
-                      memoryConfig.enabled ? "left-4" : "left-0.5"
+                      memoryConfig.enabled ? "left-4.5" : "left-0.5"
                     }`}
                   />
                 </button>
@@ -460,13 +460,13 @@ const SettingsPanel = ({
                       setRealTimeEnabled(next);
                       if (next && onRealTimeToggle) onRealTimeToggle();
                     }}
-                    className={`w-10 h-5 rounded-full relative transition-colors ${
+                    className={`w-8 h-4 rounded-full relative transition-colors ${
                       realTimeEnabled ? "bg-green-500" : "bg-gray-300"
                     }`}
                   >
                     <div
-                      className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${
-                        realTimeEnabled ? "left-4" : "left-0.5"
+                      className={`absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all ${
+                        realTimeEnabled ? "left-4.5" : "left-0.5"
                       }`}
                     />
                   </button>
@@ -482,13 +482,13 @@ const SettingsPanel = ({
                   </div>
                   <button
                     onClick={() => setActiveMsgEnabled(!activeMsgEnabled)}
-                    className={`w-10 h-5 rounded-full relative transition-colors ${
+                    className={`w-8 h-4 rounded-full relative transition-colors ${
                       activeMsgEnabled ? "bg-[var(--skin-accent,#7A2A3A)]" : "bg-gray-300"
                     }`}
                   >
                     <div
-                      className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${
-                        activeMsgEnabled ? "left-4" : "left-0.5"
+                      className={`absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all ${
+                        activeMsgEnabled ? "left-4.5" : "left-0.5"
                       }`}
                     />
                   </button>
@@ -532,7 +532,7 @@ const SettingsPanel = ({
                     >
                       <div
                         className={`absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all ${
-                          stickersEnabled ? "left-4" : "left-0.5"
+                          stickersEnabled ? "left-4.5" : "left-0.5"
                         }`}
                       />
                     </button>
