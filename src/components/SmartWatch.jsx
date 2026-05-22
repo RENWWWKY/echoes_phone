@@ -9,6 +9,8 @@ import {
   Video,
   ChevronUp,
   ChevronDown,
+  Filter,
+  RotateCcw,
 } from "lucide-react";
 import AppWindow from "./AppWindow";
 import useStickyState from "../hooks/useStickyState";
@@ -249,9 +251,21 @@ const SmartWatch = ({
                         </div>
                       )}
 
-                      <div className="text-[8px] text-gray-500 leading-tight mt-1 truncate">
-                        {loc.desc}
-                      </div>
+                      {isEditingMap ? (
+                        <input
+                          className="w-full text-[8px] bg-white border border-gray-300 px-1 outline-none focus:border-blue-500 mt-1"
+                          value={loc.desc}
+                          onChange={(e) => {
+                            const newLocs = [...smartWatchLocations];
+                            newLocs[idx].desc = e.target.value;
+                            setSmartWatchLocations(newLocs);
+                          }}
+                        />
+                      ) : (
+                        <div className="text-[8px] text-gray-500 leading-tight mt-1 truncate">
+                          {loc.desc}
+                        </div>
+                      )}
 
                       {isEditingMap && (
                         <button
@@ -288,17 +302,44 @@ const SmartWatch = ({
         {/* Logs Section */}
         <div className="px-4">
           <div className="flex justify-between items-end mb-4 border-b border-gray-200 pb-2">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
-              监控日志
-            </h3>
-            {swFilter !== "all" && (
-              <button
-                onClick={() => setSwFilter("all")}
-                className="text-[9px] text-blue-500 flex items-center hover:underline"
-              >
-                <X size={10} className="mr-1" /> 清除筛选
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                监控日志
+              </h3>
+              {swFilter !== "all" ? (
+                <button
+                  onClick={() => setSwFilter("all")}
+                  className="flex items-center gap-1 text-[9px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full hover:bg-red-100 transition-colors"
+                >
+                  <RotateCcw size={10} /> 重置
+                </button>
+              ) : smartWatchLocations.length > 0 ? (
+                <button
+                  onClick={() => {
+                    // 依次循环: all -> loc1 -> loc2 -> ... -> all
+                    const locIds = smartWatchLocations.map(l => l.id);
+                    if (swFilter === "all") {
+                      setSwFilter(locIds[0]);
+                    } else {
+                      const curIdx = locIds.indexOf(swFilter);
+                      if (curIdx >= 0 && curIdx < locIds.length - 1) {
+                        setSwFilter(locIds[curIdx + 1]);
+                      } else {
+                        setSwFilter("all");
+                      }
+                    }
+                  }}
+                  className="flex items-center gap-1 text-[9px] text-gray-400 hover:text-blue-500 transition-colors"
+                >
+                  <Filter size={10} /> 筛选
+                </button>
+              ) : null}
+              {swFilter !== "all" && (
+                <span className="text-[9px] text-gray-400">
+                  {smartWatchLocations.find(l => l.id === swFilter)?.name}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="space-y-4">

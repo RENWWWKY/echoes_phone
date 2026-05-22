@@ -160,8 +160,8 @@ Last Known Status: {{LAST_LOG}}
 Instructions:
 1. Determine where {{NAME}} is right now based on the conversation context or time of day.
 2. If the location matches one of the Known Locations, provide its ID. If it's a new place, return null for locationId and provide the name in "locationName".
-3. **AV Data**: Write a detailed, 3rd-person objective description (50-100 words) of what a camera/microphone would capture. Describe posture, facial expression, ambient sounds, and actions.
-4. **Thought**: {{NAME}}'s uncensored inner thought at this exact moment.
+3. **AV Data**: Write a concise 3rd-person objective description of what a camera/microphone would capture. Describe posture, facial expression, ambient sounds, and actions. MUST NOT exceed 80 Chinese characters.
+4. **Thought**: {{NAME}}'s uncensored inner thought at this exact moment. MUST NOT exceed 80 Chinese characters.
 5. All content should strictly be in Chinese language.
 
 JSON:
@@ -185,8 +185,8 @@ CRITICAL INSTRUCTIONS:
 2. **Location Transitions**: {{LOCATION_RULE}}
 4. **Natural Life**: Show {{NAME}} doing real daily things — eating, sleeping, working, hobbies, thinking about {{USER_NAME}}, going out, interacting with the world. Make it feel like a real person living their life, not just waiting for the user to return.
 5. **Emotional Arc**: {{NAME}} may miss {{USER_NAME}} at times, but also has their own independent life, routines, and distractions. Show both.
-6. **AV Data**: For each entry, write a detailed 3rd-person objective description (50-100 words) of what a camera/microphone would capture.
-7. **Thought**: For each entry, {{NAME}}'s uncensored inner thought.
+6. **AV Data**: For each entry, write a concise 3rd-person objective description of what a camera/microphone would capture. MUST NOT exceed 80 Chinese characters.
+7. **Thought**: For each entry, {{NAME}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
 8. **Chronological Order**: Entries MUST be in chronological order (earliest first). The first entry's time should be close to when user left, the last entry's time should be close to now.
 9. All content must be in Chinese.
 
