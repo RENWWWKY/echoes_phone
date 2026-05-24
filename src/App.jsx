@@ -1117,6 +1117,16 @@ const App = () => {
     }
   }, [activeApp]);
 
+  // 处理 isTyping 时的滚动到底部
+  useEffect(() => {
+    if (activeApp === 'chat' && virtuosoRef.current && isTyping) {
+      virtuosoRef.current.scrollToIndex({
+        index: chatHistory.length + messageQueue.length,
+        behavior: 'smooth',
+      });
+    }
+  }, [isTyping, messageQueue.length, activeApp]);
+
   // --- [新增] 数据结构迁移：自动给旧数据加上分组 ---
   useEffect(() => {
     // 1. 迁移表情包
@@ -4420,7 +4430,7 @@ Requirements:
                 ref={virtuosoRef}
                 data={chatHistory}
                 className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
-                followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? "smooth" : false}
+                followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? 'smooth' : false}
                 initialTopMostItemIndex={chatHistory.length - 1}
                 overscan={200}
                 itemContent={(i, msg) => {
