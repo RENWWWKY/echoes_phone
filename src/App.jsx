@@ -831,6 +831,7 @@ const App = () => {
   );
   const chatScrollRef = useRef(null);
   const virtuosoRef = useRef(null);
+  const isAtBottomRef = useRef(true);
 
   // sticker 查找 Map 缓存 (避免每条消息都 .find 遍历数组)
   const charStickerMap = useMemo(() => new Map(charStickers.map(s => [s.id, s])), [charStickers]);
@@ -1120,10 +1121,7 @@ const App = () => {
   // 处理 isTyping 时的滚动到底部
   useEffect(() => {
     if (activeApp === 'chat' && virtuosoRef.current && isTyping) {
-      virtuosoRef.current.scrollToIndex({
-        index: chatHistory.length + messageQueue.length,
-        behavior: 'smooth',
-      });
+      if (isAtBottomRef.current) { virtuosoRef.current.scrollToIndex({ index: chatHistory.length + messageQueue.length, behavior: 'smooth' }); }
     }
   }, [isTyping, messageQueue.length, activeApp]);
 
@@ -4428,6 +4426,9 @@ Requirements:
 
               <Virtuoso
                 ref={virtuosoRef}
+                atBottomStateChange={(atBottom) => {
+                  isAtBottomRef.current = atBottom;
+                }}
                 data={chatHistory}
                 className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
                 followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? 'smooth' : false}

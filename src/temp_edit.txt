@@ -1,0 +1,15 @@
+  // ���� isTyping ʱ�Ĺ������ײ�
+  useEffect(() => {
+    if (activeApp === 'chat' && virtuosoRef.current && isTyping) {
+      virtuosoRef.current.scrollToIndex({
+        index: chatHistory.length + messageQueue.length,
+        behavior: 'smooth',
+      });
+    }
+  }, [isTyping, messageQueue.length, activeApp]);
+
+  // --- [����] ���ݽṹǨ�ƣ��Զ��������ݼ��Ϸ��� ---
+  useEffect(() => {
+    // 1. Ǩ�Ʊ����
+    setCharStickers((prev) =>
+      prev.map((s) => ({
