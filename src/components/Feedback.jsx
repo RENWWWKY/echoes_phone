@@ -96,9 +96,6 @@ const Feedback = ({ onClose }) => {
       setSent(true);
     } catch (err) {
       alert("发送失败：" + (err.message || "请稍后重试"));
-      }
-    } catch (err) {
-      alert("发送失败，请检查网络后重试");
     } finally {
       setSending(false);
     }

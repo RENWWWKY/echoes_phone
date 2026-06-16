@@ -5,6 +5,7 @@ import { PRESET_LOCATION_IMAGES } from "./constants/assets";
 import Forum from "./components/Forum";
 import SettingsPanel from "./components/Settings";
 import WorldBook from "./components/WorldBook";
+import Feedback from "./components/Feedback";
 import MusicApp from "./components/Music";
 import {
   showToast,
@@ -4430,6 +4431,15 @@ Requirements:
                 )}
               </div>
             </div>
+          </AppWindow>
+
+          {/* APP: FEEDBACK */}
+          <AppWindow
+            isOpen={activeApp === "feedback"}
+            title="反馈"
+            onClose={() => setActiveApp(null)}
+          >
+            <Feedback onClose={() => setActiveApp(null)} />
           </AppWindow>
 
           {/* APP: WORLDBOOK (Grouped) */}

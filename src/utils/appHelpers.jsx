@@ -42,7 +42,6 @@ export const isImageMsg = (content) => content && content.startsWith(IMG_TAG_STA
 export const getImageDesc = (content) => content.replace(IMG_TAG_START, "");
 
 export const APP_LIST = [
-  { id: "feedback", label: "反馈", icon: MessageSquare },
   { id: "forum", label: "生活圈", icon: Hash },
   { id: "smartwatch", label: "智能家", icon: ScanEye },
   { id: "browser", label: "浏览器", icon: Globe },
@@ -52,6 +51,7 @@ export const APP_LIST = [
   { id: "worldbook", label: "世界书", icon: BookOpen },
   { id: "personalization", label: "个性化", icon: Wand },
   { id: "settings", label: "系统设置", icon: SlidersHorizontal },
+  { id: "feedback", label: "反馈", icon: MessageSquare },
 ];
 
 /* --- UTILS --- */
