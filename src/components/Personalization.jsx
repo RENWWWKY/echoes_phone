@@ -131,6 +131,8 @@ const OFFICIAL_SKINS = [
 /* 按钮选中态白字 */
 #echoes-chat button.bg-black { color: #fff !important; }
 #echoes-chat button.bg-black:hover { color: #fff !important; }
+#echoes-chat button.bg-black * { color: #fff !important; }
+#echoes-chat button.bg-black:hover * { color: #fff !important; }
 #echoes-chat [class*="bg-black"][class*="text-white"] { color: #fff !important; }
 `,
   },
@@ -255,6 +257,8 @@ const OFFICIAL_SKINS = [
 /* 按钮选中态白字 */
 #echoes-chat button.bg-black { color: #fff !important; }
 #echoes-chat button.bg-black:hover { color: #fff !important; }
+#echoes-chat button.bg-black * { color: #fff !important; }
+#echoes-chat button.bg-black:hover * { color: #fff !important; }
 #echoes-chat [class*="bg-black"][class*="text-white"] { color: #fff !important; }
 `
   },
@@ -449,6 +453,11 @@ const OFFICIAL_SKINS = [
 /* 角色气泡保持白色背景 */
 #echoes-chat [class*="bg-white"][class*="rounded-tl-none"] { background: #ffffff !important; color: #000000 !important; }
 #echoes-chat [class*="bg-white"][class*="rounded-tl-none"] * { color: #000000 !important; }
+
+/* 按钮选中态白字 */
+#echoes-chat button.bg-black * { color: #050a0e !important; }
+#echoes-chat button.bg-black:hover * { color: #000 !important; }
+
 `,
   },
   {
@@ -617,8 +626,10 @@ const OFFICIAL_SKINS = [
 #echoes-chat .bg-green-500 { background: linear-gradient(135deg,#ff6b9d,#ff8fab) !important; }
 #echoes-chat .bg-gray-300 { background: #ffcce0 !important; }
 /* 按钮选中态白字 */
-#echoes-chat button.bg-black { color: #fff !important; }
-#echoes-chat button.bg-black:hover { color: #fff !important; }
+#echoes-chat button.bg-black { color: #00e5ff !important; }
+#echoes-chat button.bg-black:hover { color: #33ebff !important; }
+#echoes-chat button.bg-black * { color: #00e5ff !important; }
+#echoes-chat button.bg-black:hover * { color: #33ebff !important; }
 #echoes-chat [class*="bg-black"][class*="text-white"] { color: #fff !important; }
 `
   },
@@ -757,6 +768,8 @@ const OFFICIAL_SKINS = [
 /* 按钮选中态白字 */
 #echoes-chat button.bg-black { color: #fff !important; }
 #echoes-chat button.bg-black:hover { color: #fff !important; }
+#echoes-chat button.bg-black * { color: #fff !important; }
+#echoes-chat button.bg-black:hover * { color: #fff !important; }
 #echoes-chat [class*="bg-black"][class*="text-white"] { color: #fff !important; }
 `
   },
@@ -886,6 +899,8 @@ const OFFICIAL_SKINS = [
 /* 按钮选中态白字 */
 #echoes-chat button.bg-black { color: #fff !important; }
 #echoes-chat button.bg-black:hover { color: #fff !important; }
+#echoes-chat button.bg-black * { color: #fff !important; }
+#echoes-chat button.bg-black:hover * { color: #fff !important; }
 #echoes-chat [class*="bg-black"][class*="text-white"] { color: #fff !important; }
 `,
   }
