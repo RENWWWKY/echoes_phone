@@ -3901,6 +3901,97 @@ Requirements:
         </div>
       )}
       <div className="relative w-full h-full md:w-[400px] md:h-[800px] bg-[#F2F2F7] md:rounded-[48px] md:border-[8px] md:border-white shadow-2xl flex flex-col overflow-hidden ring-1 ring-black/5">
+      {/* 用户表情包面板 */}
+              {showUserStickerPanel && (
+                <div className="absolute bottom-[100px] left-4 right-4 h-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-4 z-[9999] overflow-y-auto custom-scrollbar border border-white animate-in slide-in-from-bottom-2">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[10px] font-bold uppercase text-gray-500">
+                      我的表情
+                    </span>
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex items-center gap-2">
+                        {/* 编辑按钮 */}
+                        <button
+                          onClick={() =>
+                            setIsUserStickerEditMode(!isUserStickerEditMode)
+                          }
+                          // 这里我建议把 px-1 改成 px-2，这样跟后面两个按钮大小更一致，你可以看看效果
+                          className={`text-[10px] px-2 py-1 rounded-full transition-colors ${
+                            isUserStickerEditMode
+                              ? "bg-red-50 text-red-500 font-bold"
+                              : "text-gray-600 hover:text-gray-400"
+                          }`}
+                        >
+                          {isUserStickerEditMode ? "完成" : "编辑"}
+                        </button>
+
+                        {/* 上传按钮 - 改为透明灰色风格 */}
+                        <label className="text-[10px] text-gray-600 hover:text-gray-400 px-2 py-1 rounded-full cursor-pointer transition-colors flex items-center gap-1">
+                          <Plus size={10} /> 上传
+                          <input
+                            type="file"
+                            className="hidden"
+                            onChange={(e) => handleStickerUpload(e, "user")}
+                          />
+                        </label>
+
+                        {/* 批量按钮 - 改为透明灰色风格 */}
+                        <button
+                          onClick={async () => {
+                            const input = await customPrompt("请输入链接进行批量导入", "", "批量导入");
+                            if (input) handleBulkImport(input, "user", "我的");
+                          }}
+                          className="text-[10px] text-gray-600 hover:text-gray-400 px-2 py-1 rounded-full cursor-pointer transition-colors flex items-center gap-1"
+                        >
+                          {/* 注意：你原代码这里用的是 Download 图标，我保留了，如果需要 Link 图标请自行替换 */}
+                          <Download size={10} /> 批量
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 gap-2">
+                    {userStickers.map((s) => (
+                      <div
+                        key={s.id}
+                        className={`aspect-square rounded-lg overflow-hidden cursor-pointer transition-all relative group ${
+                          isUserStickerEditMode
+                            ? "ring-2 ring-red-400/50 scale-90"
+                            : "hover:scale-105"
+                        }`}
+                        onClick={() => {
+                          if (isUserStickerEditMode) {
+                            // 编辑模式：点击进入编辑，标记来源为 user
+                            setEditingSticker({ ...s, source: "user" });
+                          } else {
+                            // 正常模式：发送表情
+                            handleUserSend(null, "sticker", s);
+                          }
+                        }}
+                      >
+                        <img
+                          src={s.url}
+                          className="w-full h-full object-cover"
+                        />
+                        {/* 编辑模式下的遮罩图标 */}
+                        {isUserStickerEditMode && (
+                          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <Edit2
+                              size={12}
+                              className="text-white drop-shadow-md"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    {userStickers.length === 0 && (
+                      <p className="col-span-5 text-center text-xs text-gray-400 py-4">
+                        暂无表情，请上传
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
         {/* Status Bar */}
         <header className="h-12 px-8 flex items-center justify-between text-[10px] text-gray-400 bg-transparent z-20 shrink-0 pt-2" role="banner">
           <span>{formatTime(getCurrentTimeObj())}</span>
@@ -4609,97 +4700,6 @@ Requirements:
                   ),
                 }}
               />
-
-              {/* 用户表情包面板 */}
-              {showUserStickerPanel && (
-                <div className="absolute bottom-full mb-2 left-4 right-4 h-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-4 z-[9999] overflow-y-auto custom-scrollbar border border-white animate-in slide-in-from-bottom-2">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-bold uppercase text-gray-500">
-                      我的表情
-                    </span>
-                    <div className="flex items-center gap-2.5">
-                      <div className="flex items-center gap-2">
-                        {/* 编辑按钮 */}
-                        <button
-                          onClick={() =>
-                            setIsUserStickerEditMode(!isUserStickerEditMode)
-                          }
-                          // 这里我建议把 px-1 改成 px-2，这样跟后面两个按钮大小更一致，你可以看看效果
-                          className={`text-[10px] px-2 py-1 rounded-full transition-colors ${
-                            isUserStickerEditMode
-                              ? "bg-red-50 text-red-500 font-bold"
-                              : "text-gray-600 hover:text-gray-400"
-                          }`}
-                        >
-                          {isUserStickerEditMode ? "完成" : "编辑"}
-                        </button>
-
-                        {/* 上传按钮 - 改为透明灰色风格 */}
-                        <label className="text-[10px] text-gray-600 hover:text-gray-400 px-2 py-1 rounded-full cursor-pointer transition-colors flex items-center gap-1">
-                          <Plus size={10} /> 上传
-                          <input
-                            type="file"
-                            className="hidden"
-                            onChange={(e) => handleStickerUpload(e, "user")}
-                          />
-                        </label>
-
-                        {/* 批量按钮 - 改为透明灰色风格 */}
-                        <button
-                          onClick={async () => {
-                            const input = await customPrompt("请输入链接进行批量导入", "", "批量导入");
-                            if (input) handleBulkImport(input, "user", "我的");
-                          }}
-                          className="text-[10px] text-gray-600 hover:text-gray-400 px-2 py-1 rounded-full cursor-pointer transition-colors flex items-center gap-1"
-                        >
-                          {/* 注意：你原代码这里用的是 Download 图标，我保留了，如果需要 Link 图标请自行替换 */}
-                          <Download size={10} /> 批量
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-5 gap-2">
-                    {userStickers.map((s) => (
-                      <div
-                        key={s.id}
-                        className={`aspect-square rounded-lg overflow-hidden cursor-pointer transition-all relative group ${
-                          isUserStickerEditMode
-                            ? "ring-2 ring-red-400/50 scale-90"
-                            : "hover:scale-105"
-                        }`}
-                        onClick={() => {
-                          if (isUserStickerEditMode) {
-                            // 编辑模式：点击进入编辑，标记来源为 user
-                            setEditingSticker({ ...s, source: "user" });
-                          } else {
-                            // 正常模式：发送表情
-                            handleUserSend(null, "sticker", s);
-                          }
-                        }}
-                      >
-                        <img
-                          src={s.url}
-                          className="w-full h-full object-cover"
-                        />
-                        {/* 编辑模式下的遮罩图标 */}
-                        {isUserStickerEditMode && (
-                          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                            <Edit2
-                              size={12}
-                              className="text-white drop-shadow-md"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                    {userStickers.length === 0 && (
-                      <p className="col-span-5 text-center text-xs text-gray-400 py-4">
-                        暂无表情，请上传
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
 
               {isMultiSelectMode ? (
                 /* 多选操作栏 */
