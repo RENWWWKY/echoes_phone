@@ -4701,12 +4701,10 @@ Requirements:
                 </div>
               )}
 
-              {/* --- 底部输入栏 (V2: 按钮常驻 + 响应式布局) --- */}
-              <div className="p-3 glass-panel border-t border-white/50 shrink-0 relative z-[100]">
-                {isMultiSelectMode ? (
-                  /* 多选操作栏 */
-                  <div className="flex items-center justify-between px-2 animate-in slide-in-from-bottom-2">
-                    <button
+              {isMultiSelectMode ? (
+                /* 多选操作栏 */
+                <div className="flex items-center justify-between px-2 animate-in slide-in-from-bottom-2">
+                  <button
                       onClick={() => {
                         setIsMultiSelectMode(false);
                         setSelectedMsgs(new Set());
@@ -4920,7 +4918,6 @@ Requirements:
                   </div>
                 )}
               </div>
-            </div>
           </AppWindow>
 
           {/* APP: SETTINGS */}
