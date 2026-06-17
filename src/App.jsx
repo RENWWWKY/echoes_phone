@@ -4736,7 +4736,7 @@ Requirements:
                     </button>
                   </div>
                 ) : (
-                  <div className="relative flex items-center gap-1.5 md:gap-2">
+                  <div className="relative flex items-center gap-1.5 md:gap-2 pt-2">
                     {/* [新增] 媒体菜单 (绝对定位在上方) */}
                     {showMediaMenu && (
                       <div className="absolute bottom-full mb-2 left-0 bg-white/90 backdrop-blur-xl border border-gray-200 p-2 rounded-xl shadow-xl flex gap-4 animate-in slide-in-from-bottom-2 z-[9999]">
