@@ -2612,6 +2612,11 @@ Requirements:
     const stickerInst = getStickerInstruction(charStickers, stickersEnabled);
     let styleInst = stylePrompts[chatStyle];
 
+    // 当短信风格 + 现实模式同时开启时，强调面对面相处的语境
+    if (chatStyle === "dialogue" && interactionMode === "offline") {
+      styleInst += `\n\n[CRITICAL REALITY NOTE]: The IM/burst texting style above is a LANGUAGE convention, NOT a physical setting. {{NAME}} and {{USER_NAME}} are PHYSICALLY TOGETHER in the same space right now. Do NOT describe them looking at phones, texting each other, or typing messages. All actions and dialogue happen face-to-face in the real world. Use the short, fragmented IM language style to convey natural speech, not digital messaging.`;
+    }
+
     const lastCharMsg = [...newHistory]
       .reverse()
       .find((m) => m.sender === "char");

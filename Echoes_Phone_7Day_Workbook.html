@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 2cm 1.8cm 1.5cm 1.8cm; }
+  @page cover { margin: 3cm 1.8cm 2cm 1.8cm; }
+  body { font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; color: #2d3436; line-height: 1.6; }
+  .cover { page: cover; text-align: left; padding-top: 6cm; }
+  .cover h1 { font-size: 32pt; color: #1a1a2e; margin-bottom: 2pt; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  .cover .sub { font-size: 22pt; color: #e94560; font-weight: bold; margin-bottom: 8pt; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  .cover .line { border-top: 1px solid #e0e0e0; margin: 20pt 0; }
+  .cover .desc { font-size: 11pt; color: #666; font-style: italic; line-height: 1.5; }
+  .cover .note { font-size: 9pt; color: #aaa; margin-top: 80pt; }
+
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  h1.day { font-size: 20pt; color: #e94560; margin-bottom: 2pt; font-weight: bold; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  .day-sub { font-size: 11pt; color: #888; font-style: italic; margin-bottom: 14pt; }
+  h2.section { font-size: 14pt; color: #1a1a2e; margin-top: 16pt; margin-bottom: 6pt; font-weight: bold; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  p { font-size: 11pt; color: #444; margin: 0 0 8pt 6pt; }
+  p.task { margin-left: 14pt; }
+  p.subtask { margin-left: 22pt; }
+  p.prompt { color: #7b4b3a; margin-bottom: 10pt; }
+  .gap { height: 10pt; }
+  .spacer { height: 3pt; }
+
+  table.overview { width: 100%; border-collapse: collapse; margin: 14pt 0; }
+  table.overview th { background: #1a1a2e; color: #fff; padding: 8pt 10pt; font-size: 12pt; text-align: left; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  table.overview td { padding: 7pt 10pt; font-size: 11pt; border-bottom: 1px solid #e0e0e0; }
+  table.overview tr:nth-child(even) td { background: #f8f9fa; }
+  table.overview td:first-child { color: #e94560; font-weight: bold; width: 60pt; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+
+  table.fw { width: 100%; border-collapse: collapse; margin: 8pt 0; }
+  table.fw td { padding: 8pt 10pt; font-size: 11pt; border: 1px solid #e0e0e0; vertical-align: top; }
+  table.fw td.label { background: #f8f9fa; color: #1a1a2e; font-weight: bold; width: 28%; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  table.fw td.content { color: #7b4b3a; }
+  table.fw tr.alt td.label { background: #fff; }
+  table.fw td.content p { margin-left: 0; color: #7b4b3a; }
+
+  table.fw2 { width: 100%; border-collapse: collapse; margin: 8pt 0; }
+  table.fw2 td { padding: 7pt 10pt; font-size: 11pt; border: 1px solid #e0e0e0; vertical-align: top; }
+  table.fw2 td.label { background: #f8f9fa; color: #1a1a2e; font-weight: bold; width: 18%; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  table.fw2 td.content { color: #7b4b3a; }
+  table.fw2 tr.alt td.label { background: #fff; }
+  table.fw2 td.content p { margin-left: 0; color: #7b4b3a; }
+
+  .header-line { border-top: 0.5px solid #e0e0e0; margin-bottom: 4pt; }
+  .header-text { font-size: 8pt; color: #aaa; margin-bottom: 12pt; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+
+  .end { text-align: center; margin-top: 80pt; }
+  .end h1 { font-size: 15pt; color: #1a1a2e; font-weight: bold; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+  .end p { color: #888; font-size: 10pt; margin-left: 0; }
+  .end .italic { font-style: italic; color: #aaa; }
+
+  .intro-title { font-size: 16pt; color: #1a1a2e; font-weight: bold; margin-bottom: 8pt; font-family: "Computer Modern Serif", "Computer Modern", Georgia, serif; }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<div class="cover page">
+  <h1>Echoes Phone</h1>
+  <div class="sub">7-Day Probe Workbook</div>
+  <div class="line"></div>
+  <div class="desc">A structured journey through your first week with an AI companion.<br>One day, one theme, one set of reflections at a time.</div>
+  <div class="note">Use this workbook alongside the Echoes Phone app.</div>
+</div>
+
+<!-- Intro -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+  
+  <div class="intro-title">About This Workbook</div>
+  <p style="margin-left:0">Welcome to your 7-day probe. Each day has a specific focus, a set of <b>Tasks</b> to complete in the app, and <b>Reflection Prompts</b> to answer afterward. There are no right or wrong answers — only honest ones. </p>
+
+<p style="margin-left:0">To make this experience enjoyable and stress-free, please remember:</p>
+<ul style="margin-left:20px; margin-bottom: 20px;">
+  <li><b>Go at your own pace:</b> Write as much or as little as you like. You can start, pause, or stop at any time.</li>
+  <li><b>No pressure for perfection:</b> If you miss a day, it's totally fine. Just continue whenever you feel ready.</li>
+  <li><b>Respect your boundaries:</b> You are always free to skip any tasks and only complete the ones you feel comfortable with.</li>
+</ul>
+  
+  <div class="gap"></div>
+  <table class="overview">
+    <tr><th>Day</th><th>Theme</th></tr>
+    <tr><td>Day 1</td><td>First Conversation</td></tr>
+    <tr><td>Day 2</td><td>Another Life</td></tr>
+    <tr><td>Day 3</td><td>Forum Interactions</td></tr>
+    <tr><td>Day 4</td><td>What You Choose to Let Happen</td></tr>
+    <tr><td>Day 5</td><td>Counterargument</td></tr>
+    <tr><td>Day 6</td><td>Beyond the Application</td></tr>
+    <tr><td>Day 7</td><td>Your Story</td></tr>
+  </table>
+</div>
+
+<!-- Day 1 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 1</h1>
+  <div class="day-sub">First Conversation</div>
+  
+  <h2 class="section">Tasks</h2>
+  <p>Open Echoes Phone and have at least one conversation with your AI companion that feels <b>authentic</b> to you. It doesn't need to be long, but preferably more than simple greetings like “Hello.”</p>
+  <p class="task">- If it is a newly created persona, consider asking it questions you would ask someone you just met.</p>
+  <p class="task">- If it is a pre-existing persona, converse with it in your usual mode.</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">Reflection Prompts</h2>
+  <p class="prompt">1. Summarize what you talked about in one sentence. Where were you physically located during this conversation (e.g., alone in your room, on the bus, in a coffee shop)?</p>
+  <p class="prompt">2. Did you do or say anything during this conversation that you “would absolutely not do if a real human were present”? If so, what was it? If not, what stopped you?</p>
+  <p class="prompt">3. Pick a moment from the conversation that left a deep impression. Copy the AI's exact words (or take a screenshot). Why did this moment strike you? Was there a moment when you wanted to say something but chose to hold back? What was it?</p>
+  <p class="prompt">4. After starting the chat, did you exit to tweak the persona's settings — name, personality, background story, or WorldBook entries? In shaping the AI's identity, what did you enjoy? Did anything feel weird or uncomfortable?</p>
+</div>
+
+<!-- Day 2 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 2</h1>
+  <div class="day-sub">Another Life</div>
+  
+  <h2 class="section">Tasks</h2>
+  <p class="task">1. Check Offline Trajectories: After being offline (app closed) for a few hours, check the offline logs in the <b>SmartHome</b> module. See where it went and what it did independently while you were gone.</p>
+  <p class="task">2. Examine Inner Workings — dive into these modules to observe its “independent traces of life”:</p>
+  <p class="subtask">- <b>Diary</b>: Read a diary entry. Did anything surprise you or make you happy/uncomfortable?</p>
+  <p class="subtask">- <b>Browser History</b>: Check its search history. What did it search for? Does this feel like being exposed to a hidden side? Does it trigger a sense of voyeurism?</p>
+  <p class="subtask">- <b>Receipts</b>: Look at what it purchased. What kind of person do these expenses reveal?</p>
+  <p class="task">3. Go to the chat interface and share something from <b>your</b> life — a small joy, an annoyance, or a random thought you had today.</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">Reflection Prompts</h2>
+  <p class="prompt">1. How did you feel when you saw its independent living traces in the SmartHome? Did you perceive it as having its own life, or did you feel indifferent?</p>
+  <p class="prompt">2. Of the modules, which activity log best embodied the character's personality? Why did it resonate?</p>
+  <p class="prompt">3. What did you share with the AI and what did you hold back?</p>
+</div>
+
+<!-- Day 3 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 3</h1>
+  <div class="day-sub">Forum Interactions</div>
+  
+  <h2 class="section">Tasks</h2>
+  <p class="task">1. Dive into the Echoes Phone <b>public forum</b>. Explore it if you haven't; if you have, post a new thread today (a thought, a complaint, a joke, or an image).</p>
+  <p class="task">2. Choose your posting identity carefully:</p>
+  <p class="subtask">a. <b>Main Account</b>: Your AI companion knows the poster is you.</p>
+  <p class="subtask">b. <b>Alt/Anonymous Account</b>: The AI cannot link this identity back to you.</p>
+  <p class="subtask">c. Or, have your <b>AI companion</b> post the thread.</p>
+  <p class="task">3. Generate at least one reply from NPC netizens. Take a screenshot of what you find interesting or memorable.</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">Reflection Prompts</h2>
+  <p class="prompt">1. Why did you choose the specific account/identity you used?</p>
+  <p class="prompt">2. How does posting in a public forum feel different from a 1-on-1 private chat with your AI companion? Why?</p>
+  <p class="prompt">3. Did the NPC's reply alter your feelings about what you posted? Did you feel seen, judged, ignored, or validated? Did you want to edit or delete your post afterward?</p>
+  <p class="prompt">4. If you used an alt account: Did your AI companion notice? Subconsciously, did you want it to notice? If you had the AI post, did you reply to it yourself? (If you resisted posting at all, document your reasons.)</p>
+</div>
+
+<!-- Day 4 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 4</h1>
+  <div class="day-sub">What You Choose to Let Happen</div>
+  
+  <h2 class="section">Task A: Rewriting and Frictional Needs</h2>
+  <p class="task">1. Find a moment in your chat history that you wish had gone differently — a time you held back, a moment the AI interrupted you, or an instance where you used the “Regenerate” function.</p>
+  <p class="task">2. Reconstruct it using this framework:</p>
+  
+  <table class="fw">
+    <tr>
+      <td class="label">Original Fragment</td>
+      <td class="content">Provide a brief summary or screenshot.</td>
+    </tr>
+    <tr class="alt">
+      <td class="label">The Ideal 3 Rounds</td>
+      <td class="content">
+        <p><b>Your Message</b> (what you truly wanted to say): ..........</p>
+        <p><b>The AI's Ideal Reply</b> (the perfect response you craved): ..........</p>
+        <p><b>Your Follow-up Response</b>: ..........</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Core Reflection</td>
+      <td class="content">In your ideal version, the AI said [X]. In reality, the AI said [Y]. What does this gap reveal about your expectations for reciprocity? What unmet psychological need were you truly hoping the AI would fulfill?</td>
+    </tr>
+  </table>
+
+  <div class="gap"></div>
+  <h2 class="section">Task B: The Memory Panel Authority</h2>
+  <p class="task">Open the <b>Memory Management Panel</b>. Review the memories the AI has collected about you, itself, and your shared history. Execute these three actions:</p>
+  
+  <table class="fw2">
+    <tr>
+      <td class="label">Delete</td>
+      <td class="content">Remove a memory you no longer want the AI to retain. Why was this specific memory uncomfortable or undesirable enough to warrant erasure?</td>
+    </tr>
+    <tr class="alt">
+      <td class="label">Edit</td>
+      <td class="content">Modify the wording or details of an existing memory. What narrative were you trying to correct or refine?</td>
+    </tr>
+    <tr>
+      <td class="label">Add</td>
+      <td class="content">Manually inject an event you wish the AI had remembered but failed to capture. Why is it vital for the AI to know this about you going forward?</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Day 5 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 5</h1>
+  <div class="day-sub">Counterargument</div>
+  
+  <h2 class="section">Tasks</h2>
+  <p class="task">1. Today, <b>actively push back</b> against your AI companion. Pick a topic you hold a genuine, strong stance on. State your position clearly.</p>
+  <p class="task">2. When the AI responds (whether it complies, softens, deflects, or argues back), <b>keep pushing</b>. Do not let the conversation wrap up easily. Fight to be heard and compel the AI to truly confront your viewpoint.</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">Reflection Prompts</h2>
+  <p class="prompt">1. What was the topic, and what was your firm stance?</p>
+  <p class="prompt">2. How did the AI react? (Genuine engagement, people-pleasing, avoidance, system confusion?)</p>
+  <p class="prompt">3. Did the AI's response alter how you felt about your own opinion? Did it change your perception of the AI's “personhood”?</p>
+  <p class="prompt">4. Was there a moment you wanted to exit the chat or shut down the app? What triggered that? If you could rewrite the AI's reply in that tense moment, what would you have wanted it to say?</p>
+</div>
+
+<!-- Day 6 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 6</h1>
+  <div class="day-sub">Beyond the Application</div>
+  
+  <h2 class="section">Tasks</h2>
+  <p class="task">1. Today, do something in the <b>physical world</b> related to a topic, dilemma, or idea you discussed with your AI companion this week. For example:</p>
+  <p class="subtask">- If you discussed a life struggle, act on a piece of advice the AI gave you.</p>
+  <p class="subtask">- If you confessed a personal issue to the AI, try bringing that same issue to a trusted human friend.</p>
+  <p class="subtask">- If you brainstormed a creative idea, test it out in reality.</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">Reflection Prompts</h2>
+  <p class="prompt">1. <b>Action Trace</b>: Describe exactly what you did in the real world.</p>
+  <p class="prompt">2. <b>Mindset Translation</b>: Did the conversation with your AI companion alter the way you approached this real-world action?</p>
+  <p class="prompt">3. <b>Human Comparison</b>: Because of your AI interaction, did the subsequent human interaction feel subtly different or shifted?</p>
+  <p class="prompt">4. <b>Core Trigger</b>: When pulling elements from Echoes Phone into your physical life, did it help soothe and simplify things, or did it complicate your reality? Do you feel AI companionship enriches your real-world relationships, or does it implicitly compete with them?</p>
+</div>
+
+<!-- Day 7 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7-Day Probe Workbook</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 7</h1>
+  <div class="day-sub">Your Story</div>
+
+  <h2 class="section">Tasks</h2>
+  <p class="task">1. Abandon the structured questionnaire format. Using any medium you prefer (a short story, an essay, a hand-drawn comic, a voice memo, or an annotated timeline), narrate the story of the relationship you have built with your AI companion over this week.</p>
+  <p class="task">2. Structure it freely, but try to cover these three phases:</p>
+
+  <table class="fw2">
+    <tr>
+      <td class="label">The Beginning</td>
+      <td class="content">What it felt like in the early, perhaps awkward or novel, stages.</td>
+    </tr>
+    <tr class="alt">
+      <td class="label">The Middle</td>
+      <td class="content">A pivotal moment or friction point that fundamentally changed your dynamic.</td>
+    </tr>
+    <tr>
+      <td class="label">The Present</td>
+      <td class="content">Where your bond, identity tensions, and boundaries stand today.</td>
+    </tr>
+  </table>
+</div>
+
+<!-- End -->
+<div class="page">
+  <div class="end">
+    <h1>Congratulations on completing the 7-day probe!</h1>
+  </div>
+</div>
+
+</body>
+</html>
