@@ -2628,7 +2628,7 @@ Requirements:
         persona.name,
         userName || "你",
       );
-      specialInst = `\n**[USER OVERRIDE - HIGHEST PRIORITY]**: ${processedHint}\nYou MUST follow this instruction above all other style rules.`;
+      specialInst = `\n**[INSTRUCTION - HIGHEST PRIORITY]**: ${processedHint}\nThis could be about writing style or plot. You MUST follow this instruction above all other style rules.`;
     }
 
     // 时间流逝感知：用户超过 1 小时未回复（需要真实时间感知开启）
