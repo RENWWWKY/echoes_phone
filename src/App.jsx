@@ -2818,7 +2818,23 @@ Requirements:
 
         // 处理 AI 返回的消息内容
         if (responseData.messages && Array.isArray(responseData.messages)) {
-          const newMsgs = responseData.messages.map((item, index) => {
+          const newMsgs = responseData.messages.flatMap((item, index) => {
+            // 如果 message 是对象且带 stickerId（无 text），视为表情包消息
+            if (typeof item === "object" && item !== null && item.stickerId && !item.text) {
+              const sticker = charStickers.find((s) => s.id === item.stickerId);
+              if (sticker) {
+                return [{
+                  sender: "char",
+                  sticker: sticker,
+                  time: formatTime(getCurrentTimeObj()),
+                  ...(realTimeEnabled ? { timestamp: Date.now() } : {}),
+                  status: index === responseData.messages.length - 1 ? responseData.status : null,
+                }];
+              }
+              // sticker 不存在就跳过，不生成 [object Object]
+              return [];
+            }
+
             let actualText =
               typeof item === "object" && item !== null && item.text
                 ? item.text
@@ -2835,7 +2851,7 @@ Requirements:
             // 语音消息统一加前缀（兼容老渲染逻辑）
             const displayText = isVoice ? `[语音消息] ${actualText}` : actualText;
 
-            return {
+            return [{
               sender: "char",
               text: displayText,
               isVoice: isVoice || undefined,
@@ -2846,7 +2862,7 @@ Requirements:
                 index === responseData.messages.length - 1
                   ? responseData.status
                   : null,
-            };
+            }];
           });
 
           // 处理表情包
