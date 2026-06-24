@@ -332,6 +332,7 @@ JSON Format:
 
   forum_gen_replies: `Generate NEW replies for a thread.
 Thread: "{{TITLE}}" - {{CONTENT}}
+Author: {{AUTHOR}}
 [FORUM CONTEXT] (Public comments, format: author → replyTo: content):
 """
 {{EXISTING_REPLIES}}
