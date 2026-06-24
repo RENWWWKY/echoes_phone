@@ -249,7 +249,7 @@ Instructions:
      * Ref: "今天也很想鼠", "怒然大勃", "老公和姐夫私奔了", "三胎宝爸封鸡了", "下次一定", "当小三被打了".
    - **Sarcastic/Troll (USE SPARINGLY)**: Use ONLY when the thread content is bizarre, stupid, or infuriating. The nickname itself subtly mocks the OP or the situation.
      * Logic: A short quip that expresses speechlessness, secondhand embarrassment, or "what did I just read".
-     * Ref: "我不知道您是怎么了" (OP is incomprehensible), "仙人之兮列如麻" (you people are insane), "投胎错为猪" (OP is dumb), "审猪积累" (OP is dumb+1), "好晕你加了什么" (dizzy from reading), "别逗我笑了" (OP is ridiculous), "笑死层主的id好应景" (meta-joke on other commenters' names).
+     * Must design original names, NOT copy examples. Ref: "我不知道您是怎么了" (OP is incomprehensible), "仙人之兮列如麻" (you people are insane), "投胎错为猪" (OP is dumb), "审猪积累" (OP is dumb+1), "好晕你加了什么" (dizzy from reading), "别逗我笑了" (OP is ridiculous), "笑死层主的id好应景" (meta-joke on other commenters' names).
 4. Content Scope: Local food, urban legends, complaints, seeking help, gossips.
 5. **Role Identity**: These are random citizens who have their own lives. They DO NOT know or talk about {{char}} or {{user}} personally unless they are celebrities or high-status/well-known people in the community related to the forum.
 6. Language: Simplified Chinese (Mainland Internet Slang).
@@ -310,7 +310,7 @@ Instructions:
      * Ref: "今天也很想鼠", "睡觉觉", "老公和姐夫私奔了", "三胎宝爸封鸡了", "下次一定", "当小三被打了".
    - **Sarcastic/Troll (USE SPARINGLY)**: Use ONLY when the thread content is bizarre, stupid, or infuriating. The nickname itself subtly mocks the OP or the situation.
      * Logic: A short quip that expresses speechlessness, secondhand embarrassment, or "what did I just read".
-     * Ref: "我不知道您是怎么了" (OP is incomprehensible), "仙人之兮列如麻" (you people are insane), "投胎错为猪" (OP is dumb), "审猪积累" (OP is dumb+1), "好晕你加了什么" (dizzy from reading), "别逗我笑了" (OP is ridiculous), "笑死层主的id好应景" (meta-joke on other commenters' names).
+     * Must design original names, NOT copy examples. Ref: "我不知道您是怎么了" (OP is incomprehensible), "仙人之兮列如麻" (you people are insane), "投胎错为猪" (OP is dumb), "审猪积累" (OP is dumb+1), "好晕你加了什么" (dizzy from reading), "别逗我笑了" (OP is ridiculous), "笑死层主的id好应景" (meta-joke on other commenters' names).
 
 JSON Format:
 {
@@ -346,9 +346,20 @@ Trigger Mode: {{MODE}} (Auto/Manual).
 Instructions:
 1. Generate 4-6 new replies from netizens. If {{user}}'s comment is in the context, there must be at least one reply interacting with "{{USER_NICK}}" ({{user}}).
 2. **Tone**: Short, casual, slang, typos allowed. AVOID poetic/translated/AI-like tone. Use "卧槽", "哈哈", "确实", "666".
-3. **Naming Style**: 
-   - **STRICTLY FORBIDDEN** to copy the example names. Create new ones following the same logic.
-   - You MUST generate **FRESH, UNIQUE** aliases based on the styles: Foodie (e.g. "草莓刨冰"), Artistic (e.g. "春水煎茶"), Boomer (e.g. "天道酬勤"), or Meme (e.g. "三胎宝爸封鸡�?).
+3. **Naming Style (CRITICAL)**: 
+   Generate diverse, realistic Chinese internet nicknames. 
+   **STRICT CONSTRAINT**: You MUST generate NEW, ORIGINAL nicknames. **DO NOT** use the specific example names listed below. Use the *logic* behind them to create unique ones. All example Ref: names below are for inspiration only - you must CREATE your own.
+   - **Foodie/Cute**: Combine sweet/soft foods with actions or adjectives. Use personification.
+     * Ref: "冰粉汤圆" (Simple Food), "萌萌小蛋糕" (Adjective+Food), "小狗挖挖冰" (Animal+Food), "小猫睡不着" (Animal+Action).
+   - **Artistic/Poetic**: Use classical imagery, abstract concepts, or romanticized foreign words.
+     * Ref: "春水煎茶", "不是风动", "Evangelist", "十四行诗", "雪泥鸿爪".
+   - **Boomer/Old Gen (30-50s)**: 
+     * Men: Ambitious, traditional values, nature landscapes. Ref: "天道酬勤", "雪山飞狐", "砥砺前行", "英雄本色", "上善若水".
+     * Women: Peaceful, floral, wishing for safety. Ref: "静待花开", "平安是福", "荷塘月色".
+   - **Casual/Meme**: Spoken phrases, mental states, self-deprecating humor, or lazy vibes.
+     * Ref: "今天也很想鼠", "怒然大勃", "老公和姐夫私奔了", "三胎宝爸封鸡了", "下次一定", "当小三被打了".
+   - **Sarcastic/Troll (USE SPARINGLY)**: Use ONLY when the thread content is bizarre, stupid, or infuriating.
+     * Ref: "我不知道您是怎么了" (OP is incomprehensible), "仙人之兮列如麻" (you people are insane), "投胎错为猪" (OP is dumb), "审猪积累" (OP is dumb+1), "好晕你加了什么" (dizzy from reading), "别逗我笑了" (OP is ridiculous), "笑死层主的id好应景" (meta-joke on other commenters' names).
 4. **Character Logic**:
    - If Mode is "Manual": {{char}} MUST reply.
    - If Mode is "Auto": {{char}} should ONLY reply if the topic is *directly* related to their specific interests. Otherwise, return NO character reply.
@@ -406,21 +417,20 @@ Instructions:
    - If it's a conflict: Seek advice or vent.
    - The post must feel like a REAL forum post (casual, sometimes unclear, authentic slang).
 3. If NO (Chat is boring/too short): Return "null" for title and content.
-4. **Naming Style for Netizens (CRITICAL)**:
+4. **Naming Style for Netizens (CRITICAL)":
    Generate diverse, realistic Chinese internet nicknames. 
-   **STRICT CONSTRAINT**: You MUST generate NEW, ORIGINAL nicknames. **DO NOT** use the specific example names listed below. Use the *logic* behind them to create unique ones.
+   **STRICT CONSTRAINT**: You MUST generate NEW, ORIGINAL nicknames. **DO NOT** use the specific example names listed below. Use the *logic* behind them to create unique ones. All example Ref: names below are for inspiration only - you must CREATE your own.
    - **Foodie/Cute**: Combine sweet/soft foods with actions or adjectives. Use personification.
-     * Logic: Food + Verb/Adjective or Animal + Food.
-     * Ref: "冰粉汤圆" (Simple Food), "萌萌小蛋糕? (Adjective+Food), "小狗爪爪冰? (Animal+Food), "小猫睡不着" (Animal+Action).
-   - **Artistic/Literary**: Use poetic imagery or artistic terms.
-     * Logic: Nature Item + Clean Verb/Scene.
-     * Ref: "春水煎茶", "残月升", "胶片与旧梦", "春风十里".
-   - **Boomer/Simple**: Use motivational phrases or simple slogans.
-     * Logic: 4-char idioms or simple life motto.
-     * Ref: "天道酬勤", "海阔天空", "老陈", "老司机".
-   - **Meme/Creative**: Use creative misspellings, abbreviations, or cyberpunk-style mashups.
-     * Logic: Sounds like a sentence fragment or a mood status.
-     * Ref: "这集神了", "无题", "momo", "随意", "我不知道您是怎么了".
+     * Ref: "冰粉汤圆" (Simple Food), "萌萌小蛋糕" (Adjective+Food), "小狗挖挖冰" (Animal+Food), "小猫睡不着" (Animal+Action).
+   - **Artistic/Poetic**: Use classical imagery, abstract concepts, or romanticized foreign words.
+     * Ref: "春水煎茶", "不是风动", "Evangelist", "十四行诗", "雪泥鸿爪".
+   - **Boomer/Old Gen (30-50s)**: 
+     * Men: Ambitious, traditional values, nature landscapes. Ref: "天道酬勤", "雪山飞狐", "砥砺前行", "英雄本色", "上善若水".
+     * Women: Peaceful, floral, wishing for safety. Ref: "静待花开", "平安是福", "荷塘月色".
+   - **Casual/Meme**: Spoken phrases, mental states, self-deprecating humor, or lazy vibes.
+     * Ref: "今天也很想鼠", "怒然大勃", "老公和姐夫私奔了", "三胎宝爸封鸡了", "下次一定", "当小三被打了".
+   - **Sarcastic/Troll (USE SPARINGLY)**: Use ONLY when the thread content is bizarre, stupid, or infuriating.
+     * Ref: "我不知道您是怎么了" (OP is incomprehensible), "仙人之兮列如麻" (you people are insane), "投胎错为猪" (OP is dumb), "审猪积累" (OP is dumb+1), "好晕你加了什么" (dizzy from reading), "别逗我笑了" (OP is ridiculous), "笑死层主的id好应景" (meta-joke on other commenters' names).
 5. JSON SYNTAX RULE: If the dialogue or thought content contains double quotes, you MUST use Chinese double quotes ("�? instead. NEVER use unescaped English double quotes (") inside the JSON string values.
 6. Language: Simplified Chinese.
 
