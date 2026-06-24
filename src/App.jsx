@@ -2842,10 +2842,14 @@ Requirements:
             let isVoice =
               typeof item === "object" && item !== null && item.isVoice === true;
 
-            // 支持文字标记：「语音」开头也视为语音
+            // 支持文字标记：「语音」开头也视为语音，[表情包] 开头去掉前缀
             if (!isVoice && typeof actualText === "string" && actualText.startsWith("[语音]")) {
               isVoice = true;
               actualText = actualText.replace("[语音]", "").trim();
+            }
+            // [表情包] 文本转成普通描述消息（去掉前缀，不显示 [object Object]）
+            if (typeof actualText === "string" && actualText.startsWith("[表情包]")) {
+              actualText = actualText.replace("[表情包]", "").trim();
             }
 
             // 语音消息统一加前缀（兼容老渲染逻辑）
