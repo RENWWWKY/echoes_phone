@@ -320,7 +320,7 @@ export const getStickerInstruction = (list = charStickers, stickersEnabled) => {
   return `\n[STICKER SYSTEM]\nAvailable Stickers:\n${listStr}[Usage Frequency Rules]
     1. **Frequency constraint**: Use a sticker ONLY when the emotion is strong or the context specifically demands it. 
     2. **Probability**: Aim for a 30% - 40% usage rate. Most responses (approx. 6/10) should have "stickerId": null.
-    3. To send a sticker, use "stickerId" field in JSON. Otherwise, set it to null.`;
+    3. To send a sticker, use "stickerId" field in JSON (top-level or as a message object {"stickerId": "s1"}). NEVER write stickers as descriptive text like "[表情包] xxx".`;
 };
 
 /* --- UTILS --- 部分的 cleanCharacterJson 函数替换为： */
