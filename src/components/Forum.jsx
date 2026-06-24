@@ -90,7 +90,7 @@ const Forum = ({
 
   // --- 辅助逻辑 ---
   const getForumName = (type) => {
-    if (type === "me") return forumSettings.userNick || userName || "User本U";
+    if (type === "me") return forumSettings.userNick || "User本U";
     if (type === "char")
       return forumSettings.charNick || persona?.name || "匿名用户";
     return "匿名网友";
@@ -296,7 +296,7 @@ const Forum = ({
       !isSmurfReply;
     const aiPromptMode = isCharThread || mode === "Manual" ? "Manual" : "Auto";
     const currentUserName = userName || "User";
-    const userNick = forumSettings.userNick || userName || "User本U";
+    const userNick = forumSettings.userNick || "User本U";
     const charNick = forumSettings.charNick || persona.name || "匿名用户";
 
     let targetInstruction = "";
@@ -592,7 +592,7 @@ ${realNameContext}
     if (!content.trim()) return;
     const replyAuthor =
       type === "smurf"
-        ? forumSettings.smurfNick || "马甲用户"
+        ? forumSettings.smurfNick || "不是小号"
         : getForumName("me");
     
     // Extract replyTo from "回复 xxx: " prefix
@@ -921,10 +921,10 @@ ${realNameContext}
                         className="bg-transparent font-bold outline-none text-white appearance-none cursor-pointer text-center min-w-[60px]"
                       >
                         <option value="me" className="text-black">
-                          大号 ({forumSettings.userNick || "我"})
+                          大号 ({forumSettings.userNick || "User本U"})
                         </option>
                         <option value="smurf" className="text-black">
-                          小号 ({forumSettings.smurfNick || "马甲"})
+                          小号 ({forumSettings.smurfNick || "不是小号"})
                         </option>
                       </select>
                       <ChevronDown size={10} className="opacity-60 mr-1" />
