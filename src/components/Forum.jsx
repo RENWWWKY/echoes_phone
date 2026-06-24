@@ -387,7 +387,7 @@ ${realNameContext}
         userPersona + "\n" + charTrackerContext,
       )
       .replaceAll("{{CHARACTER_INSTRUCTION}}", aiPromptMode === "Manual"
-        ? "{{char}} MUST reply to this thread. You are REQUIRED to include a reply from {{char}}."
+        ? "{{char}} MUST reply to this thread. You are REQUIRED to include at least one reply from {{char}}. If {{user}} has commented, {{char}}'s FIRST reply MUST target {{user}} (replyTo: {{USER_NICK}}). {{char}} may post additional replies to other NPCs."
         : "{{char}} should ONLY reply if the topic is *directly* related to their specific interests. Otherwise, return NO character reply.")
       .replaceAll("{{WORLD_INFO}}", cleanWorldInfo)
       .replaceAll("{{MODE}}", aiPromptMode);
