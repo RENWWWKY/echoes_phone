@@ -2701,7 +2701,11 @@ Requirements:
     }
 
     // 交互模式 instruction 抽取到 prompts.js 中
-    const modeInstruction = interactionMode === "online" ? prompts.mode_online : prompts.mode_offline;
+    let modeInstruction = interactionMode === "online" ? prompts.mode_online : prompts.mode_offline;
+    // 预替换 modeInstruction 中的 {{char}}/{{user}}（注入 prompt 时外层的同名替换已发生）
+    modeInstruction = modeInstruction
+      .replaceAll("{{char}}", persona.name)
+      .replaceAll("{{user}}", effectiveUserName);
 
     // 多模态模式下，历史已通过 messages 数组传递，prompt 里不需要重复
     const historyForPrompt = historyMessages ? "" : historyText;
