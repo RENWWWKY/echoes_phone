@@ -5331,7 +5331,7 @@ Requirements:
             showToast={showToast}
             worldInfoString={currentWorldInfoString} // 传字符串进去
             getCurrentTimeObj={getCurrentTimeObj}
-            getContextString={getContextString}
+            getContextString={(limit = 10) => getContextString(chatHistory, userName || "User", persona, chatStyle, limit)}
             customConfirm={customConfirm}
             customRules={customRules}
             getFinalSystemPrompt={getFinalSystemPrompt}

@@ -901,11 +901,21 @@ ${realNameContext}
                         </span>
                       </div>
                     </div>
-                    {reply.replyTo && (
-                      <span className="text-[10px] font-medium text-gray-400 mr-1">
-                        回复 {reply.replyTo}：
-                      </span>
-                    )}
+                    {reply.replyTo && (() => {
+                      // 动态映射 replyTo 为正确的显示名
+                      const charNick = forumSettings.charNick || persona?.name || "匿名用户";
+                      const userNick = forumSettings.userNick || "User本U";
+                      let displayReplyTo = reply.replyTo;
+                      // 检查 replyTo 是否指向 char（比较真名或 isCharacter）
+                      const targetReply = (thread.replies || []).find(r => r.author === reply.replyTo);
+                      if (targetReply?.isCharacter || reply.replyTo === (persona?.name || "")) displayReplyTo = charNick;
+                      else if (targetReply?.isUser || targetReply?.authorType === "me" || reply.replyTo === (userName || "User")) displayReplyTo = userNick;
+                      return (
+                        <span className="text-[10px] font-medium text-gray-400 mr-1">
+                          回复 {displayReplyTo}：
+                        </span>
+                      );
+                    })()}
                     <p className="text-gray-800 leading-relaxed break-words">
                       {reply.content}
                     </p>
