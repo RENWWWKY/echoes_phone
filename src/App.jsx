@@ -3425,11 +3425,11 @@ Requirements:
       // 根据离开时长决定生成条数
       let expectedCount;
       if (gapMs < 12 * 3600000) {
-        expectedCount = Math.floor(Math.random() * 2) + 1; // 1-2
+        expectedCount = Math.floor(Math.random() * 3); // 0-2
       } else if (gapMs < 24 * 3600000) {
-        expectedCount = Math.floor(Math.random() * 3) + 2; // 2-4
+        expectedCount = Math.floor(Math.random() * 5); // 0-4
       } else {
-        expectedCount = Math.floor(Math.random() * 7) + 4; // 4-10
+        expectedCount = Math.floor(Math.random() * 11); // 0-10
       }
 
       // 根据离开时长决定场景切换规则
