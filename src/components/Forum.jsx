@@ -332,7 +332,7 @@ ${recentHistory}
 - Real User Name: "${currentUserName}"
 - User's Current Forum Nickname: "${userNick}"
 ${isUserThread ? `- **CRITICAL**: "${userNick}" IS the author (OP) of this thread. ${persona.name} and the NPCs will treat them as one identity.` : ""}
-- **Character Self-Awareness**: ${persona.name}, YOUR forum nickname is "${charNick}". Any reply in the context written by "${charNick}" is YOU. When others reply targeting "${charNick}", they are talking to YOU.
+- **Character Self-Awareness**: ${persona.name}'s forum nickname is "${charNick}". Any reply in the context from "${charNick}" is sent by ${persona.name}. When others reply targeting "${charNick}", they are talking to ${persona.name}.
 - **ABSOLUTE RULE**: "${persona.name}" KNOWS that "${userNick}" is "${currentUserName}".
 - **Netizen Logic**: Random NPCs should react to "${userNick}" if they comment.
 ${realNameContext}
