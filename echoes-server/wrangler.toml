@@ -1,0 +1,13 @@
+name = "echoes-server"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+VAPID_SUBJECT = "mailto:bcx0216@gmail.com"
+VAPID_PUBLIC_KEY = "BH5azEAVggc-ab33IZ_VCa0DDJmci-c0WRxc-0mubUnkD9yxpdWJNMF8S4wmClLO2Yj3tjwMGpbsZBi_6Dg_Osk"
+# VAPID_PRIVATE_KEY 通过 Cloudflare API 环境变量注入，不放在代码中
+
+[[kv_namespaces]]
+binding = "ECHOES_KV"
+id = "200e54c408534d849fed812a55d97791"
+preview_id = "200e54c408534d849fed812a55d97791"

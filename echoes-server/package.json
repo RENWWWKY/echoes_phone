@@ -1,0 +1,16 @@
+{
+  "name": "echoes-server",
+  "version": "1.0.0",
+  "description": "echoes_phone backend - Cloudflare Workers",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^3.114.17"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7"
+  }
+}

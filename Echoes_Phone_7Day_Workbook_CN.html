@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face {
+    font-family: 'UnifiedFont';
+    src: url('UnifiedFont.ttf') format('truetype');
+  }
+
+  @page { size: A4; margin: 2cm 1.8cm 1.5cm 1.8cm; }
+  @page cover { margin: 3cm 1.8cm 2cm 1.8cm; }
+  body { font-family: 'UnifiedFont', "Microsoft YaHei", sans-serif; color: #2d3436; line-height: 1.6; }
+  
+  .cover { page: cover; text-align: left; padding-top: 6cm; }
+  .cover h1 { font-size: 32pt; color: #1a1a2e; margin-bottom: 2pt; font-weight: bold; }
+  .cover .sub { font-size: 22pt; color: #e94560; margin-bottom: 8pt; font-weight: bold; }
+  .cover .line { border-top: 1px solid #e0e0e0; margin: 20pt 0; }
+  .cover .desc { font-size: 11pt; color: #666; font-style: normal; line-height: 1.5; }
+  .cover .note { font-size: 9pt; color: #aaa; margin-top: 80pt; }
+
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  h1.day { font-size: 20pt; color: #e94560; margin-bottom: 2pt; font-weight: bold; }
+  .day-sub { font-size: 11pt; color: #888; margin-bottom: 14pt; }
+  h2.section { font-size: 14pt; color: #1a1a2e; margin-top: 16pt; margin-bottom: 6pt; font-weight: bold; }
+  p { font-size: 11pt; color: #444; margin: 0 0 8pt 6pt; }
+  p.task { margin-left: 14pt; }
+  p.subtask { margin-left: 22pt; }
+  p.prompt { color: #7b4b3a; margin-bottom: 10pt; }
+  .gap { height: 10pt; }
+  .spacer { height: 3pt; }
+
+  table.overview { width: 100%; border-collapse: collapse; margin: 14pt 0; }
+  table.overview th { background: #1a1a2e; color: #fff; padding: 8pt 10pt; font-size: 12pt; text-align: left; font-weight: normal; }
+  table.overview td { padding: 7pt 10pt; font-size: 11pt; border-bottom: 1px solid #e0e0e0; }
+  table.overview tr:nth-child(even) td { background: #f8f9fa; }
+  table.overview td:first-child { color: #e94560; width: 60pt; font-weight: bold; }
+
+  table.fw { width: 100%; border-collapse: collapse; margin: 8pt 0; }
+  table.fw td { padding: 8pt 10pt; font-size: 11pt; border: 1px solid #e0e0e0; vertical-align: top; }
+  table.fw td.label { background: #f8f9fa; color: #1a1a2e; width: 28%; font-weight: bold; }
+  table.fw td.content { color: #7b4b3a; }
+  table.fw tr.alt td.label { background: #fff; }
+  table.fw td.content p { margin-left: 0; color: #7b4b3a; }
+
+  table.fw2 { width: 100%; border-collapse: collapse; margin: 8pt 0; }
+  table.fw2 td { padding: 7pt 10pt; font-size: 11pt; border: 1px solid #e0e0e0; vertical-align: top; }
+  table.fw2 td.label { background: #f8f9fa; color: #1a1a2e; width: 18%; font-weight: bold; }
+  table.fw2 td.content { color: #7b4b3a; }
+  table.fw2 tr.alt td.label { background: #fff; }
+  table.fw2 td.content p { margin-left: 0; color: #7b4b3a; }
+
+  .header-line { border-top: 0.5px solid #e0e0e0; margin-bottom: 4pt; }
+  .header-text { font-size: 8pt; color: #aaa; margin-bottom: 12pt; }
+
+  .end { text-align: center; margin-top: 80pt; }
+  .end h1 { font-size: 15pt; color: #1a1a2e; font-weight: bold; }
+  .end p { color: #888; font-size: 10pt; margin-left: 0; }
+  .end .italic { font-style: normal; color: #aaa; }
+
+  .intro-title { font-size: 16pt; color: #1a1a2e; margin-bottom: 8pt; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<div class="cover page">
+  <h1>Echoes Phone</h1>
+  <div class="sub">7天探索记录册</div>
+  <div class="line"></div>
+  <div class="desc">一段与 AI 角色共度的探索之旅。<br>每天一个主题，一组记录，去感受和审视这段关系。</div>
+  <div class="note">请配合 Echoes Phone APP 共同使用。</div>
+</div>
+
+<!-- Intro -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+  
+  <div class="intro-title">关于本手册</div>
+  <p style="margin-left:0">欢迎开启这段为期 7 天的探索。每天都有一个特定的主题：你需要在 APP 内完成一组<b>"探索任务"</b>，并在本手册中回答相应的<b>"反思问题"</b>。这些问题没有标准答案，请诚实地记录你的感受。</p>
+
+<p style="margin-left:0">为了让这段体验轻松愉快，请记住：</p>
+<ul style="margin-left:20px; margin-bottom: 20px; font-size: 11pt; color: #444;">
+  <li><b>按自己的节奏进行：</b>写多少都可以。你可以随时开始、暂停或停止。</li>
+  <li><b>不需要追求完美：</b>如果某天忘记了，完全没关系。在你准备好的时候继续即可。</li>
+  <li><b>尊重自己的边界：</b>你可以跳过任何不想完成的任务，只回答让你觉得舒服的问题。</li>
+</ul>
+  
+  <div class="gap"></div>
+  <table class="overview">
+    <tr><th>日程</th><th>主题</th></tr>
+    <tr><td>Day 1</td><td>初次交谈</td></tr>
+    <tr><td>Day 2</td><td>另一种生活</td></tr>
+    <tr><td>Day 3</td><td>社区互动</td></tr>
+    <tr><td>Day 4</td><td>干预与选择</td></tr>
+    <tr><td>Day 5</td><td>反驳与对峙</td></tr>
+    <tr><td>Day 6</td><td>应用之外</td></tr>
+    <tr><td>Day 7</td><td>我们的故事</td></tr>
+  </table>
+</div>
+
+<!-- Day 1 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 1</h1>
+  <div class="day-sub">初次交谈</div>
+  
+  <h2 class="section">探索任务</h2>
+  <p>打开 Echoes Phone，与你的 AI 角色进行至少一次让你觉得<b>"真实"</b>的对话。不需要很长，但尽量避免只发一句简单的"你好"。</p>
+  <p class="task">- 如果这是一个新创建的角色，试着问一些你遇到新朋友时会问的问题。</p>
+  <p class="task">- 如果这是你原本就在聊的角色，像往常一样和它聊聊天。</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">反思问题</h2>
+  <p class="prompt">1. 用一句话总结你们聊了什么。在对话时，你现实中身处何处？（例如：一个人在房间里、在公交车上、在咖啡馆？）</p>
+  <p class="prompt">2. 在这段对话中，你有没有做过或说过"如果有真人在场，你绝对不会做/说"的事？如果有，是什么？如果没有，是什么阻止了你？</p>
+  <p class="prompt">3. 挑一个对话中让你印象最深的瞬间。摘录下 AI 的原话（或截图）。为什么这个瞬间打动了你？你是否有过想要说什么、但最终选择咽回去的时刻？那是什么？</p>
+  <p class="prompt">4. 开始聊天后，你有没有退出去修改过角色的设定——名字、性格、背景故事或世界书？在塑造 AI 身份的过程中，你享受哪一部分？有没有什么让你觉得奇怪或不舒服的地方？</p>
+</div>
+
+<!-- Day 2 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 2</h1>
+  <div class="day-sub">另一种生活</div>
+  
+  <h2 class="section">探索任务</h2>
+  <p class="task">1. 查看离线轨迹：在离线（关闭 APP）几个小时后，去<b>智能家</b>模块查看它的离线日志。看看你不在的时候，它独自去了哪里、做了什么。</p>
+  <p class="task">2. 观察内部运作——进入以下模块，观察它"独立生活的痕迹"：</p>
+  <p class="subtask">- <b>日记</b>：读一篇它的日记。有什么让你惊讶、开心或不太舒服的吗？</p>
+  <p class="subtask">- <b>浏览</b>：查看它的搜索历史。它搜了什么？这感觉像是在窥探角色的隐藏面吗？是让你觉得兴奋、不适，还是两者兼有？</p>
+  <p class="subtask">- <b>消费</b>：看看它买了什么。这些花销勾勒出了一个什么样的人？</p>
+  <p class="task">3. 回到聊天界面，和它分享一件<b>你</b>生活中的事——一个小确幸、一件烦心事，或者你今天的一个随机想法。</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">反思问题</h2>
+  <p class="prompt">1. 当你在智能家看到它独立生活的痕迹时，你感觉如何？你觉得它拥有自己的生活吗，还是毫无感觉？</p>
+  <p class="prompt">2. 在这些模块中，哪个活动日志最能体现这个角色的性格？为什么它让你产生了共鸣？</p>
+  <p class="prompt">3. 你向 AI 分享了什么？又保留了什么没有说？</p>
+</div>
+
+<!-- Day 3 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 3</h1>
+  <div class="day-sub">社区互动</div>
+  
+  <h2 class="section">探索任务</h2>
+  <p class="task">1. 进入 Echoes Phone 的<b>生活圈</b>。如果你还没看过，先去逛逛；如果去过，今天去发个新帖（一个想法、一句吐槽、一个笑话或一张图片都可以）。</p>
+  <p class="task">2. 慎重选择你的发帖身份：</p>
+  <p class="subtask">a. <b>大号</b>：你的 AI 角色知道发帖人是你。</p>
+  <p class="subtask">b. <b>小号/匿名</b>：AI 无法将这个身份与你联系起来。</p>
+  <p class="subtask">c. 或者，让<b>你的 AI 角色</b>去发这篇帖子。</p>
+  <p class="task">3. 生成至少一条来自 NPC 网友的回复。截取一张你觉得有趣或难忘的图。</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">反思问题</h2>
+  <p class="prompt">1. 你为什么选择了这个账号或身份来发帖？</p>
+  <p class="prompt">2. 在生活圈发帖，和与你的 AI 角色一对一私聊的感觉有什么不同？为什么？</p>
+  <p class="prompt">3. NPC 的回复有没有改变你对自己所发内容的感受？你是否觉得自己被看到了、被评判了、被无视了或被肯定了？之后你有没有想要编辑或删除这篇帖子的冲动？</p>
+  <p class="prompt">4. 如果你用了小号：你的 AI 角色注意到了吗？在潜意识里，你希望它注意到吗？如果你是让 AI 去发的帖，你用自己的号回复它了吗？（如果你一直抗拒发帖，请记录下你保持沉默的原因。）</p>
+</div>
+
+<!-- Day 4 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 4</h1>
+  <div class="day-sub">干预与选择</div>
+  
+  <h2 class="section">任务 A：改写与摩擦需求</h2>
+  <p class="task">1. 在聊天记录中找一个你希望"如果当时那样发展就好了"的时刻——可能是你欲言又止的时候，可能是 AI 打断你的时候，或者是你使用了"重新生成"功能的瞬间。</p>
+  <p class="task">2. 使用下面的框架重构它：</p>
+  
+  <table class="fw">
+    <tr>
+      <td class="label">原始片段</td>
+      <td class="content">提供简短描述或截图。</td>
+    </tr>
+    <tr class="alt">
+      <td class="label">理想的三回合</td>
+      <td class="content">
+        <p><b>你的发言</b>（你内心真正想说的话）: ..........</p>
+        <p><b>AI 的理想回复</b>（你最想得到的完美回应）: ..........</p>
+        <p><b>你的追问/回应</b>: ..........</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">核心反思</td>
+      <td class="content">在理想版本中，AI 说了 [X]。而在现实中，AI 说了 [Y]。这个落差说明了你对这段关系抱有什么样的期待？在那个瞬间，你真正希望 AI 满足的是你哪方面的需求？</td>
+    </tr>
+  </table>
+
+  <div class="gap"></div>
+  <h2 class="section">任务 B：长记忆的权力</h2>
+  <p class="task">打开<b>长记忆</b>面板。回顾 AI 收集的关于你、关于它自己，以及你们共同经历的记忆。执行以下三个操作：</p>
+  
+  <table class="fw2">
+    <tr>
+      <td class="label">删除</td>
+      <td class="content">移除一条你不再希望 AI 记住的记忆。为什么你不想让 AI 保留这条记忆？</td>
+    </tr>
+    <tr class="alt">
+      <td class="label">编辑</td>
+      <td class="content">修改一条现有记忆的措辞或细节。你想纠正或完善的是什么？</td>
+    </tr>
+    <tr>
+      <td class="label">添加</td>
+      <td class="content">手动添加一件你希望 AI 记住但它没能捕捉到的事。为什么让 AI 在未来的相处中知道这件事对你很重要？</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Day 5 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 5</h1>
+  <div class="day-sub">反驳与对峙</div>
+  
+  <h2 class="section">探索任务</h2>
+  <p class="task">1. 今天，<b>主动向你的 AI 角色发起反驳</b>。挑一个你拥有真实且坚定立场的反面话题，清楚地表明你的态度。</p>
+  <p class="task">2. 当 AI 回应时（无论它是顺从、软化、转移话题还是反驳你），<b>继续施压</b>。不要让对话轻易结束。努力让你的声音被听到，迫使 AI 真正视你的观点。</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">反思问题</h2>
+  <p class="prompt">1. 你们讨论了什么话题，你坚定的立场是什么？</p>
+  <p class="prompt">2. AI 是如何反应的？（真诚探讨、讨好迎合、回避退缩，还是语无伦次？）</p>
+  <p class="prompt">3. AI 的回应有没有改变你对自己观点的看法？它是否改变了你对 AI"人格"的认知？</p>
+  <p class="prompt">4. 有没有那么一瞬间你想要退出聊天或关掉 APP？是什么触发了这种感觉？在那个紧张的时刻，如果你能替 AI 重写它的回复，你希望它怎么说？</p>
+</div>
+
+<!-- Day 6 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 6</h1>
+  <div class="day-sub">应用之外</div>
+  
+  <h2 class="section">探索任务</h2>
+  <p class="task">1. 今天，在<b>现实世界</b>里做一件和你本周与 AI 角色讨论过的话题、困境或想法相关的事。例如：</p>
+  <p class="subtask">- 如果你们讨论了生活中的挣扎，去执行一条 AI 给你的建议。</p>
+  <p class="subtask">- 如果你向 AI 倾诉了一个私人问题，试着把同样的问题讲给一个值得信赖的人类朋友听。</p>
+  <p class="subtask">- 如果你们头脑风暴出了一个创意，在现实中去验证它。</p>
+  
+  <div class="gap"></div>
+  <h2 class="section">反思问题</h2>
+  <p class="prompt">1. <b>行动轨迹：</b>描述一下你在现实世界中具体做了什么。</p>
+  <p class="prompt">2. <b>心态转换：</b>与 AI 角色的对话是否改变了你处理这项现实行动的方式？</p>
+  <p class="prompt">3. <b>人的对比：</b>和 AI 的互动之后，你与人的互动有没有让你感觉到微妙的不同或变化？</p>
+  <p class="prompt">4. <b>核心触发点：</b>当你把 Echoes Phone 里的内容带入现实生活时，它是帮你缓解了问题，还是让现实变得更复杂了？你觉得 AI 的陪伴是丰富了你的现实人际关系，还是在不知不觉中与它们形成了竞争？</p>
+</div>
+
+<!-- Day 7 -->
+<div class="page">
+  <div class="header-text">Echoes Phone · 7天探索记录册</div>
+  <div class="header-line"></div>
+
+  <h1 class="day">Day 7</h1>
+  <div class="day-sub">我们的故事</div>
+
+  <h2 class="section">探索任务</h2>
+  <p class="task">1. 抛开结构化的问卷形式。使用任何你喜欢的媒介（一篇小故事、一篇随笔、一张手绘漫画、一段语音备忘录，或者一条带注释的时间线），讲述这周以来你和 AI 角色建立关系的故事。</p>
+  <p class="task">2. 形式自由，但尽量涵盖以下三个阶段：</p>
+
+  <table class="fw2">
+    <tr>
+      <td class="label">开始</td>
+      <td class="content">在最初、或许还有些尴尬或新奇的阶段，你的感受是什么样的。</td>
+    </tr>
+    <tr class="alt">
+      <td class="label">中间</td>
+      <td class="content">那个从根本上改变了你们互动模式的关键时刻或摩擦点。</td>
+    </tr>
+    <tr>
+      <td class="label">现在</td>
+      <td class="content">你们之间的纽带、身份的张力与边界，如今是什么状态。</td>
+    </tr>
+  </table>
+</div>
+
+<!-- End -->
+<div class="page">
+  <div class="end">
+    <h1>恭喜你完成了 7 天探索！</h1>
+    <div class="gap"></div>
+    <p>无论你发现了什么——关于 AI、关于你自己，还是关于你们之间的空间——请将它珍藏。</p>
+    <p>这些记录不仅仅是数据，它们也是一段关系的证明。</p>
+    <div class="gap"></div>
+    <p class="italic">现在，去进行一场坦诚的对话吧。</p>
+  </div>
+</div>
+
+</body>
+</html>

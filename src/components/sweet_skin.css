@@ -1,0 +1,70 @@
+/* == 甜梦泡泡 == */
+#echoes-chat {
+  --skin-bg: #f0e8ed;
+  --skin-surface: #f5eff4;
+  --skin-card: #faf5f8;
+  --skin-text: #4a3548;
+  --skin-sub: #8b7088;
+  --skin-accent: #d4959a;
+  --skin-accent-hover: #c08088;
+}
+#echoes-chat { background-color: #f0e8ed !important; background-image: radial-gradient(circle, rgba(220,180,190,0.55) 2px, transparent 2px) !important; background-size: 16px 16px !important; color: #4a3548 !important; }
+#echoes-chat .bg-\[\#F2F2F7\] { background-color: #f0e8ed !important; background-image: radial-gradient(circle, rgba(220,180,190,0.55) 2px, transparent 2px) !important; background-size: 16px 16px !important; }
+#echoes-chat .bg-\[\#EBEBF0\] { background: #e8dde4 !important; }
+#echoes-chat [class*="bg-\[\#F2F2F7"] { background-color: #f0e8ed !important; background-image: radial-gradient(circle, rgba(220,180,190,0.55) 2px, transparent 2px) !important; background-size: 16px 16px !important; }
+#echoes-chat [class*="bg-\[\#EBEBF0"] { background: #e8dde4 !important; }
+#echoes-chat .bg-blue-50\/50 { background: rgba(220,180,200,0.35) !important; }
+#echoes-chat .bg-gray-100\/60 { background: rgba(212,149,154,0.25) !important; }
+#echoes-chat .bg-gray-300\/50 { background: rgba(212,149,154,0.2) !important; }
+#echoes-chat .text-\[\#1a1a1a\] { color: #4a3548 !important; }
+#echoes-chat .text-\[\#2C2C2C\] { color: #5c4658 !important; }
+#echoes-chat .text-gray-800 { color: #4a3548 !important; }
+#echoes-chat .text-gray-700 { color: #5c4658 !important; }
+#echoes-chat .text-gray-600 { color: #6b5568 !important; }
+#echoes-chat .text-gray-500 { color: #8b7088 !important; }
+#echoes-chat .text-gray-400 { color: #a088a0 !important; }
+#echoes-chat .text-gray-300 { color: #c0a8b8 !important; }
+#echoes-chat header { color: #d4959a !important; }
+#echoes-chat .glass-panel { background: rgba(250,245,248,0.75) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: rgba(212,149,154,0.25) !important; color: #4a3548 !important; border-radius: 18px !important; }
+#echoes-chat .glass-card { background: rgba(255,255,255,0.55) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-color: rgba(212,149,154,0.2) !important; border-radius: 16px !important; color: #4a3548 !important; }
+#echoes-chat .glass-card label { color: #5c4658 !important; }
+#echoes-chat .glass-card p, #echoes-chat .glass-card span { color: #8b7088 !important; }
+#echoes-chat .bg-white\/50 { background: rgba(250,245,248,0.75) !important; }
+#echoes-chat [class*="bg-white"] { background: #faf5f8 !important; border-radius: 14px !important; }
+#echoes-chat [class*="bg-gray-50"] { background: #faf5f8 !important; }
+#echoes-chat [class*="bg-gray-100"] { background: rgba(212,149,154,0.08) !important; }
+#echoes-chat [class*="bg-black"] { background: #d4959a !important; border-color: #d4959a !important; }
+#echoes-chat [class*="bg-black"]:hover { background: #c08088 !important; }
+#echoes-chat button.bg-black { background: #d4959a !important; }
+#echoes-chat button.bg-black:hover { background: #c08088 !important; }
+#echoes-chat [class*="bg-\[\#2C2C2C\]"] { background: #d4959a !important; }
+#echoes-chat [class*="bg-\[\#2C2C2C\]"]:hover { background: #c08088 !important; }
+#echoes-chat [class*="bg-gray-800"] { background: #d4959a !important; }
+#echoes-chat [class*="text-white"] { color: #fff !important; }
+#echoes-chat input, #echoes-chat textarea { background: #faf5f8 !important; color: #4a3548 !important; border-color: rgba(212,149,154,0.3) !important; border-radius: 12px !important; }
+#echoes-chat input::placeholder, #echoes-chat textarea::placeholder { color: #c0a8b8 !important; }
+#echoes-chat .border-gray-200 { border-color: rgba(212,149,154,0.2) !important; }
+#echoes-chat .border-gray-200\/50 { border-color: rgba(212,149,154,0.15) !important; }
+#echoes-chat .border-white\/50 { border-color: rgba(212,149,154,0.2) !important; }
+#echoes-chat .border-white\/60 { border-color: rgba(212,149,154,0.25) !important; }
+#echoes-chat .ring-black\/5 { --tw-ring-color: rgba(212,149,154,0.06) !important; }
+#echoes-chat .border-white { border-color: rgba(212,149,154,0.25) !important; }
+#echoes-chat .text-gray-700.group-hover\:text-black { color: #8b7088 !important; }
+#echoes-chat .text-gray-700.group-hover\:text-black:hover { color: #d4959a !important; }
+#echoes-chat .glass-panel svg { stroke: #8b7088; }
+#echoes-chat [class*="bg-white"] svg { stroke: #8b7088; }
+#echoes-chat [class*="rounded-\[24px\]"].glass-panel { background: rgba(250,245,248,0.75) !important; border-color: rgba(212,149,154,0.25) !important; border-radius: 18px !important; }
+#echoes-chat [class*="rounded-\[24px\]"].glass-panel svg, #echoes-chat .flex.justify-around svg { stroke: #8b7088; }
+#echoes-chat [class*="bg-\[\#1a1a1a\]"] { background: #faf5f8 !important; color: #4a3548 !important; }
+#echoes-chat .bg-green-500 { background: #b8a8c8 !important; }
+#echoes-chat .text-red-500 { color: #cc8899 !important; }
+#echoes-chat .bg-green-50\/50 { background: rgba(184,168,200,0.2) !important; }
+#echoes-chat .bg-green-100 { background: rgba(184,168,200,0.3) !important; }
+#echoes-chat .text-green-700 { color: #9b8bb0 !important; }
+#echoes-chat .text-green-600 { color: #a898b8 !important; }
+#echoes-chat .border-green-100 { border-color: rgba(184,168,200,0.3) !important; }
+#echoes-chat [class*="rounded-lg"], #echoes-chat [class*="rounded-xl"], #echoes-chat [class*="rounded-2xl"], #echoes-chat [class*="rounded-\[16px\]"], #echoes-chat [class*="rounded-\[22px\]"], #echoes-chat [class*="rounded-\[24px\]"], #echoes-chat [class*="rounded-full"], #echoes-chat [class*="rounded-\[48px\]"] { border-radius: 18px !important; }
+#echoes-chat [class*="rounded-\[48px\]"] { border-radius: 36px !important; }
+#echoes-chat [class*="rounded-full"] { border-radius: 9999px !important; }
+/* 蝴蝶结: header 左侧装饰 */
+#echoes-chat header::before { content: "" !important; display: inline-block !important; width: 20px !important; height: 20px !important; background-image: url("./bow.png") !important; background-size: contain !important; background-repeat: no-repeat !important; margin-right: 4px !important; vertical-align: middle !important; opacity: 0.65 !important; }

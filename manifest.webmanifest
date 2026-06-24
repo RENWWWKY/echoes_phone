@@ -1,1 +1,15 @@
-{"name":"Echoes OS","short_name":"Echoes","description":"A React-based OS simulation","start_url":"/echoes_phone/","display":"standalone","background_color":"#ffffff","theme_color":"#ffffff","lang":"en","scope":"/echoes_phone/","icons":[{"src":"pwa-192x192_v3.png","sizes":"192x192","type":"image/png"},{"src":"pwa-512x512_v3.png","sizes":"512x512","type":"image/png"}]}
+{
+  "name": "Echoes OS",
+  "short_name": "Echoes",
+  "description": "A React-based OS simulation",
+  "start_url": "/echoes_phone/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "en",
+  "scope": "/echoes_phone/",
+  "icons": [
+    { "src": "pwa-192x192_v3.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "pwa-512x512_v3.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

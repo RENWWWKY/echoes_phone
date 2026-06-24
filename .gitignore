@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+npm/
+yarn.log
+pnpm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Misc
+*.local
+.cowork-temp/
+.openclaw/
+echoes-server/node_modules/
+echoes-server/.wrangler/
+echoes-server/CREDENTIALS.md
+echoes-server/package-lock.json
+
+# Project meta (workspace only, not for repo)
+AGENTS.md
+HEARTBEAT.md
+IDENTITY.md
+MEMORY.md
+SOUL.md
+TOOLS.md
+USER.md
+memory/
+
+# Temp/debug files
+npm
+vite
+*.bak
+debug_music.ps1
+fix_music.js
+fix_music.py
+fix_step1.py
+print_lines.py
+echoes-phone@0.0.0
+error.png
+features-design-principles-mapping.md
+user-study-design.md
+
+# Assets - keep only what's in public/
+assets/.github/workflows/*.bak
