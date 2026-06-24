@@ -259,10 +259,13 @@ const Forum = ({
 
     const existingRepliesStr = contextList
       .map((r) => {
-        if (r.replyTo) {
-          return `${r.author} → ${r.replyTo}: ${r.content}`;
+        // 动态替换 char 的显示名，避免改网名后出现新旧两个名字
+        const displayAuthor = r.isCharacter ? charNick : r.author;
+        const displayReplyTo = r.replyTo && contextList.find(c => c.author === r.replyTo && c.isCharacter) ? charNick : r.replyTo;
+        if (displayReplyTo) {
+          return `${displayAuthor} → ${displayReplyTo}: ${r.content}`;
         }
-        return `${r.author}: ${r.content}`;
+        return `${displayAuthor}: ${r.content}`;
       })
       .join("\n");
 
