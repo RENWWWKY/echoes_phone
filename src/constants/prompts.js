@@ -183,7 +183,7 @@ JSON:
 
   smartwatch_offline_batch: `{{user}} left or has not replied after the last conversation shown below. Generate up to {{EXPECTED_COUNT}} surveillance log entries showing {{char}}'s daily life when {{user}} is not present (i.e., events happen in the {{GAP_DURATION}} between the last chat and now). If nothing significant happens, fewer entries (even zero) is fine. If there are natural plot developments, generate more.
 
-Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list. You may move between locations naturally.)
+Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list when applicable, or use null for new places and provide a fresh name in "locationName". You may visit places not in this list.)
 Last Known Status Before User Left: {{LAST_LOG}}
 Last Conversation Before User Left (happened JUST BEFORE {{char}} began these activities): {{HISTORY}}
 
