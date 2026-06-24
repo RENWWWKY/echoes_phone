@@ -303,7 +303,7 @@ const Forum = ({
     } else if (!charHasRepliedToUser) {
       targetInstruction = `
         - **Targeting Priority**: "${userNick}" just commented and is waiting for a reply.
-        - **Action**: ${persona.name} MUST prioritize replying to "${userNick}"'s latest comment.
+        - **Action**: {{char}} MUST prioritize replying to "${userNick}"'s latest comment.
         `;
     } else {
       targetInstruction = `
@@ -331,9 +331,9 @@ ${recentHistory}
 [USER IDENTITY INFO - CRITICAL]:
 - Real User Name: "${currentUserName}"
 - User's Current Forum Nickname: "${userNick}"
-${isUserThread ? `- **CRITICAL**: "${userNick}" IS the author (OP) of this thread. ${persona.name} and the NPCs will treat them as one identity.` : ""}
-- **Character Self-Awareness**: ${persona.name}'s forum nickname is "${charNick}". Any reply in the context from "${charNick}" is sent by ${persona.name}. When others reply targeting "${charNick}", they are talking to ${persona.name}.
-- **ABSOLUTE RULE**: "${persona.name}" KNOWS that "${userNick}" is "${currentUserName}".
+${isUserThread ? `- **CRITICAL**: "${userNick}" IS the author (OP) of this thread. {{char}} and the NPCs will treat them as one identity.` : ""}
+- **Character Self-Awareness**: {{char}}'s forum nickname is "${charNick}". Any reply in the context from "${charNick}" is sent by {{char}}. When others reply targeting "${charNick}", they are talking to {{char}}.
+- **ABSOLUTE RULE**: "{{char}}" KNOWS that "${userNick}" is "${currentUserName}".
 - **Netizen Logic**: Random NPCs should react to "${userNick}" if they comment.
 ${realNameContext}
 - **Character Logic**: 
@@ -345,7 +345,7 @@ ${realNameContext}
 [SCENARIO CONSTRAINT]:
 - This is a random background thread.
 - **Netizen Logic**: Normal internet users discussing the topic "{{TITLE}}".
-- **Character Logic**: ${persona.name} should ONLY reply if the topic is extremely interesting.
+- **Character Logic**: {{char}} should ONLY reply if the topic is extremely interesting.
 `;
     }
 
