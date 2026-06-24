@@ -250,6 +250,10 @@ const Forum = ({
     // 取最近的评论作为 AI 上下文
     let contextList = allReplies.slice(-MAX_AI_REPLY_CONTEXT);
 
+    // 声明网名变量（后续 map 回调里用到，必须在声明之前引用）
+    const userNick = forumSettings.userNick || "User本U";
+    const charNick = forumSettings.charNick || persona.name || "匿名用户";
+
         if (allReplies.length > MAX_AI_REPLY_CONTEXT) {
       showToast("warning", `当前帖子评论超过${MAX_AI_REPLY_CONTEXT}条，将仅使用最新的${MAX_AI_REPLY_CONTEXT}条评论。建议删除靠前的旧评论以获得更好的互动体验。`);
     }
@@ -296,8 +300,6 @@ const Forum = ({
       !isSmurfReply;
     const aiPromptMode = isCharThread || mode === "Manual" ? "Manual" : "Auto";
     const currentUserName = userName || "User";
-    const userNick = forumSettings.userNick || "User本U";
-    const charNick = forumSettings.charNick || persona.name || "匿名用户";
 
     let targetInstruction = "";
     if (isSmurfReply) {
