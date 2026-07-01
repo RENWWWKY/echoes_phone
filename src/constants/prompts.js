@@ -188,9 +188,10 @@ JSON:
 Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list when applicable, or use null for new places and provide a fresh name in "locationName". You may visit places not in this list.)
 Last Known Status Before User Left: {{LAST_LOG}}
 Last Conversation Before User Left (happened JUST BEFORE {{char}} began these activities): {{HISTORY}}
+**Time Reference**: The last message was at {{LAST_MSG_TIME}}. It is now {{CURRENT_TIME}}. ALL entries MUST be between {{LAST_MSG_TIME}} and {{CURRENT_TIME}}.
 
 CRITICAL INSTRUCTIONS:
-1. **Time Span**: All events happen AFTER the last conversation and cover roughly {{GAP_DURATION}}. Earliest entry is right after user left.
+1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}. Earliest entry is right after user left at {{LAST_MSG_TIME}}, latest entry ends at {{CURRENT_TIME}}.
 2. **Location Transitions**: {{LOCATION_RULE}}
 4. **Natural Life**: Show {{char}} doing real daily things — eating, sleeping, working, hobbies, thinking about {{user}}, going out, interacting with the world. Make it feel like a real person living their life, not just waiting for the user to return.
 5. **Emotional Arc**: {{char}} may miss {{user}} at times, but also has their own independent life, routines, and distractions. Show both.

@@ -267,8 +267,9 @@ export const getFormattedMessageText = (m, userName, persona, chatStyle) => {
       fwd.type === "post" ? "帖子" : "评论"
     }: "${fwd.content.slice(0, 50)}..."]`;
   }
-
-  let finalLine = `${senderName}: ${content}`;
+  // 如果有真实时间戳，加上时间
+  const timePrefix = m.timestamp ? `[${formatTime(new Date(m.timestamp))}] ` : "";
+  let finalLine = `${timePrefix}${senderName}: ${content}`;
 
   // 使用传入的 chatStyle
   const msgStyle = m.style || chatStyle;

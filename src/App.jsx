@@ -2274,7 +2274,10 @@ const App = () => {
             const typeLabel = fwd.type === "post" ? "Post" : fwd.type === "comment" ? "Comment" : fwd.type || "Item";
             content += ` [Forwarded ${typeLabel}: "${String(summary).slice(0, 50)}..."]`;
           }
-          return `${senderName}: ${content}`;
+          const timePrefix = m.timestamp
+            ? `[${new Date(m.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })}] `
+            : "";
+          return `${timePrefix}${senderName}: ${content}`;
         })
         .join("\n");
 
@@ -2585,7 +2588,10 @@ Requirements:
       }
     } else {
       // 纯文本模式
-      historyText = recentTurns.map(formatMsgText).join("\n");
+      const timePrefixForMsg = (m) => m.timestamp
+        ? `[${new Date(m.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })}] `
+        : "";
+      historyText = recentTurns.map(m => timePrefixForMsg(m) + formatMsgText(m)).join("\n");
     }
 
     const currentUserName = userName || "User";
@@ -3437,6 +3443,7 @@ Requirements:
   // --- 离线批量生成智能家日志 ---
   const generateOfflineSmartWatchUpdates = async (gapMs) => {
     if (!persona || smartWatchLocations.length === 0) return;
+    if (!realTimeEnabled) return;
     if (!checkCanGenerate()) return;
     setLoading((prev) => ({ ...prev, sw_update: true }));
 
@@ -3444,6 +3451,10 @@ Requirements:
       const gapH = Math.floor(gapMs / 3600000);
       const gapM = Math.floor((gapMs % 3600000) / 60000);
       const gapDesc = gapH > 0 ? `${gapH}小时${gapM > 0 ? gapM + "分钟" : ""}` : `${gapM}分钟`;
+
+      // 离线时间基准：最后一句话的时间 vs 当前时间
+      const lastMsgTime = new Date(lastInteractionTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+      const currentTime = getCurrentTimeObj().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
 
       // 根据离开时长决定生成条数
       let expectedCount;
@@ -3485,6 +3496,8 @@ Requirements:
         .replaceAll("{{char}}", persona.name)
         .replaceAll("{{user}}", effectiveUserName)
         .replaceAll("{{GAP_DURATION}}", gapDesc)
+        .replaceAll("{{LAST_MSG_TIME}}", lastMsgTime)
+        .replaceAll("{{CURRENT_TIME}}", currentTime)
         .replaceAll("{{EXPECTED_COUNT}}", expectedCount.toString())
         .replaceAll("{{LOCATION_RULE}}", locationRule)
         .replaceAll("{{LOCATIONS_LIST}}", locList)
