@@ -340,32 +340,38 @@ const SettingsPanel = ({
                   <label className="text-[10px] uppercase font-bold text-gray-400">
                     记忆详情 (Prompt)
                   </label>
-                  <button
-                    onClick={triggerSummary}
-                    disabled={isSummarizing || !memoryConfig.enabled}
-                    className="flex items-center gap-1 text-[10px] text-blue-600 hover:underline disabled:opacity-50 disabled:no-underline disabled:text-gray-400 cursor-pointer"
-                  >
-                    {isSummarizing ? (
-                      <RefreshCw size={10} className="animate-spin" />
-                    ) : (
-                      <FileText size={10} />
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={triggerSummary}
+                      disabled={isSummarizing || !memoryConfig.enabled}
+                      className="flex items-center gap-1 text-[10px] text-blue-600 hover:underline disabled:opacity-50 disabled:no-underline disabled:text-gray-400 cursor-pointer"
+                    >
+                      {isSummarizing ? (
+                        <RefreshCw size={10} className="animate-spin" />
+                      ) : (
+                        <FileText size={10} />
+                      )}
+                      手动总结
+                    </button>
+                    {longMemory?.length >= 1000 && (
+                      <>
+                        <span className="text-[10px] text-gray-300">|</span>
+                        <button
+                          onClick={onSimplify}
+                          disabled={isSimplifying}
+                          className="flex items-center gap-1 text-[10px] text-orange-600 hover:underline disabled:opacity-50 disabled:no-underline disabled:text-gray-400 cursor-pointer"
+                          title="简化已有的长期记忆，去掉重复并压缩早期内容"
+                        >
+                          {isSimplifying ? (
+                            <RefreshCw size={10} className="animate-spin" />
+                          ) : (
+                            <Sparkles size={10} />
+                          )}
+                          简化
+                        </button>
+                      </>
                     )}
-                    手动总结
-                  </button>
-                  <span className="text-[10px] text-gray-300">|</span>
-                  <button
-                    onClick={onSimplify}
-                    disabled={isSimplifying || !longMemory?.trim()}
-                    className="flex items-center gap-1 text-[10px] text-orange-600 hover:underline disabled:opacity-50 disabled:no-underline disabled:text-gray-400 cursor-pointer"
-                    title="简化已有的长期记忆，去掉重复并压缩早期内容"
-                  >
-                    {isSimplifying ? (
-                      <RefreshCw size={10} className="animate-spin" />
-                    ) : (
-                      <Sparkles size={10} />
-                    )}
-                    简化
-                  </button>
+                  </div>
                 </div>
                 <textarea
                   value={longMemory}
