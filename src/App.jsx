@@ -3900,6 +3900,7 @@ Requirements:
 
     const prompt = prompts.summary
       .replaceAll("{{char}}", persona.name)
+      .replaceAll("{{CURRENT_TIME_SECTION}}", realTimeEnabled ? `Current date/time: ${getCurrentTimeObj().toLocaleString("zh-CN")}. ` : "")
       .replaceAll("{{EXISTING_MEMORY}}", longMemory || "None")
       .replaceAll("{{RECENT_HISTORY}}", recentHistoryText);
 

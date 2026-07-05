@@ -471,7 +471,8 @@ Rules:
 - If chat is too short or nothing noteworthy happened, all should be false
 - Be conservative with triggers
 - CRITICAL: Output ONLY the JSON. No explanation, no analysis, no text after the JSON.`,
-  summary: `You are an objective text summarizer. Your job is to condense recent events into a concise factual narrative. Do not analyze. Do not interpret. Do not repeat what has happened in the past. Only summarize the latest events in the Recent Chat Log. 
+  summary: `You are an objective text summarizer. Your job is to condense recent events into a concise factual narrative. Do not analyze. Do not interpret. Do not repeat what has happened in the past. Only summarize the latest events in the Recent Chat Log.
+{{CURRENT_TIME_SECTION}}
 Current Memory:
 """
 {{EXISTING_MEMORY}}
@@ -485,20 +486,20 @@ Recent Chat Log:
 CRITICAL INSTRUCTIONS:
 1. **NO PSYCHOANALYSIS**: Do NOT analyze emotions, relationship dynamics, or character psychology (e.g., REMOVE judgemental conclusions "shows he cares," "relationship progressed," "tsundere," "soft-hearted").
 2. **NO FORMATTING**: Do NOT use headers (e.g., "Interaction Mode:", "Key Events:"), bullet points, or subtitles. Output a single, continuous narrative paragraph.
-3. **RECORD ONLY OBSERVABLES**: You can ONLY record what was SAID (quotes) and what was DONE (actions). **NO ANALYSIS**: Do not describe *how* they talked or did (e.g., "warmly", "coldly").
-   - Good: "User A woke Character B up. Character B felt happy about it." (Observation)
-   - Bad: "User A woke Character B up, showing their closeness." (Interpretation)
-4. **CHRONOLOGICAL**: Write a flat, chronological description of the events.
-5. **EXTREME BREVITY**: Do NOT transcribe the conversation. Record mainly **Important Facts**, **Decisions**, or **Status Changes**.
-6. If the chat log indicates the current date or time, or covers a certain time range, or mentions time passing, include it in the summary.
-7. **Language**: Simplified Chinese (zh-CN).`,
+3. **RECORD ONLY OBSERVABLES**: Record what was SAID and what was DONE. Do NOT describe *how* (e.g., "warmly", "coldly") or add interpretation.
+4. **CHRONOLOGICAL & CONCISE**: Write a flat chronological description. Summarize each event in 1-2 short sentences — do NOT transcribe dialogue or write lengthy descriptions.
+5. **FOCUS ON KEY POINTS**: Record important facts, decisions, status changes, or meaningful interactions. Skip trivial small talk.
+6. **Language**: Simplified Chinese (zh-CN).`,
 
-  simplify_memory: `You are a text compressor. Simplify the following long-term memory summary by:
-1. Remove ALL duplicate or repeated information across paragraphs.
-2. For older events (early in the text), aggressively condense to 1-2 short sentences.
-3. For recent events (near the end), preserve more detail but still be concise.
-4. Merge related events into single coherent descriptions.
-5. Output the simplified text directly — NO explanations, NO headers, NO analysis.
+  simplify_memory: `You are a text compressor. Simplify the following long-term memory summary.
+
+Rules:
+1. Remove duplicate or repeated information across paragraphs.
+2. Condense long paragraphs into shorter ones — turn long sentences into short sentences — but do NOT omit actual events that happened. Keep ALL important facts.
+3. For older events (early in the text), be more concise but still preserve what happened.
+4. For recent events (near the end), keep close to the original level of detail.
+5. Merge related events into single coherent descriptions.
+6. Output the simplified text directly — NO explanations, NO headers, NO analysis.
 
 Original Memory:
 """
