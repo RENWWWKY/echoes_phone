@@ -3443,7 +3443,7 @@ Requirements:
       } else if (gapMs < 4 * 3600000) { // medium (< 4h)
         expectedCount = Math.floor(Math.random() * 3); // 0-2
       } else { // long (4h+)
-        expectedCount = Math.floor(Math.random() * 4) + 2; // 2-5
+        expectedCount = Math.floor(Math.random() * 6); // 0-5
       }
 
       // 根据离开时长决定场景切换规则
