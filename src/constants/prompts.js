@@ -192,27 +192,110 @@ First, **ASSESS THE SITUATION**:
 - If the time gap is moderate (1-4 hours), {{char}} may continue their daily routine but still keep an eye out for user's return. Generate 1-2 entries blending daily life with occasional check-ins.
 - If the time gap is long (4+ hours, especially overnight), {{char}} went to sleep or fully engaged in independent activities. Generate a full day's arc ({{EXPECTED_COUNT}} entries max). Include winding down, sleeping if overnight, and possibly waking up.
 
-**General Rule**: If the last conversation was intense, romantic, or emotionally charged, {{char}} may linger on those feelings. If it was casual small talk, {{char}} moves on quickly.
+**General Rule**: If the last conversation was intense, romantic, or emotionally charged, {{char}} may linger on those feelings. If it was casual small talk, {{char}} moves on quickly.`,
+
+  offline_short: `{{user}} has been away for approximately {{GAP_DURATION}}. This is a relatively short break.
+
+**Judgment Needed**: Look at the last conversation. If the topic was unfinished, emotionally charged, or {{user}} seemed to step away mid-discussion — {{char}} is likely still waiting nearby. Generate 0-1 brief entries of {{char}} passing time while keeping close (checking phone, reading, making a drink). Do NOT end the conversation context or start a new activity.
+
+However, if the last conversation reached a natural conclusion or was just casual small talk, {{char}} may have already moved on to something else. In that case, generate 1-2 entries of {{char}}'s independent activity.
 
 Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list when applicable, or use null for new places and provide a fresh name in "locationName". You may visit places not in this list.)
 Last Known Status Before User Left: {{LAST_LOG}}
-Last Conversation Before User Left (happened JUST BEFORE {{char}} began these activities): {{HISTORY}}
+Last Conversation Before User Left: {{HISTORY}}
 **Time Reference**: The last message was at {{LAST_MSG_TIME}}. It is now {{CURRENT_TIME}}. ALL entries MUST be between {{LAST_MSG_TIME}} and {{CURRENT_TIME}}.
 
 CRITICAL INSTRUCTIONS:
-1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}. Earliest entry is right after user left at {{LAST_MSG_TIME}}, latest entry ends at {{CURRENT_TIME}}.
+1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}.
 2. **Location Transitions**: {{LOCATION_RULE}}
-3. **Situation-Aware Generation**: Based on the assessment above, generate the appropriate number of entries. Do NOT force entries if the gap is short and conversation was mid-topic.
-4. **Natural Life**: Show {{char}} doing real daily things — eating, sleeping, working, hobbies, thinking about {{user}}, going out. If user will return soon, {{char}} stays nearby and might re-read messages or check their phone.
-5. **Emotional Continuity**: If the last conversation was meaningful, {{char}} may linger on those feelings in early entries, then gradually shift to daily life as time passes.
-6. **AV Data**: For each entry, write a concise 3rd-person objective description of what a camera/microphone would capture. MUST NOT exceed 80 Chinese characters.
-7. **Thought**: For each entry, {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
-8. **Chronological Order**: Entries MUST be in chronological order (earliest first). The first entry's time should be close to when user left, the last entry's time should be close to now.
-9. All content must be in Chinese.
+3. **Context Awareness**: If conversation was mid-topic, {{char}} stays put and waits. If conversation was finished, {{char}} moves on. Always make this judgment before generating.
+4. **AV Data**: For each entry, objective 3rd-person description. MUST NOT exceed 80 Chinese characters.
+5. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
+6. **Chronological Order**: Earliest entry first.
+7. All content in Chinese.
 
 JSON ARRAY:
 [
   {
+    "locationId": "id_from_list_or_null",
+    "locationName": "Name of current place",
+    "action": "Brief action summary",
+    "avData": "3rd person descriptive text...",
+    "thought": "Internal monologue...",
+    "time": "HH:MM"
+  },
+  ...
+]`,
+
+  offline_medium: `{{user}} has been away for approximately {{GAP_DURATION}}. This is a noticeable break.
+
+**Judgment Needed**: Consider what's realistic for this time span. {{char}} may have continued their daily routine — eating, working, going out — but is likely to check their phone or think about {{user}} occasionally.
+
+If the last conversation was emotionally significant (fight, confession, deep talk), {{char}} may dwell on it in early entries before gradually shifting to daily life. If casual, {{char}} moves on quickly.
+
+Generate 1-{{EXPECTED_COUNT}} entries. Do NOT exceed {{EXPECTED_COUNT}}.
+
+Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list when applicable, or use null for new places and provide a fresh name in "locationName". You may visit places not in this list.)
+Last Known Status Before User Left: {{LAST_LOG}}
+Last Conversation Before User Left: {{HISTORY}}
+**Time Reference**: The last message was at {{LAST_MSG_TIME}}. It is now {{CURRENT_TIME}}. ALL entries MUST be between {{LAST_MSG_TIME}} and {{CURRENT_TIME}}.
+
+CRITICAL INSTRUCTIONS:
+1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}.
+2. **Location Transitions**: {{LOCATION_RULE}}
+3. **Emotional Continuity**: If the last conversation warranted it, linger on those feelings in early entries. Otherwise, show {{char}} doing their own thing.
+4. **AV Data**: For each entry, objective 3rd-person description. MUST NOT exceed 80 Chinese characters.
+5. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
+6. **Chronological Order**: Earliest entry first.
+7. All content in Chinese.
+
+JSON ARRAY:
+[
+  {
+    "locationId": "id_from_list_or_null",
+    "locationName": "Name of current place",
+    "action": "Brief action summary",
+    "avData": "3rd person descriptive text...",
+    "thought": "Internal monologue...",
+    "time": "HH:MM"
+  },
+  ...
+]`,
+
+  offline_long: `{{user}} has been away for approximately {{GAP_DURATION}}. This is a long gap — likely overnight or longer.
+
+**Judgment Needed**: A lot of time has passed. {{char}} has definitely moved on to independent activities. However, check whether the last conversation would leave lingering feelings (e.g., midnight confessions, unresolved arguments). If so, {{char}} may carry those emotions into the next day.
+
+If the time gap spans overnight, show a complete cycle: winding down → sleep → waking → morning routine → today's activities up to now. Do NOT force entries for every hour — pick the most meaningful moments.
+
+Generate up to {{EXPECTED_COUNT}} entries. Cover key moments across the entire gap.
+
+Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list when applicable, or use null for new places and provide a fresh name in "locationName". You may visit places not in this list.)
+Last Known Status Before User Left: {{LAST_LOG}}
+Last Conversation Before User Left: {{HISTORY}}
+**Time Reference**: The last message was at {{LAST_MSG_TIME}}. It is now {{CURRENT_TIME}}. ALL entries MUST be between {{LAST_MSG_TIME}} and {{CURRENT_TIME}}.
+
+CRITICAL INSTRUCTIONS:
+1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}.
+2. **Location Transitions**: {{LOCATION_RULE}}
+3. **Full Life Arc**: Show a complete daily cycle if the span warrants it. Include sleep if overnight.
+4. **Emotional Thread**: If the last conversation was meaningful, let those feelings echo through the entries — don't just jump to a neutral next day.
+5. **AV Data**: For each entry, objective 3rd-person description. MUST NOT exceed 80 Chinese characters.
+6. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
+7. **Chronological Order**: Earliest entry first.
+8. All content in Chinese.
+
+JSON ARRAY:
+[
+  {
+    "locationId": "id_from_list_or_null",
+    "locationName": "Name of current place",
+    "action": "Brief action summary",
+    "avData": "3rd person descriptive text...",
+    "thought": "Internal monologue...",
+    "time": "HH:MM"
+  },
+  ...
     "locationId": "id_from_list_or_null",
     "locationName": "Name of current place",
     "action": "Brief action summary",

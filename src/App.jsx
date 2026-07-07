@@ -3440,20 +3440,22 @@ Requirements:
       let expectedCount;
       if (gapMs < 12 * 3600000) {
         expectedCount = Math.floor(Math.random() * 3); // 0-2
-      } else if (gapMs < 24 * 3600000) {
-        expectedCount = Math.floor(Math.random() * 5); // 0-4
-      } else {
-        expectedCount = Math.floor(Math.random() * 11); // 0-10
+      } else if (gapMs < 4 * 3600000) { // medium (< 4h)
+        expectedCount = Math.floor(Math.random() * 2) + 1; // 1-2
+      } else { // long (4h+)
+        expectedCount = Math.floor(Math.random() * 4) + 2; // 2-5
       }
 
       // 根据离开时长决定场景切换规则
       let locationRule;
-      if (gapMs < 12 * 3600000) {
+      if (gapMs < 1800000) { // short
+        locationRule = "Stay in the current location. Do not travel.";
+      } else if (gapMs < 4 * 3600000) { // medium
         locationRule = "May stay in one location or move between 1-2 locations.";
-      } else if (gapMs < 24 * 3600000) {
-        locationRule = "Very likely to visit 2-3 different locations across the time span.";
-      } else {
-        locationRule = "Must visit 3+ different locations. Show a complete daily cycle (wake → activities → sleep).";
+      } else if (gapMs < 4 * 3600000) { // medium
+        locationRule = "May move between 1-2 locations.";
+      } else { // long
+        locationRule = "Visit 2+ different locations. Show a daily cycle if time span warrants it (wake → activities → sleep if overnight).";
       }
 
       const effectiveUserName = userName || "User";
@@ -3472,7 +3474,15 @@ Requirements:
       const locList = smartWatchLocations.map((l) => `ID: ${l.id}, Name: ${l.name}`).join("\n");
       const lastLog = smartWatchLogs.length > 0 ? JSON.stringify(smartWatchLogs[0]) : "None";
 
-      const prompt = prompts.smartwatch_offline_batch
+      let promptKey;
+      if (gapMs < 1800000) { // < 30 min
+        promptKey = "offline_short";
+      } else if (gapMs < 4 * 3600000) { // 30 min - 4 hours
+        promptKey = "offline_medium";
+      } else { // 4+ hours
+        promptKey = "offline_long";
+      }
+      const prompt = prompts[promptKey]
         .replaceAll("{{char}}", persona.name)
         .replaceAll("{{user}}", effectiveUserName)
         .replaceAll("{{GAP_DURATION}}", gapDesc)
