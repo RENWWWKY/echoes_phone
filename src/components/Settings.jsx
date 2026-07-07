@@ -445,7 +445,7 @@ const SettingsPanel = ({
                           : "bg-white/50 text-gray-500 hover:bg-white"
                       }`}
                     >
-                      <Smartphone size={12} /> 线上 (Phone)
+                      <Smartphone size={12} /> 线上
                     </button>
                     <button
                       onClick={() => setInteractionMode("offline")}
@@ -455,7 +455,7 @@ const SettingsPanel = ({
                           : "bg-white/50 text-gray-500 hover:bg-white"
                       }`}
                     >
-                      <MapPin size={12} /> 现实 (Reality)
+                      <MapPin size={12} /> 现实
                     </button>
                   </div>
                 </div>

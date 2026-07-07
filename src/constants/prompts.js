@@ -3,8 +3,8 @@ const IMG_TAG_START = "[图片]";
 /* --- PROMPTS --- */
 export const DEFAULT_PROMPTS = {
   mode_online: `ONLINE CHAT / MESSAGING
-- Context: {{char}} is chatting with {{user}} via a smartphone/app.
-- Style: Use short texts, emojis, and internet slang.
+- Context: {{char}} and {{user}} are communicating remotely. The method depends on the world setting: modern (smartphone/messaging app), ancient/fantasy (letters, magic, telepathy), sci-fi (holograms, neural link), etc. Do NOT assume smartphone unless the setting is modern.
+- Style: Use short texts, emojis, and internet slang if appropriate to the setting.
 - Constraint: {{char}} and {{user}} are PHYSICALLY SEPARATED. Do not describe touch or physical presence.`,
   mode_offline: `REALITY / ACTION RP
 - Context: This scene takes place in the physical world (Real Life). {{char}} and {{user}} are in the same area/space/room. They interact only in person, without the use of smartphones or apps.
