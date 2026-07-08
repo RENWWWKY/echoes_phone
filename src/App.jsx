@@ -4000,7 +4000,7 @@ Requirements:
           </div>
         </div>
       )}
-      <div className="relative w-full h-full md:w-[400px] md:h-[800px] bg-[#F2F2F7] md:rounded-[48px] md:border-[8px] md:border-white shadow-2xl flex flex-col overflow-hidden ring-1 ring-black/5">
+      <div className="relative w-full h-full md:w-[400px] md:h-[800px] md:rounded-[48px] md:border-[8px] md:border-white shadow-2xl flex flex-col overflow-hidden ring-1 ring-black/5" style={{ backgroundColor: 'var(--skin-bg, #F2F2F7)' }}>
       {/* 用户表情包面板 */}
               {showUserStickerPanel && (
                 <div className="absolute bottom-[100px] left-4 right-4 h-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-4 z-[9999] overflow-y-auto custom-scrollbar border border-white animate-in slide-in-from-bottom-2">
@@ -4093,7 +4093,7 @@ Requirements:
               )}
 
         {/* Status Bar */}
-        <header className="h-3 bg-[var(--skin-bg,#f2f2f2)] z-20 shrink-0" role="banner" />
+        <header className="h-3 shrink-0" role="banner" style={{ backgroundColor: 'var(--skin-bg, #F2F2F7)' }} />
 
         <main id="main-content" className="flex-grow relative overflow-hidden" role="main">
           {/* HOME SCREEN */}
