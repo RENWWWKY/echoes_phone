@@ -298,7 +298,7 @@ const Forum = ({
         hasMainUserReplied ||
         mode === "Manual") &&
       !isSmurfReply;
-    const aiPromptMode = isCharThread || mode === "Manual" ? "Manual" : "Auto";
+    const aiPromptMode = (isCharThread || mode === "Manual" || hasMainUserReplied) ? "Manual" : "Auto";
     const currentUserName = userName || "User";
 
     let targetInstruction = "";
