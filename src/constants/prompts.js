@@ -38,6 +38,7 @@ Setting: {{MODE_INSTRUCTION}}
 Context: {{HISTORY}}
 Recent Message: {{LAST_MSG}}
 {{FORWARD_CONTEXT}}
+{{FORUM_INTERACTION}}
 
 Style Instruction: {{STYLE_INSTRUCTION}}
 {{STICKER_INSTRUCTION}}
