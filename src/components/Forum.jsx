@@ -396,8 +396,7 @@ ${realNameContext}
       .replaceAll("{{CHARACTER_INSTRUCTION}}", aiPromptMode === "Manual"
         ? "{{char}} MUST reply to this thread. If {{user}} has commented, {{char}}'s FIRST reply MUST target {{user}} (replyTo: {{USER_NICK}}). {{char}} may also reply to other NPCs if relevant, but this is optional."
         : "{{char}} should ONLY reply if the topic is *directly* related to their specific interests. Otherwise, return NO character reply.")
-      .replaceAll("{{WORLD_INFO}}", cleanWorldInfo)
-      .replaceAll("{{MODE}}", aiPromptMode);
+      .replaceAll("{{WORLD_INFO}}", cleanWorldInfo);
 
     try {
       const data = await generateContent(
