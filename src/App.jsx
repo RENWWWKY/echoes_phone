@@ -840,6 +840,14 @@ const App = () => {
     true,
     "echoes_real_time_enabled",
   );
+  // 追踪哪些引导弹窗已经显示过（只弹一次）
+  const [dialogsShown, setDialogsShown, dialogsShownLoaded] = useStickyState(
+    {},
+    "echoes_dialogs_shown",
+  );
+  const markDialogShown = (key) => {
+    setDialogsShown((prev) => ({ ...prev, [key]: true }));
+  };
   const chatScrollRef = useRef(null);
   const virtuosoRef = useRef(null);
   const isAtBottomRef = useRef(true);
@@ -2403,10 +2411,11 @@ Requirements:
     sticker = null,
     extraData = null,
   ) => {
-    // 如果用户名为空，弹出二次确认
-    if (!userName || !userName.trim()) {
+    // 如果用户名为空，弹出二次确认（仅首次）
+    if (!dialogsShown.sendEmptyName && (!userName || !userName.trim())) {
+      setDialogsShown((prev) => ({ ...prev, sendEmptyName: true }));
       const confirmed = await customConfirm(
-        "还没设定个人信息，AI 可能无法正确理解你的身份。建议先去"设置"中填写你的名字和自我介绍。\n\n是否确定继续发送？",
+        "还没设定个人信息，AI 可能无法正确理解你的身份。建议先去「用户设定」中填写你的名字和自我介绍。\n\n是否确定继续发送？",
         "提醒",
         false
       );
@@ -3305,11 +3314,12 @@ Requirements:
 
     // 如果世界书为空或没有启用条目，弹出二次确认
     const hasEnabledEntries = worldBook && worldBook.length > 0 && worldBook.some((e) => e.enabled);
-    if (!hasEnabledEntries) {
+    if (!hasEnabledEntries && !dialogsShown.smartWatchNoWorld) {
+      setDialogsShown((prev) => ({ ...prev, smartWatchNoWorld: true }));
       const confirmed = await customConfirm(
         worldBook.length === 0
-          ? "世界书中没有任何条目，初始化后角色将在「无世界观设定」的环境中行动，生成内容可能缺乏方向感。\n\n是否确定继续初始化？"
-          : "世界书中有条目但全部处于关闭状态，初始化后角色将在「未启用世界观」的环境中行动。\n\n是否确定继续初始化？",
+          ? "世界书中没有任何条目，可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化？"
+          : "世界书中的条目处于关闭状态，可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化？",
         "提醒",
         false
       );
@@ -5429,6 +5439,8 @@ Requirements:
             setActiveApp={setActiveApp}
             forumInteractionContext={forumInteractionContext}
             setForumInteractionContext={setForumInteractionContext}
+            dialogsShown={dialogsShown}
+            setDialogsShown={setDialogsShown}
           />
           {/* APP: SMART WATCH (智能看看) */}
           <AppWindow

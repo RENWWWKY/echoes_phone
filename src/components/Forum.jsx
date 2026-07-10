@@ -50,6 +50,8 @@ const Forum = ({
   onChatEventPost, // 聊天事件触发发帖的回调
   forumInteractionContext, // 论坛互动上下文（隐式传给AI）
   setForumInteractionContext, // 更新论坛互动上下文的回调
+  dialogsShown, // [新增] 引导弹窗已显示追踪
+  setDialogsShown, // [新增] 标记弹窗已显示
 }) => {
   // --- 内部状态管理 ---
   const [forumData, setForumData] = useStickyState(
@@ -205,14 +207,15 @@ const Forum = ({
     if (!persona) return;
     if (!checkCanGenerate()) return;
 
-    // 如果世界书为空或没有启用条目，弹出二次确认
+    // 如果世界书为空或没有启用条目，弹出二次确认（仅首次）
     const worldBookArr = worldBook || [];
     const hasEnabledEntries = worldBookArr.length > 0 && worldBookArr.some((e) => e.enabled);
-    if (!hasEnabledEntries) {
+    if (!hasEnabledEntries && !dialogsShown.forumNoWorld) {
+      setDialogsShown((prev) => ({ ...prev, forumNoWorld: true }));
       const confirmed = await customConfirm(
         worldBookArr.length === 0
-          ? "世界书中没有任何条目，初始化后生活圈将在「无世界观设定」的环境中生成内容，可能缺乏地域感与背景关联。\n\n是否确定继续初始化？"
-          : "世界书中有条目但全部处于关闭状态，初始化后生活圈将在「未启用世界观」的环境中生成内容。\n\n是否确定继续初始化？",
+          ? "世界书中没有任何条目，可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化？"
+          : "世界书中的条目处于关闭状态，可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化？",
         "提醒",
         false
       );
