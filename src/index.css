@@ -80,10 +80,9 @@
   }
 }
 
-/* Prevent iOS bounce/overscroll and remove tap delay */
+/* Prevent iOS bounce/overscroll (allow pull-to-refresh) */
 html {
   overflow: hidden;
-  overscroll-behavior: none;
   touch-action: manipulation;
   -webkit-overflow-scrolling: auto;
 }
