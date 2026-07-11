@@ -1600,7 +1600,7 @@ const App = () => {
     return "—";
   };
 
-  const exportFullBackup = () => {
+  const exportFullBackup = async () => {
     const allData = {};
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -1609,6 +1609,26 @@ const App = () => {
         catch { allData[key] = localStorage.getItem(key); }
       }
     }
+    // 导出 IndexedDB 中的图片数据
+    try {
+      const imageKeys = [];
+      for (const msg of (allData["echoes_chat_history"] || [])) {
+        if (msg.imageKey) imageKeys.push(msg.imageKey);
+      }
+      for (const msg of (allData["echoes_status_history"] || [])) {
+        if (msg.imageKey) imageKeys.push(msg.imageKey);
+      }
+      if (imageKeys.length > 0) {
+        const indexedDBImages = {};
+        for (const k of imageKeys) {
+          const imgData = await echoesDB.getItem(k);
+          if (imgData) indexedDBImages[k] = imgData;
+        }
+        if (Object.keys(indexedDBImages).length > 0) {
+          allData["echoes_indexeddb_images"] = indexedDBImages;
+        }
+      }
+    } catch (e) { console.warn("IndexedDB backup skipped:", e); }
     // 所有分类都显示，有数据的默认勾选
     const categories = Object.keys(BACKUP_CATEGORIES).map((id) => ({
       id,
@@ -1673,7 +1693,7 @@ const App = () => {
     reader.readAsText(file);
   };
 
-  const doImport = () => {
+  const doImport = async () => {
     if (!importData) return;
     const { allData, categories } = importData;
     const selectedIds = new Set(categories.filter((c) => c.selected).map((c) => c.id));
@@ -1684,6 +1704,16 @@ const App = () => {
     let restored = 0;
     for (const key of keysToWrite) {
       if (allData[key] !== undefined) { localStorage.setItem(key, JSON.stringify(allData[key])); restored++; }
+    }
+    // 恢复 IndexedDB 中的图片数据
+    if (allData["echoes_indexeddb_images"]) {
+      try {
+        const images = allData["echoes_indexeddb_images"];
+        for (const [k, v] of Object.entries(images)) {
+          await echoesDB.setItem(k, v);
+          restored++;
+        }
+      } catch (e) { console.warn("IndexedDB restore failed:", e); }
     }
     setShowImportModal(false);
     setImportData(null);
