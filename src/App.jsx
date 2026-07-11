@@ -2729,16 +2729,11 @@ Requirements:
       specialInst += `\n[Crisis Support Protocol]: ${emotionalSupportPrompt}`;
     }
 
+    // 转发上下文（仅当轮有效，API 返回后自动清空）
+    // 转发消息的完整内容已在消息 text 中，随正常上下文受条数限制
     const rawForwardContext = overrideContext || forwardContext;
-    // 核心修复：对 forwardContext 进行占位符替换处理
-    // 如果是论坛转发，附上完整帖子上下文
-    let forwardFullContext = "";
-    const lastForwardMsg = [...newHistory].reverse().find((m) => m.isForward && m.forwardData?.fullContext);
-    if (lastForwardMsg) {
-      forwardFullContext = `\n\n[Forwarded Post Full Context]:\n${lastForwardMsg.forwardData.fullContext}`;
-    }
-    const finalForwardSection = (rawForwardContext || forwardFullContext)
-      ? `\n**Forwarded Content Context**: ${replacePlaceholders(rawForwardContext || "", persona.name, userName || "你")}${replacePlaceholders(forwardFullContext, persona.name, userName || "你")}`
+    const finalForwardSection = rawForwardContext
+      ? `\n**Forwarded Content Context**: ${replacePlaceholders(rawForwardContext, persona.name, userName || "你")}`
       : "";
 
     // 论坛互动上下文（隐式传给AI，用户不可见）
