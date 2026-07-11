@@ -167,7 +167,7 @@ export const compressImage = (file, maxWidth = 500, quality = 0.7) => {
 };
 
 export const formatTime = (date) =>
-  date.toLocaleTimeString("en-US", {
+  date.toLocaleTimeString("zh-CN", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
