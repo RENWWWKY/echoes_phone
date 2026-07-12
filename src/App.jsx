@@ -1605,6 +1605,7 @@ const App = () => {
 
   const exportFullBackup = async () => {
     const allData = {};
+    // 从 localStorage 读取
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key?.startsWith("echoes_")) {
@@ -1612,8 +1613,29 @@ const App = () => {
         catch { allData[key] = localStorage.getItem(key); }
       }
     }
-    // 导出 IndexedDB 中的图片数据
+    // 从 IndexedDB 补充读取（useStickyState 迁移到了 IndexedDB）
     try {
+      const idbKeys = [
+        "echoes_chat_history", "echoes_status_history", "echoes_persona",
+        "echoes_raw_json", "echoes_worldbook", "echoes_long_memory",
+        "echoes_memory_config", "echoes_char_avatar", "echoes_char_facts",
+        "echoes_shared_events", "echoes_sw_locations", "echoes_sw_logs",
+        "echoes_user_facts", "echoes_tracker_config", "echoes_custom_rules",
+        "echoes_char_stickers", "echoes_user_stickers", "echoes_stickers_enabled",
+        "echoes_forum_data", "echoes_forum_settings",
+        "echoes_diaries", "echoes_receipts", "echoes_music", "echoes_browser",
+        "echoes_api_config", "echoes_user_name", "echoes_user_persona",
+        "echoes_user_avatar", "echoes_interaction_mode", "echoes_real_time_enabled",
+        "echoes_context_limit", "echoes_custom_font_name", "echoes_custom_icons",
+        "echoes_chat_style", "echoes_tracker_config", "echoes_dialogs_shown",
+        "echoes_last_interaction", "echoes_msg_count",
+      ];
+      for (const key of idbKeys) {
+        if (allData[key] !== undefined) continue; // localStorage 已有则跳过
+        const val = await echoesDB.getItem(key);
+        if (val !== undefined && val !== null) allData[key] = val;
+      }
+      // 导出 IndexedDB 中的图片数据
       const imageKeys = [];
       for (const msg of (allData["echoes_chat_history"] || [])) {
         if (msg.imageKey) imageKeys.push(msg.imageKey);
@@ -1706,7 +1728,11 @@ const App = () => {
     }
     let restored = 0;
     for (const key of keysToWrite) {
-      if (allData[key] !== undefined) { localStorage.setItem(key, JSON.stringify(allData[key])); restored++; }
+      if (allData[key] !== undefined) {
+        localStorage.setItem(key, JSON.stringify(allData[key]));
+        try { await echoesDB.setItem(key, allData[key]); } catch (e) { /* IndexedDB 写入失败不阻断 */ }
+        restored++;
+      }
     }
     // 恢复 IndexedDB 中的图片数据
     if (allData["echoes_indexeddb_images"]) {
