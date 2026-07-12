@@ -3688,6 +3688,23 @@ Requirements:
         // prompt 要求 LLM 返回最早→最晚，reverse 后 prepend 让最新在最前面
         newLogs.reverse();
         setSmartWatchLogs((prev) => [...newLogs, ...prev]);
+        // 插入隐形聊天消息，让 AI 知道角色在离线期间做了什么
+        setChatHistory((prev) => {
+          // 先清除旧的离线隐形消息
+          const clean = prev.filter(
+            (msg) => msg.type !== "smartwatch_update"
+          );
+          const invisibleMsgs = newLogs.map((entry) => ({
+            id: `sw_${entry.id}`,
+            sender: "system",
+            type: "smartwatch_update",
+            text: `[智能家 · 离线记录] ${entry.displayTime} | ${entry.locationName} | ${entry.action} | 内心: ${entry.thought}`,
+            timestamp: new Date(entry.timestamp).getTime(),
+            smartWatchLogId: entry.id,
+          }));
+          // 按时序插入（离线消息应该在最底部，用户回来后没有新消息）
+          return [...clean, ...invisibleMsgs];
+        });
         showToast("success", `在你离开期间，智能家有 ${newLogs.length} 条新活动`);
       }
     } catch (e) {
@@ -4741,7 +4758,7 @@ Requirements:
                 atBottomStateChange={(atBottom) => {
                   isAtBottomRef.current = atBottom;
                 }}
-                data={chatHistory}
+                data={chatHistory.filter(msg => msg.type !== "smartwatch_update")}
                 className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
                 followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? 'auto' : false}
                 overscan={200}
@@ -5816,11 +5833,15 @@ Requirements:
                             <Share size={12} />
                           </button>
                           <button
-                            onClick={() =>
+                            onClick={() => {
                               setSmartWatchLogs((prev) =>
                                 prev.filter((l) => l.id !== log.id),
-                              )
-                            }
+                              );
+                              // 同步删除对应的隐形聊天消息
+                              setChatHistory((prev) =>
+                                prev.filter((msg) => msg.smartWatchLogId !== log.id),
+                              );
+                            }}
                             className="text-gray-300 hover:text-red-400"
                           >
                             <Trash2 size={12} />
