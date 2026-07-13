@@ -49,7 +49,7 @@ Before generating output, internally verify:
 4. Is the grammar too perfect/long?
 If YES to any, destroy the draft, fragment the syntax, ground the emotion, and rewrite.`,
   enabled: true,
-  group: "预设（可自行开关）",
+  group: "预设指令（可自行开关）",
   },
   {
   name: "纯线上（无需线下见面时开启",
