@@ -4789,7 +4789,7 @@ Requirements:
                   isAtBottomRef.current = atBottom;
                 }}
                 data={chatHistory.filter(msg => msg.type !== "smartwatch_update")}
-                className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
+                className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
                 followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? 'auto' : false}
                 overscan={200}
                 itemContent={(i, msg) => {
