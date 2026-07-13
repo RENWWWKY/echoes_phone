@@ -1938,7 +1938,7 @@ const App = () => {
 
     const prompt = promptTemplate
       .replaceAll("{{char}}", p.name)
-      .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString())
+      .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
       .replaceAll("{{HISTORY}}", getContextString(chatHistory, effectiveUserName, p, null, contextLimit))
       .replaceAll("{{USER_PERSONA}}", userPersona + "\n" + trackerContext)
       .replaceAll("{{user}}", effectiveUserName);
@@ -2040,7 +2040,7 @@ const App = () => {
             setLoading((prev) => ({ ...prev, sw_update: true }));
             const prompt = prompts.smartwatch_update
               .replaceAll("{{char}}", savedPersonaName)
-              .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString())
+              .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
               .replaceAll("{{HISTORY}}", getContextString(chatHistory, savedUserName, null, null, 5))
               .replaceAll("{{LOCATIONS_LIST}}", savedSmartWatchLocations.map((l) => `ID: ${l.id}, Name: ${l.name}`).join("\n"))
               .replaceAll("{{LAST_LOG}}", savedSmartWatchLogs.length > 0 ? JSON.stringify(savedSmartWatchLogs[0]) : "None");
@@ -2838,7 +2838,7 @@ Requirements:
 
     const prompt = prompts.chat
       .replaceAll("{{char}}", persona.name)
-      .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString())
+      .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
       .replaceAll("{{HISTORY}}", historyForPrompt)
       .replaceAll(
         "{{LAST_MSG}}",
