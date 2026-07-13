@@ -3795,7 +3795,7 @@ Requirements:
 
   if (isLocked) {
     return (
-      <div id="echoes-chat" className="h-screen w-full bg-[#EBEBF0] flex flex-col items-center justify-start pt-32 p-8 text-[#2C2C2C] relative overflow-hidden">
+      <div id="echoes-chat" className="h-screen w-full bg-[#EBEBF0] flex flex-col items-center justify-start pt-16 p-8 text-[#2C2C2C] relative">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gray-100/60 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
         {notification && (
