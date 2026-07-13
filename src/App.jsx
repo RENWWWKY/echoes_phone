@@ -3799,6 +3799,7 @@ Requirements:
 
   if (isLocked) {
     return (
+      <div className="w-full h-full flex items-center justify-center bg-[#EBEBF0]">
       <div className="relative w-full h-full md:w-[400px] md:h-[800px] md:rounded-[48px] md:border-[8px] md:border-white shadow-2xl flex flex-col overflow-hidden ring-1 ring-black/5" style={{ backgroundColor: 'var(--skin-bg, #F2F2F7)' }}>
       <div id="echoes-chat" className="h-screen w-full bg-[#EBEBF0] flex flex-col items-center justify-center p-4 text-[#2C2C2C] relative">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none"></div>
@@ -4054,6 +4055,7 @@ Requirements:
             onClose={() => setDialogConfig(null)}
           />
         )}
+      </div>
       </div>
       </div>
     );
