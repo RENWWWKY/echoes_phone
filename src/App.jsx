@@ -3868,7 +3868,7 @@ Requirements:
               {formatDate(getCurrentTimeObj())}
             </p>
           </div>
-          <div className="flex flex-col items-center w-full gap-4">
+          <div className={`flex flex-col items-center w-full ${inputKey ? 'gap-8' : 'gap-4'}`}>
             <div
               className="relative group cursor-pointer"
               onClick={() => avatarInputRef.current.click()}
@@ -3897,7 +3897,7 @@ Requirements:
                 )}
               </div>
               {!avatar && (
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[9px] text-gray-400 tracking-widest uppercase opacity-60 whitespace-nowrap">
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[9px] text-gray-400 tracking-widest uppercase opacity-60 whitespace-nowrap">
                   点击上传头像
                 </div>
               )}
