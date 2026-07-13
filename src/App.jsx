@@ -3869,7 +3869,8 @@ Requirements:
             </p>
           </div>
           <div className={`flex flex-col items-center w-full ${inputKey ? 'gap-8' : 'gap-4'}`}>
-            <div
+            <div className="flex flex-col items-center gap-1">
+              <div
               className="relative group cursor-pointer"
               onClick={() => avatarInputRef.current.click()}
             >
@@ -3897,11 +3898,12 @@ Requirements:
                 )}
               </div>
               {!avatar && (
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[9px] text-gray-400 tracking-widest uppercase opacity-60 whitespace-nowrap">
+                <div className="text-[9px] text-gray-400 tracking-widest uppercase opacity-60 whitespace-nowrap mt-1">
                   点击上传头像
                 </div>
               )}
             </div>
+              </div>
 
             <div
               onClick={() => jsonInputRef.current.click()}
