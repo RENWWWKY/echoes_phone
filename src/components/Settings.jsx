@@ -105,7 +105,7 @@ const SettingsPanel = ({
           {/* API Base URL */}
           <div>
             <label className="block text-[10px] uppercase text-gray-500 mb-1.5 font-bold">
-              API 地址 (Base URL)
+              API 地址
             </label>
             <input
               type="text"
@@ -121,7 +121,7 @@ const SettingsPanel = ({
           {/* API Key */}
           <div>
             <label className="block text-[10px] uppercase text-gray-500 mb-1.5 font-bold">
-              密钥 (API Key)
+              密钥
             </label>
             <input
               type="password"
@@ -137,7 +137,7 @@ const SettingsPanel = ({
           {/* Model Selection */}
           <div>
             <label className="block text-[10px] uppercase text-gray-500 mb-1.5 font-bold">
-              模型 (Model)
+              模型
             </label>
             <div className="flex gap-2">
               <div className="relative flex-grow">
@@ -334,7 +334,7 @@ const SettingsPanel = ({
               <div>
                 <div className="flex justify-between items-end mb-2">
                   <label className="text-[10px] uppercase font-bold text-gray-400">
-                    记忆详情 (Prompt)
+                    记忆详情
                   </label>
                   <div className="flex items-center gap-2">
                     <button
@@ -391,7 +391,7 @@ const SettingsPanel = ({
                 {/* 风格 */}
                 <div>
                   <label className="block text-[10px] font-bold uppercase text-gray-500 mb-2">
-                    风格 (Style)
+                    风格
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {[
@@ -434,7 +434,7 @@ const SettingsPanel = ({
                 {/* 交互模式 */}
                 <div>
                   <label className="block text-[10px] font-bold uppercase text-gray-500 mb-2">
-                    交互模式 (Mode)
+                    交互模式
                   </label>
                   <div className="flex gap-2">
                     <button
