@@ -2018,6 +2018,7 @@ const App = () => {
         const savedPersonaName = persona?.name || "角色";
         const savedCharName = charName;
         const savedUserName = effectiveUserName;
+        const savedInteractionMode = interactionMode;
         const savedSmartWatchLocations = [...smartWatchLocations];
         const savedSmartWatchLogs = [...smartWatchLogs];
         const savedWorldBook = worldBook;
@@ -2040,6 +2041,7 @@ const App = () => {
             setLoading((prev) => ({ ...prev, sw_update: true }));
             const prompt = prompts.smartwatch_update
               .replaceAll("{{char}}", savedPersonaName)
+              .replaceAll("{{MODE}}", savedInteractionMode === "online" ? "online" : "offline/reality")
               .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
               .replaceAll("{{HISTORY}}", getContextString(chatHistory, savedUserName, null, null, 5))
               .replaceAll("{{LOCATIONS_LIST}}", savedSmartWatchLocations.map((l) => `ID: ${l.id}, Name: ${l.name}`).join("\n"))
@@ -3556,6 +3558,7 @@ Requirements:
 
     const prompt = prompts.smartwatch_update
       .replaceAll("{{char}}", persona.name)
+      .replaceAll("{{MODE}}", interactionMode === "online" ? "online" : "offline/reality")
       .replaceAll("{{user}}", effectiveUserName)
       .replaceAll("{{HISTORY}}", getContextString(chatHistory, effectiveUserName, null, null, 5))
       .replaceAll("{{LOCATIONS_LIST}}", locList)

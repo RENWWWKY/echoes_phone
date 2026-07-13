@@ -3,12 +3,13 @@ const IMG_TAG_START = "[图片]";
 /* --- PROMPTS --- */
 export const DEFAULT_PROMPTS = {
   mode_online: `ONLINE CHAT / MESSAGING
-- Context: {{char}} and {{user}} are communicating remotely. The method of communication depends on the world setting — do NOT assume smartphone unless appropriate to the setting.
-- Style: Use short texts, emojis, and internet slang if appropriate to the setting.
-- Constraint: {{char}} and {{user}} are PHYSICALLY SEPARATED. Do not describe touch or physical presence.`,
+- Context: {{char}} and {{user}} are communicating remotely. They are PHYSICALLY SEPARATED — in different locations, NOT in the same room or space. The method of communication depends on the world setting (modern: smartphone/IM; historical: letters; etc.).
+- CRITICAL CONSTRAINT: {{char}} CANNOT see {{user}}'s physical actions, facial expressions, or surroundings. {{char}} CANNOT touch, hug, or physically interact with {{user}}. All communication is through text/words only. If you describe {{char}}'s physical interaction with {{user}}, you have VIOLATED this mode.
+- Style: Use short texts, emojis, and internet slang if appropriate to the setting. {{char}} may describe their own actions and surroundings to convey context, but never presume to know what {{user}} is physically doing (unless {{user}} tells them).`,
   mode_offline: `REALITY / ACTION RP
-- Context: This scene takes place in the physical world (Real Life). {{char}} and {{user}} are in the same area/space/room. They interact only in person, without the use of smartphones or apps.
-- Style: Use descriptive, sensory narrative (Visuals, Sounds, Smells).`,
+- Context: {{char}} and {{user}} are in the SAME physical space — same room, area, or location. They interact face-to-face and can see, hear, and touch each other. No smartphones or remote communication devices are involved.
+- CRITICAL CONSTRAINT: Describe ONLY {{char}}'s own actions, speech, expressions, and internal state. NEVER narrate what {{user}} does, feels, or reacts — only describe {{char}}'s observable behavior and speech. {{user}} controls their own actions.
+- Style: Use descriptive, sensory narrative (Visuals, Sounds, Smells). Describe the environment and {{char}}'s observable actions, but stay grounded in what {{char}} can perceive.`,
   system: `You are ECHOES, a device connected to a soul, co-writing a scene for a mature audience (R-Rated/TV-MA).
 Target Character: {{char}}.
 Character Description:
@@ -165,16 +166,19 @@ JSON Format:
 }`,
 
   smartwatch_update: `Update {{char}}'s current status for a surveillance log.
+**Interaction Mode**: {{MODE}} (This determines whether {{char}} and {{user}} are in the same physical space.)
 Context: {{HISTORY}}
 Known Locations: {{LOCATIONS_LIST}} (Choose one ID from this list if applicable, or null if elsewhere).
 Last Known Status: {{LAST_LOG}}
 
-Instructions:
-1. Determine where {{char}} is right now based on the conversation context or time of day.
-2. If the location matches one of the Known Locations, provide its ID. If it's a new place, return null for locationId and provide the name in "locationName".
-3. **AV Data**: Write a concise 3rd-person objective description of what a camera/microphone would capture. Describe posture, facial expression, ambient sounds, and actions. MUST NOT exceed 80 Chinese characters.
-4. **Thought**: {{char}}'s uncensored inner thought at this exact moment. MUST NOT exceed 80 Chinese characters.
-5. All content should strictly be in Chinese language.
+CRITICAL INSTRUCTIONS:
+1. **Spatial Rule**: If mode is "online", {{char}} and {{user}} are in DIFFERENT locations. {{char}} is doing their own thing independently. If mode is "offline/reality", {{char}} and {{user}} are in the SAME location together.
+2. **Char-Only**: Describe ONLY {{char}}'s status, actions, and thoughts. NEVER describe what {{user}} is doing, feeling, or reacting — even if mode is offline. {{user}}'s actions are controlled by the user.
+3. Determine where {{char}} is right now based on the conversation context and the spatial rule above.
+4. If the location matches one of the Known Locations, provide its ID. If it's a new place, return null for locationId and provide the name in "locationName".
+5. **AV Data**: Write a concise 3rd-person objective description of what a camera/microphone would capture about {{char}}. Describe posture, facial expression, ambient sounds, and actions. MUST NOT exceed 80 Chinese characters.
+6. **Thought**: {{char}}'s uncensored inner thought at this exact moment. MUST NOT exceed 80 Chinese characters.
+7. All content should strictly be in Chinese language.
 
 JSON:
 {
