@@ -2041,7 +2041,7 @@ const App = () => {
             setLoading((prev) => ({ ...prev, sw_update: true }));
             const prompt = prompts.smartwatch_update
               .replaceAll("{{char}}", savedPersonaName)
-              .replaceAll("{{MODE}}", savedInteractionMode === "online" ? "online" : "offline/reality")
+              .replaceAll("{{MODE_SPATIAL}}", savedInteractionMode === "online" ? "in different locations (NOT together)" : "in the same location together")
               .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
               .replaceAll("{{HISTORY}}", getContextString(chatHistory, savedUserName, null, null, 5))
               .replaceAll("{{LOCATIONS_LIST}}", savedSmartWatchLocations.map((l) => `ID: ${l.id}, Name: ${l.name}`).join("\n"))
@@ -3558,7 +3558,7 @@ Requirements:
 
     const prompt = prompts.smartwatch_update
       .replaceAll("{{char}}", persona.name)
-      .replaceAll("{{MODE}}", interactionMode === "online" ? "online" : "offline/reality")
+      .replaceAll("{{MODE_SPATIAL}}", interactionMode === "online" ? "in different locations (NOT together)" : "in the same location together")
       .replaceAll("{{user}}", effectiveUserName)
       .replaceAll("{{HISTORY}}", getContextString(chatHistory, effectiveUserName, null, null, 5))
       .replaceAll("{{LOCATIONS_LIST}}", locList)
@@ -3665,6 +3665,7 @@ Requirements:
       const prompt = prompts[promptKey]
         .replaceAll("{{char}}", persona.name)
         .replaceAll("{{user}}", effectiveUserName)
+        .replaceAll("{{MODE_SPATIAL}}", interactionMode === "online" ? "in different locations (NOT together)" : "in the same location together")
         .replaceAll("{{GAP_DURATION}}", gapDesc)
         .replaceAll("{{LAST_MSG_TIME}}", lastMsgTime)
         .replaceAll("{{CURRENT_TIME}}", currentTime)

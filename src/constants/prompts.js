@@ -166,19 +166,18 @@ JSON Format:
 }`,
 
   smartwatch_update: `Update {{char}}'s current status for a surveillance log.
-**Interaction Mode**: {{MODE}} (This determines whether {{char}} and {{user}} are in the same physical space.)
+**Mode**: {{char}} and {{user}} are {{MODE_SPATIAL}}.
 Context: {{HISTORY}}
 Known Locations: {{LOCATIONS_LIST}} (Choose one ID from this list if applicable, or null if elsewhere).
 Last Known Status: {{LAST_LOG}}
 
 CRITICAL INSTRUCTIONS:
-1. **Spatial Rule**: If mode is "online", {{char}} and {{user}} are in DIFFERENT locations. {{char}} is doing their own thing independently. If mode is "offline/reality", {{char}} and {{user}} are in the SAME location together.
-2. **Char-Only**: Describe ONLY {{char}}'s status, actions, and thoughts. NEVER describe what {{user}} is doing, feeling, or reacting — even if mode is offline. {{user}}'s actions are controlled by the user.
-3. Determine where {{char}} is right now based on the conversation context and the spatial rule above.
-4. If the location matches one of the Known Locations, provide its ID. If it's a new place, return null for locationId and provide the name in "locationName".
-5. **AV Data**: Write a concise 3rd-person objective description of what a camera/microphone would capture about {{char}}. Describe posture, facial expression, ambient sounds, and actions. MUST NOT exceed 80 Chinese characters.
-6. **Thought**: {{char}}'s uncensored inner thought at this exact moment. MUST NOT exceed 80 Chinese characters.
-7. All content should strictly be in Chinese language.
+1. Determine where {{char}} is right now based on conversation context and the spatial relationship above. {{char}}'s location MUST be consistent with the mode.
+2. **Char-Only**: Describe ONLY {{char}}'s status, actions, and thoughts. NEVER describe what {{user}} is doing — even in the same space, {{user}}'s actions are controlled by the user.
+3. If the location matches one of the Known Locations, provide its ID. If it's a new place, return null for locationId and provide the name in "locationName".
+4. **AV Data**: Write a concise 3rd-person objective description of what a camera/microphone would capture about {{char}}. Describe posture, facial expression, ambient sounds, and actions. MUST NOT exceed 80 Chinese characters.
+5. **Thought**: {{char}}'s uncensored inner thought at this exact moment. MUST NOT exceed 80 Chinese characters.
+6. All content should strictly be in Chinese language.
 
 JSON:
 {
@@ -200,10 +199,11 @@ First, **ASSESS THE SITUATION**:
 **General Rule**: If the last conversation was intense, romantic, or emotionally charged, {{char}} may linger on those feelings. If it was casual small talk, {{char}} moves on quickly.`,
 
   offline_short: `{{user}} has been away for approximately {{GAP_DURATION}}. This is a relatively short break.
+**Reality Mode**: {{char}} and {{user}} are {{MODE_SPATIAL}}.
+**Char-Only Rule**: Describe ONLY {{char}}'s actions, thoughts, and location. NEVER describe {{user}}'s actions.
 
-**Judgment Needed**: Look at the last conversation. If the topic was unfinished, emotionally charged, or {{user}} seemed to step away mid-discussion — {{char}} is likely still waiting nearby. Generate 0-1 brief entries of {{char}} passing time while keeping close (checking phone, reading, making a drink). Do NOT end the conversation context or start a new activity.
-
-However, if the last conversation reached a natural conclusion or was just casual small talk, {{char}} may have already moved on to something else. In that case, generate 0-2 entries of {{char}}'s independent activity.
+Look at the last conversation. If the topic was unfinished or emotionally charged, {{char}} is likely still waiting nearby. Generate 0-1 brief entries of {{char}} passing time while keeping close (checking phone, reading, making a drink). Do NOT end the conversation context or start a new activity.
+If the conversation reached a natural conclusion, generate 0-2 entries of {{char}}'s independent activity.
 
 Known Locations: {{LOCATIONS_LIST}} (Choose IDs from this list when applicable, or use null for new places and provide a fresh name in "locationName". You may visit places not in this list.)
 Last Known Status Before User Left: {{LAST_LOG}}
@@ -213,30 +213,19 @@ Last Conversation Before User Left: {{HISTORY}}
 CRITICAL INSTRUCTIONS:
 1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}.
 2. **Location Transitions**: {{LOCATION_RULE}}
-3. **Context Awareness**: If conversation was mid-topic, {{char}} stays put and waits. If conversation was finished, {{char}} moves on. Always make this judgment before generating.
-4. **AV Data**: For each entry, objective 3rd-person description. MUST NOT exceed 80 Chinese characters.
-5. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
-6. **Chronological Order**: Earliest entry first.
-7. All content in Chinese.
+3. **AV Data**: For each entry, objective 3rd-person description of {{char}} only. MUST NOT exceed 80 Chinese characters.
+4. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
+5. **Chronological Order**: Earliest entry first.
+6. All content in Chinese.
 
 JSON ARRAY:
-[
-  {
-    "locationId": "id_from_list_or_null",
-    "locationName": "Name of current place",
-    "action": "Brief action summary",
-    "avData": "3rd person descriptive text...",
-    "thought": "Internal monologue...",
-    "time": "HH:MM"
-  },
-  ...
-]`,
+[ { "locationId": "id_from_list_or_null", "locationName": "Name of current place", "action": "Brief action summary", "avData": "3rd person descriptive text...", "thought": "Internal monologue...", "time": "HH:MM" }, ... ]`,
 
   offline_medium: `{{user}} has been away for approximately {{GAP_DURATION}}. This is a noticeable break.
+**Reality Mode**: {{char}} and {{user}} are {{MODE_SPATIAL}}.
+**Char-Only Rule**: Describe ONLY {{char}}'s actions, thoughts, and location. NEVER describe {{user}}'s actions.
 
-**Judgment Needed**: Consider what's realistic for this time span. {{char}} may have continued their daily routine — eating, working, going out — but is likely to check their phone or think about {{user}} occasionally.
-
-If the last conversation was emotionally significant (fight, confession, deep talk), {{char}} may dwell on it in early entries before gradually shifting to daily life. If casual, {{char}} moves on quickly.
+{{char}} may have continued their daily routine — eating, working, going out — but is likely to check their phone or think about {{user}} occasionally. If the last conversation was emotionally significant (fight, confession, deep talk), {{char}} may dwell on it in early entries before gradually shifting to daily life.
 
 Generate 0-{{EXPECTED_COUNT}} entries. Do NOT exceed {{EXPECTED_COUNT}}. If conversation context suggests {{char}} is still waiting, output 0.
 
@@ -248,30 +237,21 @@ Last Conversation Before User Left: {{HISTORY}}
 CRITICAL INSTRUCTIONS:
 1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}.
 2. **Location Transitions**: {{LOCATION_RULE}}
-3. **Emotional Continuity**: If the last conversation warranted it, linger on those feelings in early entries. Otherwise, show {{char}} doing their own thing.
-4. **AV Data**: For each entry, objective 3rd-person description. MUST NOT exceed 80 Chinese characters.
-5. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
-6. **Chronological Order**: Earliest entry first.
-7. All content in Chinese.
+3. **AV Data**: For each entry, objective 3rd-person description of {{char}} only. MUST NOT exceed 80 Chinese characters.
+4. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
+5. **Chronological Order**: Earliest entry first.
+6. All content in Chinese.
 
 JSON ARRAY:
-[
-  {
-    "locationId": "id_from_list_or_null",
-    "locationName": "Name of current place",
-    "action": "Brief action summary",
-    "avData": "3rd person descriptive text...",
-    "thought": "Internal monologue...",
-    "time": "HH:MM"
-  },
-  ...
-]`,
+[ { "locationId": "id_from_list_or_null", "locationName": "Name of current place", "action": "Brief action summary", "avData": "3rd person descriptive text...", "thought": "Internal monologue...", "time": "HH:MM" }, ... ]`,
 
   offline_long: `{{user}} has been away for approximately {{GAP_DURATION}}. This is a long gap — likely overnight or longer.
+**Reality Mode**: {{char}} and {{user}} are {{MODE_SPATIAL}}.
+**Char-Only Rule**: Describe ONLY {{char}}'s actions, thoughts, and location. NEVER describe {{user}}'s actions.
 
-**Judgment Needed**: A lot of time has passed. {{char}} has definitely moved on to independent activities. However, check whether the last conversation would leave lingering feelings (e.g., midnight confessions, unresolved arguments). If so, {{char}} may carry those emotions into the next day.
+A lot of time has passed. {{char}} has moved on to independent activities. If the last conversation left lingering feelings (e.g., midnight confessions, unresolved arguments), {{char}} may carry those emotions into the next day.
 
-If the time gap spans overnight, show a complete cycle: winding down → sleep → waking → morning routine → today's activities up to now. Do NOT force entries for every hour — pick the most meaningful moments.
+Show a complete cycle if overnight: winding down → sleep → waking → morning routine → today's activities up to now. Do NOT force entries for every hour — pick the most meaningful moments.
 
 Generate 0-{{EXPECTED_COUNT}} entries. Cover key moments across the entire gap. If {{char}} would naturally be sleeping/resting, fewer entries is fine — do NOT fabricate activity.
 
@@ -283,33 +263,13 @@ Last Conversation Before User Left: {{HISTORY}}
 CRITICAL INSTRUCTIONS:
 1. **Time Span**: All events happen AFTER {{LAST_MSG_TIME}} and BEFORE {{CURRENT_TIME}}.
 2. **Location Transitions**: {{LOCATION_RULE}}
-3. **Full Life Arc**: Show a complete daily cycle if the span warrants it. Include sleep if overnight.
-4. **Emotional Thread**: If the last conversation was meaningful, let those feelings echo through the entries — don't just jump to a neutral next day.
-5. **AV Data**: For each entry, objective 3rd-person description. MUST NOT exceed 80 Chinese characters.
-6. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
-7. **Chronological Order**: Earliest entry first.
-8. All content in Chinese.
+3. **AV Data**: For each entry, objective 3rd-person description of {{char}} only. MUST NOT exceed 80 Chinese characters.
+4. **Thought**: {{char}}'s uncensored inner thought. MUST NOT exceed 80 Chinese characters.
+5. **Chronological Order**: Earliest entry first.
+6. All content in Chinese.
 
 JSON ARRAY:
-[
-  {
-    "locationId": "id_from_list_or_null",
-    "locationName": "Name of current place",
-    "action": "Brief action summary",
-    "avData": "3rd person descriptive text...",
-    "thought": "Internal monologue...",
-    "time": "HH:MM"
-  },
-  ...
-    "locationId": "id_from_list_or_null",
-    "locationName": "Name of current place",
-    "action": "Brief action summary",
-    "avData": "Detailed 3rd person descriptive text...",
-    "thought": "Internal monologue...",
-    "time": "HH:MM"
-  },
-  ...
-]`,
+[ { "locationId": "id_from_list_or_null", "locationName": "Name of current place", "action": "Brief action summary", "avData": "3rd person descriptive text...", "thought": "Internal monologue...", "time": "HH:MM" }, ... ]`,
   browser: `Generate the browser search history for {{char}}.
 Context: {{HISTORY}}
 User: {{user}}.
