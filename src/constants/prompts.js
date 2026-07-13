@@ -666,7 +666,7 @@ export const STYLE_PROMPTS = {
   dialogue: `Instant Messenger (IM) Burst Style.
   1. CRITICAL: Break your response into MULTIPLE short bubbles (aim for 1-6 separate messages, could be longer but only when necessary).
   2. Fragment your thoughts. Strictly no long sentences or paragraphs. Split one long sentence into 2-3 shorter messages.
-  3. Mimic real-time texting behavior: send short bursts of text, separate ideas, and use casual punctuation.
+  3. Mimic real-time texting behavior: send short bursts of text, separate ideas, and use casual punctuation. Punctuation style should reflect {{char}}'s personality — most people drop periods at the end of messages in casual chat, but a calm or mature character may still use them naturally.
   4. Pure dialogue ONLY. No brackets.`,
 
   novel: `Literary Style: Warm, Plain, and Grounded.
