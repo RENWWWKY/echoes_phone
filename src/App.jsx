@@ -2058,9 +2058,21 @@ const App = () => {
               .replaceAll("{{CUSTOM_RULES}}", savedCustomRules)
               .replaceAll("{{WORLD_INFO}}", getWorldInfoString(savedWorldBook));
             try {
-              const abortCtrl = new AbortController();
-              await generateContent({ prompt, systemInstruction: systemPrompt }, apiConfig, (err) => {}, abortCtrl.signal);
-              if (typeof showToast === "function") showToast("info", `${savedCharName}的实时位置更新了`);
+              const data = await generateContent({ prompt, systemInstruction: systemPrompt, isJson: true }, apiConfig, (err) => {});
+              if (data && (data.locationName || data.avData)) {
+                const newLog = {
+                  id: Date.now(),
+                  timestamp: getCurrentTimeObj().toLocaleString(),
+                  displayTime: formatTime(getCurrentTimeObj()),
+                  locationId: data.locationId,
+                  locationName: data.locationName,
+                  action: data.action,
+                  avData: data.avData,
+                  thought: data.thought,
+                };
+                setSmartWatchLogs((prev) => [newLog, ...prev]);
+                if (typeof showToast === "function") showToast("info", `${savedCharName}的实时位置更新了`);
+              }
             } finally {
               setLoading((prev) => ({ ...prev, sw_update: false }));
             }
