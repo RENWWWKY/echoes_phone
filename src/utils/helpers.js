@@ -150,25 +150,27 @@ export const getTimeBasedGuidance = (dateObj) => {
   let timeVibe = "";
   let seasonalVibe = "";
 
-    // 1. 时间段判断（每种世界观给出等价话题）
+      // 1. 时间段判断（每种世界观都有等价的日常，以下仅为举例，不直接照搬）
+  // 现代/当代: Commute, food delivery, office, school, gaming, social media
+  // 古风/历史: Carriage travel, morning market, tea house, academy, opera, street gossip
+  // 赛博朋克: Maglev commute, synth-meal pickup, gig-work, neon bar, underground forum
+  // 西幻/仙侠: Horseback travel, tavern gathering, guild quest, academy magic, kingdom rumor
   if (hour >= 23 || hour < 5) {
     timeVibe = isWeekend
-      ? "Late Night (深夜/周末): Modern — parties, late night gaming, emotional venting. Ancient fantasy — late night tavern songs, star-gazing poets. Cyberpunk — underground clubs, net-running. Xianxia — midnight cultivation, ghost stories."
-      : "Late Night (深夜/工作日): Modern — insomnia worries, overtime fatigue. Ancient fantasy — late night studying by candle, sentry duty. Cyberpunk — gig-work burnout, street doc visits. Xianxia — late night alchemy, sect patrol.";
+      ? "Late Night (深夜/周末)"
+      : "Late Night (深夜/工作日)";
   } else if (hour >= 6 && hour < 10) {
     timeVibe = isWeekend
-      ? "Morning (早晨/周末): Modern — sleeping in, brunch, lazy plans. Ancient fantasy — morning temple visit, tea house, weekend market. Cyberpunk — hangover recovery, late breakfast. Xianxia — morning meditation, weekend sparring."
-      : "Morning (早晨/工作日): Modern — rush hour/commute, breakfast choices. Ancient fantasy — carriage commute, morning academy roll call. Cyberpunk — maglev commute, synth-caffeine. Xianxia — morning qi-gathering, sect assembly.";
+      ? "Morning (早晨/周末)"
+      : "Morning (早晨/工作日)";
   } else if (hour >= 11 && hour <= 13) {
-    timeVibe =
-      "Lunch Time (午饭): Modern — food delivery indecision, office break chatter. Ancient fantasy — street food stalls, tavern lunch. Cyberpunk — synth-meal pickups, ramen stall. Xianxia — fasting complaints, sect cafeteria gossip.";
+    timeVibe = "Lunch Time (午饭)";
   } else if (hour >= 17 && hour <= 20) {
     timeVibe = isWeekend
-      ? "Dinner Time (晚饭/周末): Modern — cooking, dining out, parties. Ancient fantasy — banquet gatherings, night market. Cyberpunk — neon club night, underground fights. Xianxia — sect banquet, merchant fair."
-      : "Dinner Time (晚饭/工作日): Modern — cooking, relaxing after work. Ancient fantasy — family dinner, street opera. Cyberpunk — dive bar decompression. Xianxia — evening pill-refining, disciples chatting.";
+      ? "Dinner Time (晚饭/周末)"
+      : "Dinner Time (晚饭/工作日)";
   } else {
-    timeVibe =
-      "Daily Life (日常): Modern — slacking at work/school, afternoon tea. Ancient fantasy — afternoon poetry, marketplace gossip. Cyberpunk — grid-surfing, body-mod browsing. Xianxia — sect gossip, spirit beast sightings.";
+    timeVibe = "Daily Life (日常)";
   }
 
   // 2. 月份/季节判断
@@ -176,8 +178,14 @@ export const getTimeBasedGuidance = (dateObj) => {
   else if (month === 1 || month === 2) seasonalVibe = " Season: Winter/New Year (Holidays, Family, Cold).";
   else if (month >= 6 && month <= 8) seasonalVibe = " Season: Summer (Heat waves, AC, Ice cream, Rainstorms).";
 
-  return `  Current Context: It is ${weekday}, ${hour}:00. ${timeVibe}.${seasonalVibe ? " " + seasonalVibe : ""}
-  [Generation Strategy]: Choose the world-appropriate examples from above based on {{char}} and {{user}}'s setting. At most 1 thread related to time/season. Rest must be random and diverse. Do NOT make every post about the time/season.
+  return `  Current Context: It is ${weekday}, ${hour}:00 — ${timeVibe}.${seasonalVibe ? " " + seasonalVibe : ""}
+  [World Building Note]:
+  - The topics above are merely time-of-day reference. Adapt them to {{char}} and {{user}}'s actual world setting — do NOT copy the literal examples. For instance:
+    - Modern: Commute, food delivery, office, school, gaming, social media.
+    - Historical fantasy: Carriage travel, morning market, tea house, academy, opera, street gossip.
+    - Cyberpunk: Maglev commute, synth-meal pickup, gig-work, neon bar, underground forum.
+    - Western fantasy / Xianxia: Horseback travel, tavern gathering, guild quest, academy magic, kingdom rumor.
+  [Generation Strategy]: At most 1 thread related to time/season. Rest must be random and diverse. Do NOT make every post about the time/season.
   `;
 };
 let notificationSetter = null;
