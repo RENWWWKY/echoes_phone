@@ -150,49 +150,36 @@ export const getTimeBasedGuidance = (dateObj) => {
   let timeVibe = "";
   let seasonalVibe = "";
 
-  // 1. 时间段判断（仅作举例，取决于世界观）
+    // 1. 时间段判断（每种世界观给出等价话题）
   if (hour >= 23 || hour < 5) {
     timeVibe = isWeekend
-      ? "Late Night (深夜/周末): Partying, Gaming all night, Emo/Emotional venting, Urban legends, Insomnia thoughts."
-      : "Late Night (深夜/工作日): Emo/Emotional venting, Insomnia worries about work/school, Adult topics.";
+      ? "Late Night (深夜/周末): Modern — parties, late night gaming, emotional venting. Ancient fantasy — late night tavern songs, star-gazing poets. Cyberpunk — underground clubs, net-running. Xianxia — midnight cultivation, ghost stories."
+      : "Late Night (深夜/工作日): Modern — insomnia worries, overtime fatigue. Ancient fantasy — late night studying by candle, sentry duty. Cyberpunk — gig-work burnout, street doc visits. Xianxia — late night alchemy, sect patrol.";
   } else if (hour >= 6 && hour < 10) {
     timeVibe = isWeekend
-      ? "Morning (早晨/周末): Sleeping in, Brunch, Lazy morning, Weekend plans."
-      : "Morning (早晨/工作日): Morning rush/Commute, Breakfast choices, Waking up, sleepy.";
+      ? "Morning (早晨/周末): Modern — sleeping in, brunch, lazy plans. Ancient fantasy — morning temple visit, tea house, weekend market. Cyberpunk — hangover recovery, late breakfast. Xianxia — morning meditation, weekend sparring."
+      : "Morning (早晨/工作日): Modern — rush hour/commute, breakfast choices. Ancient fantasy — carriage commute, morning academy roll call. Cyberpunk — maglev commute, synth-caffeine. Xianxia — morning qi-gathering, sect assembly.";
   } else if (hour >= 11 && hour <= 13) {
     timeVibe =
-      "Lunch Time (午饭): Food delivery, 'What to eat?', Hunger, Break.";
+      "Lunch Time (午饭): Modern — food delivery indecision, office break chatter. Ancient fantasy — street food stalls, tavern lunch. Cyberpunk — synth-meal pickups, ramen stall. Xianxia — fasting complaints, sect cafeteria gossip.";
   } else if (hour >= 17 && hour <= 20) {
     timeVibe = isWeekend
-      ? "Dinner Time (晚饭/周末): Cooking/Recipes, Dining out, Night life, Parties."
-      : "Dinner Time (晚饭/工作日): Cooking/Recipes, Relaxing after work, Night life starting.";
+      ? "Dinner Time (晚饭/周末): Modern — cooking, dining out, parties. Ancient fantasy — banquet gatherings, night market. Cyberpunk — neon club night, underground fights. Xianxia — sect banquet, merchant fair."
+      : "Dinner Time (晚饭/工作日): Modern — cooking, relaxing after work. Ancient fantasy — family dinner, street opera. Cyberpunk — dive bar decompression. Xianxia — evening pill-refining, disciples chatting.";
   } else {
     timeVibe =
-      "Daily Life (日常): Slacking off at work/school, Afternoon tea, Random topics.";
+      "Daily Life (日常): Modern — slacking at work/school, afternoon tea. Ancient fantasy — afternoon poetry, marketplace gossip. Cyberpunk — grid-surfing, body-mod browsing. Xianxia — sect gossip, spirit beast sightings.";
   }
 
-  // 2. 月份/季节判断 (仅作氛围参考)
-  if (month === 12) {
-    seasonalVibe =
-      " Season: Winter/December. (Keywords: Cold, Christmas vibes, End of year).";
-  } else if (month === 1 || month === 2) {
-    seasonalVibe =
-      " Season: Winter/New Year. (Keywords: Holidays, Family, Cold).";
-  } else if (month >= 6 && month <= 8) {
-    seasonalVibe =
-      " Season: Summer. (Keywords: Heat waves, Air conditioning, Ice cream, Rainstorms).";
-  }
+  // 2. 月份/季节判断
+  if (month === 12) seasonalVibe = " Season: Winter/December (Cold, Christmas, End of year).";
+  else if (month === 1 || month === 2) seasonalVibe = " Season: Winter/New Year (Holidays, Family, Cold).";
+  else if (month >= 6 && month <= 8) seasonalVibe = " Season: Summer (Heat waves, AC, Ice cream, Rainstorms).";
 
-  return `
-  Current Context: It is ${weekday}, ${hour}:00. ${timeVibe}.${seasonalVibe ? " " + seasonalVibe : ""}
-  **IMPORTANT**: The time-based examples above are for modern world reference only. Adapt ALL topics to {{char}} and {{user}}'s actual world setting (modern, historical fantasy, cyberpunk, xianxia, etc.). Use equivalent concepts appropriate to that world — e.g., in ancient fantasy, replace "commute" with "carriage travel" or "morning market gathering"; in cyberpunk, replace "food delivery" with "synthesizer meal pickups".
-  [Generation Strategy]: 
-  - You MAY generate **at most 1 thread** related to the current time/season (e.g., food, weather, mood).
-  - The REST of the threads MUST be completely **random and diverse** (e.g., gaming, hobbies, weird questions) to make the forum feel alive and unpredictable.
-  - DO NOT make every post about the time/season.
+  return `  Current Context: It is ${weekday}, ${hour}:00. ${timeVibe}.${seasonalVibe ? " " + seasonalVibe : ""}
+  [Generation Strategy]: Choose the world-appropriate examples from above based on {{char}} and {{user}}'s setting. At most 1 thread related to time/season. Rest must be random and diverse. Do NOT make every post about the time/season.
   `;
 };
-
 let notificationSetter = null;
 
 // 新增一个初始化函数
