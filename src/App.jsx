@@ -4865,11 +4865,13 @@ Requirements:
                 atBottomStateChange={(atBottom) => {
                   isAtBottomRef.current = atBottom;
                 }}
-                data={chatHistory.filter(msg => msg.type !== "smartwatch_update")}
+                data={chatHistory}
                 className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden custom-scrollbar" style={{ paddingBottom: '1.5rem' }}
                 followOutput={expandedChatStatusIndex === null && activeMenuIndex === null ? 'auto' : false}
                 overscan={200}
                 itemContent={(i, msg) => {
+                  // 隐藏 smartwatch_update 类型消息
+                  if (msg.type === "smartwatch_update") return null;
                   const msgKey = msg.id || i;
                   const isSelected = selectedMsgs.has(i);
 
