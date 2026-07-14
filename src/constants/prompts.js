@@ -507,10 +507,10 @@ Recent Chat:
 
 Instructions:
 Analyze the conversation and determine which events should be triggered:
-1. **Location Move**: Did {{char}} or the user mention going to a place, arriving somewhere, or planning to visit somewhere?
+1. **Location Move**: ONLY set true if {{char}} EXPLICITLY mentions a change of location (e.g., was at home, now says they are at work/outside/somewhere else). Do NOT trigger for vague mentions like "I'll go out later" or "thinking about going somewhere." The change must be definite and already happened.
 2. **Diary (Important Event)**: Did something emotionally significant happen (gift, fight, relationship progress, confession, special moment, personal revelation)?
 3. **Browser Search**: Did {{char}} mention searching for information or look something up? Or did {{user}} mention any term/thing/knowledge that {{char}} might have question with?
-4. **Shopping/Receipt**: Did {{char}} mention the possibility to buy/order something or exchange goods/money?
+4. **Shopping/Receipt**: ONLY set true if {{char}} EXPLICITLY mentions buying, purchasing, spending money, or receiving goods. Must be a concrete transaction, not just browsing or thinking about buying something.
 5. **Forum Post**: Did {{char}} or the user discuss something interesting, express a strong opinion, share a life update, or experience something worth posting about on a social forum?
 
 JSON Format:

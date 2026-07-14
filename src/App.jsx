@@ -2041,14 +2041,14 @@ const App = () => {
         const savedCustomRules = customRules;
         const savedInputKey = inputKey;
 
-        // 发帖触发 → 生成论坛帖子，生成完成后弹窗
-        if (data.post_event && forumData.isInitialized) {
+        // 发帖触发 → 生成论坛帖子（10%概率）
+        if (data.post_event && forumData.isInitialized && Math.random() < 0.1) {
             if (window.__forumGenerateChatEventPost) {
               window.__forumGenerateChatEventPost(true);
             }
         }
 
-        // 位置移动触发 → 更新智能家，生成完成后弹窗
+        // 位置移动触发 → 更新智能家（有就触发）
         if (data.triggerLocation && savedSmartWatchLocations.length > 0) {
           setTimeout(async () => {
             setLoading((prev) => ({ ...prev, sw_update: true }));
@@ -2088,21 +2088,21 @@ const App = () => {
             }
           }, 1000);
         }
-        // 重要事件触发 → 写日记，生成完成后弹窗
-        if (data.triggerDiary) {
+        // 重要事件触发 → 写日记（10%概率）
+        if (data.triggerDiary && Math.random() < 0.1) {
           setTimeout(async () => {
             const ok = await runGenerator("diary", setDiaries, prompts.diary);
             if (ok) { markUnseenDot("diary"); if (typeof showToast === "function") showToast("info", `${savedCharName}写了一篇日记`); }
           }, 2000);
         }
-        // 浏览器搜索触发 → 更新浏览器历史，生成完成后弹窗
-        if (data.triggerBrowser) {
+        // 浏览器搜索触发（20%概率）
+        if (data.triggerBrowser && Math.random() < 0.2) {
           setTimeout(async () => {
             const ok = await runGenerator("browser", setBrowserHistory, prompts.browser);
             if (ok) { markUnseenDot("browser"); if (typeof showToast === "function") showToast("info", `${savedCharName}的浏览记录更新了`); }
           }, 3000);
         }
-        // 购物触发 → 更新账单，生成完成后弹窗
+        // 购物触发 → 更新账单（有就触发）
         if (data.triggerReceipt) {
           setTimeout(async () => {
             const ok = await runGenerator("receipt", setReceipts, prompts.receipt);
@@ -3134,12 +3134,10 @@ Requirements:
           setMessageQueue(finalizedMsgs);
           setLastInteractionTime(Date.now());
 
-          // 惊喜逻辑：概率触发发帖或app事件更新（位置/日记/浏览器/账单）
-          if (Math.random() < 0.1) {
-            setTimeout(() => {
-              triggerAppEvents();
-            }, 5000);
-          }
+          // 触发app事件更新
+          setTimeout(() => {
+            triggerAppEvents();
+          }, 5000);
 
           // 定时检查档案更新与总结
           setTimeout(() => {
