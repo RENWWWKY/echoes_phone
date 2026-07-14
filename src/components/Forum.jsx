@@ -383,6 +383,9 @@ const Forum = ({
     const isCharThread = thread.authorType === "char";
     const isUserThread = thread.authorType === "me";
     const hasMainUserReplied = userLastReplyIndex !== -1 && !isSmurfReply;
+    const allSmurfReplies = allReplies.filter(r => r.authorType === "smurf");
+    const hasSmurfCommented = allSmurfReplies.length > 0;
+    const smurfNick = forumSettings.smurfNick || "不是小号";
 
     const needsDeepContext =
       (isCharThread ||
@@ -490,6 +493,17 @@ ${realNameContext}
         : "{{char}} should ONLY reply if the topic is *directly* related to their specific interests. Otherwise, return NO character reply.")
       .replaceAll("{{WORLD_INFO}}", cleanWorldInfo);
 
+    // 禁止冒充 user
+    let impersonationBlock = "";
+    if (hasMainUserReplied && hasSmurfCommented) {
+      impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${userNick}" or author = "${smurfNick}". These are real people - their replies are posted by themselves.`;
+    } else if (hasMainUserReplied) {
+      impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${userNick}".`;
+    } else if (hasSmurfCommented) {
+      impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${smurfNick}".`;
+    }
+    prompt += impersonationBlock;
+
     try {
       const data = await generateContent(
         { prompt, systemInstruction: finalSystemPrompt },
@@ -498,7 +512,13 @@ ${realNameContext}
       );
 
       if (data && data.replies) {
-        const newReplies = data.replies.map((r) => ({
+        // 代码层过滤：绝对禁止冒充 user 生成回复
+        const bannedAuthors = new Set();
+        if (hasMainUserReplied || hasSmurfCommented) bannedAuthors.add(currentUserName);
+        if (hasMainUserReplied) bannedAuthors.add(userNick);
+        if (hasSmurfCommented) bannedAuthors.add(smurfNick);
+        const filteredReplies = data.replies.filter(r => r.author && !bannedAuthors.has(r.author));
+        const newReplies = filteredReplies.map((r) => ({
           id: `r_${Date.now()}_${Math.random()}`,
           author: r.isCharacter
             ? forumSettings.charNick || "匿名用户"
