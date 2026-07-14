@@ -2891,7 +2891,7 @@ Requirements:
 
     // 智能家离线上下文（角色在用户不在时做了什么）
     const swOfflineSection = smartWatchOfflineContext
-      ? `\n**{{char}}'s recent activity**:\n${replacePlaceholders(smartWatchOfflineContext, persona.name, effectiveUserName)}`
+      ? `\n**{{char}}'s recent activity (${smartWatchOfflineGapDesc})**:\n${replacePlaceholders(smartWatchOfflineContext, persona.name, effectiveUserName)}`
       : "";
 
     // 对 specialInst 中的 {{char}}/{{user}} 进行预替换（注入 prompt 时外层的同名替换已发生）
@@ -3442,6 +3442,7 @@ Requirements:
     useStickyState([], "echoes_sw_logs");
   // 智能家离线上下文（注入 AI prompt，跟随智能家 log 变动）
   const [smartWatchOfflineContext, setSmartWatchOfflineContext] = useState("");
+  const [smartWatchOfflineGapDesc, setSmartWatchOfflineGapDesc] = useState("");
   const formatSWContext = (logs) => {
     if (!logs || logs.length === 0) return "";
     return logs.map((entry) =>
@@ -3810,6 +3811,7 @@ Requirements:
         setSmartWatchLogs((prev) => [...newLogs, ...prev]);
         // 更新离线上下文（AI 会在系统 prompt 中看到）
         setSmartWatchOfflineContext(formatSWContext(newLogs));
+        setSmartWatchOfflineGapDesc(gapDesc);
         showToast("success", `在你离开期间，智能家有 ${newLogs.length} 条新活动`);
         markUnseenDot("smartwatch");
       }
