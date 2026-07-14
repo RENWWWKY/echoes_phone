@@ -144,31 +144,31 @@ export const replacePlaceholders = (text, charName, userName) => {
 export const getTimeBasedGuidance = (dateObj) => {
   const hour = dateObj.getHours();
   const month = dateObj.getMonth() + 1; // 0-11 转 1-12
+  const weekday = dateObj.toLocaleDateString("zh-CN", { weekday: "long" }); // 星期一~星期日
+  const isWeekend = weekday === "星期六" || weekday === "星期日";
 
   let timeVibe = "";
   let seasonalVibe = "";
 
-  // 1. 时间段判断
+  // 1. 时间段判断（仅作举例，取决于世界观）
   if (hour >= 23 || hour < 5) {
-    // 深夜：EMO、成人话题、怪谈、失眠
-    timeVibe =
-      "Late Night (深夜): Emo/Emotional venting, Adult topics/NSFW hints, Urban legends, Insomnia thoughts.";
+    timeVibe = isWeekend
+      ? "Late Night (深夜/周末): Partying, Gaming all night, Emo/Emotional venting, Urban legends, Insomnia thoughts."
+      : "Late Night (深夜/工作日): Emo/Emotional venting, Insomnia worries about work/school, Adult topics.";
   } else if (hour >= 6 && hour < 10) {
-    // 早晨：早高峰、早八、上班打卡、早餐、起床气
-    timeVibe =
-      "Morning (早晨): Morning rush/Commute, Breakfast choices, Waking up, sleepy.";
+    timeVibe = isWeekend
+      ? "Morning (早晨/周末): Sleeping in, Brunch, Lazy morning, Weekend plans."
+      : "Morning (早晨/工作日): Morning rush/Commute, Breakfast choices, Waking up, sleepy.";
   } else if (hour >= 11 && hour <= 13) {
-    // 午饭点：外卖、纠结吃什么、探店、美食推荐
     timeVibe =
-      "Lunch Time (午饭): Food delivery, 'What to eat?', Hunger, Office break.";
+      "Lunch Time (午饭): Food delivery, 'What to eat?', Hunger, Break.";
   } else if (hour >= 17 && hour <= 20) {
-    // 晚饭点：做饭、聚餐、团建、下班
-    timeVibe =
-      "Dinner Time (晚饭): Cooking/Recipes, Dining out, Relaxing after work, Night life starting.";
+    timeVibe = isWeekend
+      ? "Dinner Time (晚饭/周末): Cooking/Recipes, Dining out, Night life, Parties."
+      : "Dinner Time (晚饭/工作日): Cooking/Recipes, Relaxing after work, Night life starting.";
   } else {
-    // 其他时间：摸鱼、日常
     timeVibe =
-      "Daily Life (日常): Slacking off at work/school, Afternoon tea, Random gossip.";
+      "Daily Life (日常): Slacking off at work/school, Afternoon tea, Random topics.";
   }
 
   // 2. 月份/季节判断 (仅作氛围参考)
@@ -184,12 +184,11 @@ export const getTimeBasedGuidance = (dateObj) => {
   }
 
   return `
-  Current Context: Real-world time is ${hour}:00 (${timeVibe}). ${
-    seasonalVibe ? "Season: " + seasonalVibe : ""
-  }
+  Current Context: It is ${weekday}, ${hour}:00. ${timeVibe}.${seasonalVibe ? " " + seasonalVibe : ""}
+  **IMPORTANT**: The time-based examples above are for modern world reference only. Adapt ALL topics to {{char}} and {{user}}'s actual world setting (modern, historical fantasy, cyberpunk, xianxia, etc.). Use equivalent concepts appropriate to that world — e.g., in ancient fantasy, replace "commute" with "carriage travel" or "morning market gathering"; in cyberpunk, replace "food delivery" with "synthesizer meal pickups".
   [Generation Strategy]: 
   - You MAY generate **at most 1 thread** related to the current time/season (e.g., food, weather, mood).
-  - The REST of the threads MUST be completely **random and diverse** (e.g., gaming, gossip, hobbies, weird questions) to make the forum feel alive and unpredictable.
+  - The REST of the threads MUST be completely **random and diverse** (e.g., gaming, hobbies, weird questions) to make the forum feel alive and unpredictable.
   - DO NOT make every post about the time/season.
   `;
 };
