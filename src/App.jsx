@@ -2167,6 +2167,8 @@ const App = () => {
       setPersona(localPersona);
       setIsLocked(false);
       resetDailyFlags();
+      // 迁移：清除旧版 chatHistory 中的 smartwatch_update 消息
+      setChatHistory((prev) => prev.filter((msg) => msg.type !== "smartwatch_update"));
       showToast("success", "终端已解锁");
 
       // 离线智能家检测：三个条件都满足时自动生成角色离线生活轨迹
@@ -2887,6 +2889,11 @@ Requirements:
       ? `\n**Recent Forum Interaction**: ${replacePlaceholders(forumInteractionContext, persona.name, userName || "你")}`
       : "";
 
+    // 智能家离线上下文（角色在用户不在时做了什么）
+    const swOfflineSection = smartWatchOfflineContext
+      ? `\n**Recent Offline Activity** ({{char}}'s actions while {{user}} was away):\n${replacePlaceholders(smartWatchOfflineContext, persona.name, effectiveUserName)}`
+      : "";
+
     // 对 specialInst 中的 {{char}}/{{user}} 进行预替换（注入 prompt 时外层的同名替换已发生）
     if (specialInst) {
       specialInst = specialInst
@@ -2921,7 +2928,8 @@ Requirements:
       .replaceAll("{{MODE_INSTRUCTION}}", modeInstruction)
       .replaceAll("{{FORWARD_CONTEXT}}", finalForwardSection)
       .replaceAll("{{FORUM_INTERACTION}}", forumInteractionSection)
-      .replaceAll("{{SPECIAL_INSTRUCTION}}", specialInst);
+      .replaceAll("{{SPECIAL_INSTRUCTION}}", specialInst)
+      + swOfflineSection;
 
     const systemPrompt = prompts.system
       .replaceAll("{{char}}", persona.name)
@@ -3432,6 +3440,20 @@ Requirements:
   ] = useStickyState([], "echoes_sw_locations");
   const [smartWatchLogs, setSmartWatchLogs, smartWatchLogsLoaded] =
     useStickyState([], "echoes_sw_logs");
+  // 智能家离线上下文（注入 AI prompt，跟随智能家 log 变动）
+  const [smartWatchOfflineContext, setSmartWatchOfflineContext] = useState("");
+  const formatSWContext = (logs) => {
+    if (!logs || logs.length === 0) return "";
+    return logs.map((entry) =>
+      `[离线记录] ${entry.displayTime} | ${entry.locationName} | ${entry.action} | 内心: ${entry.thought}`
+    ).join("\n");
+  };
+  // 智能家 log 变动时自动更新离线上下文
+  useEffect(() => {
+    if (smartWatchLogsLoaded) {
+      setSmartWatchOfflineContext(formatSWContext(smartWatchLogs));
+    }
+  }, [smartWatchLogs, smartWatchLogsLoaded]);
   // Filter state (transient)
   const [swFilter, setSwFilter] = useState("all");
   // Edit mode for map (transient)
@@ -3786,23 +3808,8 @@ Requirements:
         // prompt 要求 LLM 返回最早→最晚，reverse 后 prepend 让最新在最前面
         newLogs.reverse();
         setSmartWatchLogs((prev) => [...newLogs, ...prev]);
-        // 插入隐形聊天消息，让 AI 知道角色在离线期间做了什么
-        setChatHistory((prev) => {
-          // 先清除旧的离线隐形消息
-          const clean = prev.filter(
-            (msg) => msg.type !== "smartwatch_update"
-          );
-          const invisibleMsgs = newLogs.map((entry) => ({
-            id: `sw_${entry.id}`,
-            sender: "system",
-            type: "smartwatch_update",
-            text: `[智能家 · 离线记录] ${entry.displayTime} | ${entry.locationName} | ${entry.action} | 内心: ${entry.thought}`,
-            timestamp: new Date(entry.timestamp).getTime(),
-            smartWatchLogId: entry.id,
-          }));
-          // 按时序插入（离线消息应该在最底部，用户回来后没有新消息）
-          return [...clean, ...invisibleMsgs];
-        });
+        // 更新离线上下文（AI 会在系统 prompt 中看到）
+        setSmartWatchOfflineContext(formatSWContext(newLogs));
         showToast("success", `在你离开期间，智能家有 ${newLogs.length} 条新活动`);
         markUnseenDot("smartwatch");
       }
@@ -5957,10 +5964,6 @@ Requirements:
                             onClick={() => {
                               setSmartWatchLogs((prev) =>
                                 prev.filter((l) => l.id !== log.id),
-                              );
-                              // 同步删除对应的隐形聊天消息
-                              setChatHistory((prev) =>
-                                prev.filter((msg) => msg.smartWatchLogId !== log.id),
                               );
                             }}
                             className="text-gray-300 hover:text-red-400"
