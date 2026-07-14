@@ -845,6 +845,13 @@ const App = () => {
     {},
     "echoes_dialogs_shown",
   );
+  // App 图标红点：记录哪些 app 有未查看的自动生成内容
+  const [unseenAuto, setUnseenAuto, unseenAutoLoaded] = useStickyState(
+    {},
+    "echoes_unseen_auto",
+  );
+  const markUnseen = (appId) => setUnseenAuto((prev) => ({ ...prev, [appId]: true }));
+  const clearUnseen = (appId) => { if (unseenAuto[appId]) setUnseenAuto((prev) => { const n = {...prev}; delete n[appId]; return n; }); };
   const markDialogShown = (key) => {
     setDialogsShown((prev) => ({ ...prev, [key]: true }));
   };
@@ -2071,6 +2078,7 @@ const App = () => {
                   thought: data.thought,
                 };
                 setSmartWatchLogs((prev) => [newLog, ...prev]);
+                markUnseen("smartwatch");
                 if (typeof showToast === "function") showToast("info", `${savedCharName}的实时位置更新了`);
               }
             } finally {
@@ -2082,21 +2090,21 @@ const App = () => {
         if (data.triggerDiary) {
           setTimeout(async () => {
             const ok = await runGenerator("diary", setDiaries, prompts.diary);
-            if (ok && typeof showToast === "function") showToast("info", `${savedCharName}写了一篇日记`);
+            if (ok) { markUnseen("diary"); if (typeof showToast === "function") showToast("info", `${savedCharName}写了一篇日记`); }
           }, 2000);
         }
         // 浏览器搜索触发 → 更新浏览器历史，生成完成后弹窗
         if (data.triggerBrowser) {
           setTimeout(async () => {
             const ok = await runGenerator("browser", setBrowserHistory, prompts.browser);
-            if (ok && typeof showToast === "function") showToast("info", `${savedCharName}的浏览记录更新了`);
+            if (ok) { markUnseen("browser"); if (typeof showToast === "function") showToast("info", `${savedCharName}的浏览记录更新了`); }
           }, 3000);
         }
         // 购物触发 → 更新账单，生成完成后弹窗
         if (data.triggerReceipt) {
           setTimeout(async () => {
             const ok = await runGenerator("receipt", setReceipts, prompts.receipt);
-            if (ok && typeof showToast === "function") showToast("info", `${savedCharName}的账单更新了`);
+            if (ok) { markUnseen("receipt"); if (typeof showToast === "function") showToast("info", `${savedCharName}的账单更新了`); }
           }, 4000);
         }
       }
@@ -3628,6 +3636,7 @@ Requirements:
           thought: fixedData.thought,
         };
         setSmartWatchLogs((prev) => [newLog, ...prev]);
+        markUnseen("smartwatch");
         showToast("success", "行踪已更新");
       }
     } finally {
@@ -3771,6 +3780,7 @@ Requirements:
           return [...clean, ...invisibleMsgs];
         });
         showToast("success", `在你离开期间，智能家有 ${newLogs.length} 条新活动`);
+        markUnseen("smartwatch");
       }
     } catch (e) {
       console.error("Offline smartwatch update failed:", e);
@@ -4361,6 +4371,7 @@ Requirements:
                 <AppIcon
                   key={app.id}
                   label={app.label}
+                  dot={!unseenAutoLoaded ? false : !!unseenAuto[app.id]}
                   // 核心逻辑：如果有自定义图标，显示图片；否则显示默认 Lucide 图标
                   icon={
                     customIcons[app.id] ? (
@@ -4376,6 +4387,7 @@ Requirements:
                   onClick={() => {
                     // 特殊处理：如果是设置，重置 previousApp
                     if (app.id === "settings") setPreviousApp(null);
+                    clearUnseen(app.id);
                     setActiveApp(app.id);
                   }}
                 />
@@ -5612,6 +5624,9 @@ Requirements:
             setForumInteractionContext={setForumInteractionContext}
             dialogsShown={dialogsShown}
             setDialogsShown={setDialogsShown}
+            unseenAuto={unseenAuto}
+            markUnseen={markUnseen}
+            clearUnseen={clearUnseen}
           />
           {/* APP: SMART WATCH (智能看看) */}
           <AppWindow
@@ -6444,11 +6459,11 @@ Requirements:
   );
 };
 
-const AppIcon = ({ icon, label, onClick }) => (
+const AppIcon = ({ icon, label, onClick, dot, dotColor = "bg-gray-400" }) => (
   <div
     onClick={onClick}
     data-app-link={label}
-    className="flex flex-col items-center gap-2.5 cursor-pointer group w-20"
+    className="flex flex-col items-center gap-2.5 cursor-pointer group w-20 relative"
   >
     <div className="w-16 h-16 rounded-[22px] glass-panel flex items-center justify-center shadow-sm group-hover:scale-105 group-hover:shadow-lg transition-all duration-300 relative overflow-hidden text-gray-700 group-hover:text-black border-white/60">
       {typeof icon === "string" ? (
@@ -6458,6 +6473,12 @@ const AppIcon = ({ icon, label, onClick }) => (
       )}
       <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/40 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
     </div>
+    {/* 红点提示 */}
+    {dot && (
+      <div className="absolute top-1.5 right-1.5">
+        <div className={`w-2.5 h-2.5 rounded-full ${dotColor}`}></div>
+      </div>
+    )}
     <span className="text-[10px] font-medium text-gray-500 tracking-wide group-hover:text-gray-800 transition-colors">
       {label}
     </span>

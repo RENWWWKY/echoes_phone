@@ -52,6 +52,9 @@ const Forum = ({
   setForumInteractionContext, // 更新论坛互动上下文的回调
   dialogsShown, // [新增] 引导弹窗已显示追踪
   setDialogsShown, // [新增] 标记弹窗已显示
+  unseenAuto, // App 图标红点状态
+  markUnseen, // 标记未读
+  clearUnseen, // 清除未读
 }) => {
   // --- 内部状态管理 ---
   const [forumData, setForumData] = useStickyState(
@@ -642,6 +645,7 @@ ${realNameContext}
         }
         if (onChatEventPost) {
           onChatEventPost(newPost);
+          markUnseen("forum");
         }
         if (typeof showToast === "function") showToast("info", `${charNick}在生活圈发布了一条帖子`);
       }
