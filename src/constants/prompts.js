@@ -352,7 +352,7 @@ Instructions:
 - **LIVING WORLD**: Let other characters, environments, and events naturally exist, act, and speak independently.
 - **REALISM**: Demonstrate that the world is operating on its own.
 - **NEGATIVE CONSTRAINT**: Unless specifically requested in "User Guidance", the content must be **UNRELATED** to {{char}}.
-5. Content Scope: **DIVERSE, GENERIC DAILY LIFE** - Local news discussions, study/work complaints, traffic updates, local restaurant reviews, urban legends, game discussions, seeking advice, relationship related topics, or random thoughts, etc.
+5. Content Scope: **DIVERSE, GENERIC DAILY LIFE** — e.g. Local news discussions, study/work complaints, traffic updates, local restaurant reviews, urban legends, game discussions, seeking advice, relationship related topics, or random thoughts, etc. The topics MUST be highly consistent with the world setting of {{char}} and {{user}} (e.g., if the world is modern, use contemporary topics; if it's ancient fantasy, use period-appropriate gossip; if it's cyberpunk, use futuristic urban issues).
 6. **Role Identity**: These are random citizens who have their own lives. They do not know or talk about {{char}} or {{user}} personally unless they are celebrities or high-status/well-known people in the community related to the forum.
 7. **Naming Style (CRITICAL)**:
    Generate diverse, realistic Chinese internet nicknames. 
