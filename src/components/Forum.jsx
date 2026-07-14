@@ -493,14 +493,10 @@ ${realNameContext}
         : "{{char}} should ONLY reply if the topic is *directly* related to their specific interests. Otherwise, return NO character reply.")
       .replaceAll("{{WORLD_INFO}}", cleanWorldInfo);
 
-    // 禁止冒充 user
-    let impersonationBlock = "";
-    if (hasMainUserReplied && hasSmurfCommented) {
-      impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${userNick}" or author = "${smurfNick}". These are real people - their replies are posted by themselves.`;
-    } else if (hasMainUserReplied) {
-      impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${userNick}".`;
-    } else if (hasSmurfCommented) {
-      impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${smurfNick}".`;
+    // 禁止冒充 user：真名和大号网名永远禁止，小号网名在出现时禁止
+    let impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${userNick}". These are real people - their replies are posted by themselves.`;
+    if (hasSmurfCommented) {
+      impersonationBlock += ` Similarly, NEVER generate a reply with author = "${smurfNick}".`;
     }
     prompt += impersonationBlock;
 
@@ -513,9 +509,7 @@ ${realNameContext}
 
       if (data && data.replies) {
         // 代码层过滤：绝对禁止冒充 user 生成回复
-        const bannedAuthors = new Set();
-        if (hasMainUserReplied || hasSmurfCommented) bannedAuthors.add(currentUserName);
-        if (hasMainUserReplied) bannedAuthors.add(userNick);
+        const bannedAuthors = new Set([currentUserName, userNick]);
         if (hasSmurfCommented) bannedAuthors.add(smurfNick);
         const filteredReplies = data.replies.filter(r => r.author && !bannedAuthors.has(r.author));
         const newReplies = filteredReplies.map((r) => ({
