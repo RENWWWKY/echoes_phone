@@ -493,13 +493,6 @@ ${realNameContext}
         : "{{char}} should ONLY reply if the topic is *directly* related to their specific interests. Otherwise, return NO character reply.")
       .replaceAll("{{WORLD_INFO}}", cleanWorldInfo);
 
-    // 禁止冒充 user：真名和大号网名永远禁止，小号网名在出现时禁止
-    let impersonationBlock = `\n**ABSOLUTE PROHIBITION**: NEVER generate a reply with author = "${currentUserName}" or author = "${userNick}". These are real people - their replies are posted by themselves.`;
-    if (hasSmurfCommented) {
-      impersonationBlock += ` Similarly, NEVER generate a reply with author = "${smurfNick}".`;
-    }
-    prompt += impersonationBlock;
-
     try {
       const data = await generateContent(
         { prompt, systemInstruction: finalSystemPrompt },
@@ -508,11 +501,7 @@ ${realNameContext}
       );
 
       if (data && data.replies) {
-        // 代码层过滤：绝对禁止冒充 user 生成回复
-        const bannedAuthors = new Set([currentUserName, userNick]);
-        if (hasSmurfCommented) bannedAuthors.add(smurfNick);
-        const filteredReplies = data.replies.filter(r => r.author && !bannedAuthors.has(r.author));
-        const newReplies = filteredReplies.map((r) => ({
+        const newReplies = data.replies.map((r) => ({
           id: `r_${Date.now()}_${Math.random()}`,
           author: r.isCharacter
             ? forumSettings.charNick || "匿名用户"
