@@ -2891,7 +2891,7 @@ Requirements:
 
     // 智能家离线上下文（角色在用户不在时做了什么）
     const swOfflineSection = smartWatchOfflineContext
-      ? `\n**Recent Offline Activity** ({{char}}'s actions while {{user}} was away):\n${replacePlaceholders(smartWatchOfflineContext, persona.name, effectiveUserName)}`
+      ? `\n**{{char}}'s recent activity**:\n${replacePlaceholders(smartWatchOfflineContext, persona.name, effectiveUserName)}`
       : "";
 
     // 对 specialInst 中的 {{char}}/{{user}} 进行预替换（注入 prompt 时外层的同名替换已发生）
