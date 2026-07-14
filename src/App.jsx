@@ -5660,7 +5660,7 @@ Requirements:
             dialogsShown={dialogsShown}
             setDialogsShown={setDialogsShown}
             unseenAuto={unseenAuto}
-            markUnseen={markUnseen}
+            markUnseen={markUnseenDot}
             clearUnseen={clearUnseen}
           />
           {/* APP: SMART WATCH (智能看看) */}
