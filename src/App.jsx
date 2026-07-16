@@ -1962,7 +1962,8 @@ const App = () => {
       .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
       .replaceAll("{{HISTORY}}", getContextString(chatHistory, effectiveUserName, p, null, contextLimit))
       .replaceAll("{{USER_PERSONA}}", userPersona + "\n" + trackerContext)
-      .replaceAll("{{user}}", effectiveUserName);
+      .replaceAll("{{user}}", effectiveUserName)
+      .replaceAll("{{DATE}}", getCurrentTimeObj().toLocaleString("zh-CN", { month: "numeric", day: "numeric" }));
 
     try {
       const data = await generateContent(

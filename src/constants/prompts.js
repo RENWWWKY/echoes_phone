@@ -273,6 +273,7 @@ JSON ARRAY:
   browser: `Generate the browser search history for {{char}}.
 Context: {{HISTORY}}
 User: {{user}}.
+Date: {{DATE}}
 
 Instructions:
 1. Generate 3-5 "Normal" search queries. These should relate to {{char}}'s job, hobbies, lifestyles, or other parts of daily life.
