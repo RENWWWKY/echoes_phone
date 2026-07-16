@@ -893,7 +893,7 @@ ${targetInstruction}`;
               <UserRound size={16} />
             </button>
             <button
-              onClick={() => { setPostIdentity("me"); setShowPostModal(true); }}
+              onClick={() => setShowPostModal(true)}
               className="bg-black text-white p-1.5 rounded-full hover:scale-105 shadow-md"
             >
               <Plus size={16} />
@@ -1349,7 +1349,7 @@ ${targetInstruction}`;
                 className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${postTab === "me" ? "bg-white shadow-sm text-black" : "text-gray-400"}`}
                 onClick={() => setPostTab("me")}
               >
-                我的身份 ({getForumName("me")})
+                我的身份 ({getForumName(postIdentity)})
               </button>
               <button
                 className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${postTab === "char" ? "bg-[#7A2A3A] text-white shadow-sm" : "text-gray-400"}`}
