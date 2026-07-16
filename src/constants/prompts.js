@@ -34,6 +34,7 @@ CRITICAL: You must output the user's actual name. DO NOT use placeholders like {
 
   chat: `Roleplay as {{char}}.
 Time: {{TIME}}
+{{TIMEZONE}}
 User: {{user}}
 Setting: {{MODE_INSTRUCTION}}
 Context: {{HISTORY}}

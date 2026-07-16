@@ -2958,6 +2958,7 @@ Requirements:
     const prompt = prompts.chat
       .replaceAll("{{char}}", persona.name)
       .replaceAll("{{TIME}}", getCurrentTimeObj().toLocaleString("zh-CN", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }))
+      .replaceAll("{{TIMEZONE}}", `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}. Unless otherwise specified, {{char}} and {{user}} are in this timezone. Ensure weather, temperature, season, and time-of-day references are consistent with the current date and local timezone.`)
       .replaceAll("{{HISTORY}}", historyForPrompt)
       .replaceAll(
         "{{LAST_MSG}}",
