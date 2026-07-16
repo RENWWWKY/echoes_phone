@@ -867,6 +867,14 @@ const App = () => {
   const [showIdleGuide, setShowIdleGuide] = useState(false);
   const idleGuideTimerRef = useRef(null);
   const idleGuideDismissRef = useRef(null);
+  // 检测用户使用"不要说/不许说/别说/再说我就" 等字眼（累计出现3轮以上弹出）
+  const [negativeWordCount, setNegativeWordCount] = useState(0);
+  const [showNegativeGuide, setShowNegativeGuide] = useState(false);
+  const negativeGuideDismissRef = useRef(null);
+  // 同一轮重新生成 >= 5 次弹出引导
+  const [regenCount, setRegenCount] = useState(0);
+  const [showRegenGuide, setShowRegenGuide] = useState(false);
+  const regenGuideDismissRef = useRef(null);
 
   // sticker 查找 Map 缓存 (避免每条消息都 .find 遍历数组)
   const charStickerMap = useMemo(() => new Map(charStickers.map(s => [s.id, s])), [charStickers]);
@@ -2606,6 +2614,24 @@ Requirements:
         setShowTriggerGuide(true);
       }, 5000);
     }
+    // 引导1: 检测用户输入含"不要说/不许说/别说/再说我就"等字眼
+    if (!dialogsShown.negativeGuide) {
+      const negativePattern = /不要说|不许说|别说|再说我就/;
+      if (negativePattern.test(content)) {
+        setNegativeWordCount((prev) => {
+          const next = prev + 1;
+          if (next >= 3) {
+            setShowNegativeGuide(true);
+            clearTimeout(negativeGuideDismissRef.current);
+            negativeGuideDismissRef.current = setTimeout(() => {
+              setShowNegativeGuide(false);
+              setDialogsShown((p) => ({ ...p, negativeGuide: true }));
+            }, 8000);
+          }
+          return next;
+        });
+      }
+    }
   };
 
   // 无聊引导:50轮后 AI 回复完 5 秒无输入弹出
@@ -2653,6 +2679,24 @@ Requirements:
     overrideContext = null,
   ) => {
     if (!persona) return;
+    // 引导2: 同一轮重新生成计数
+    const isRegen = typeof param1 === "number";
+    if (isRegen && !dialogsShown.regenGuide) {
+      setRegenCount((prev) => {
+        const next = prev + 1;
+        if (next >= 5) {
+          setShowRegenGuide(true);
+          clearTimeout(regenGuideDismissRef.current);
+          regenGuideDismissRef.current = setTimeout(() => {
+            setShowRegenGuide(false);
+            setDialogsShown((p) => ({ ...p, regenGuide: true }));
+          }, 8000);
+        }
+        return next;
+      });
+    } else if (!isRegen) {
+      setRegenCount(0);
+    }
     // 清除触发引导
     clearTimeout(triggerGuideTimerRef.current);
     if (!dialogsShown.triggerGuide) {
@@ -5166,6 +5210,22 @@ Requirements:
                             </div>
                           </div>
                         )}
+                        {/* 负面词汇引导 */}
+                        {showNegativeGuide && (
+                          <div className="absolute bottom-full mb-3 right-8 whitespace-nowrap animate-in slide-in-from-bottom-2 fade-in duration-300 z-50">
+                            <div className="bg-[#1a1a1a]/90 backdrop-blur-md text-white text-[11px] font-medium px-4 py-2.5 rounded-2xl shadow-xl border border-white/20 text-center leading-relaxed max-w-[300px]">
+                            对AI的生成效果不满意时，您可点击对应的内容，再点击下方出现的刷新按钮，将其"重新生成"。
+                            </div>
+                          </div>
+                        )}
+                        {/* 重新生成过多引导 */}
+                        {showRegenGuide && (
+                          <div className="absolute bottom-full mb-3 right-8 whitespace-nowrap animate-in slide-in-from-bottom-2 fade-in duration-300 z-50">
+                            <div className="bg-[#1a1a1a]/90 backdrop-blur-md text-white text-[11px] font-medium px-4 py-2.5 rounded-2xl shadow-xl border border-white/20 text-center leading-relaxed max-w-[300px]">
+                            如果您有明确不希望AI使用的表达、做出的动作等，也可以通过修改角色设定、或在"世界书"中新增条目来规避。
+                            </div>
+                          </div>
+                        )}
                         <div className="flex gap-1 shrink-0">
                           <button
                             onClick={() => {
@@ -5206,6 +5266,8 @@ Requirements:
                               // 用户开始输入则隐藏触发引导和无聊引导
                               if (showTriggerGuide) setShowTriggerGuide(false);
                               if (showIdleGuide) { setShowIdleGuide(false); clearTimeout(idleGuideTimerRef.current); clearTimeout(idleGuideDismissRef.current); }
+                              if (showNegativeGuide) { setShowNegativeGuide(false); clearTimeout(negativeGuideDismissRef.current); }
+                              if (showRegenGuide) { setShowRegenGuide(false); clearTimeout(regenGuideDismissRef.current); }
                               e.target.style.height = "auto";
                               e.target.style.height =
                                 Math.min(e.target.scrollHeight, 120) + "px";
