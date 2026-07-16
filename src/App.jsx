@@ -154,8 +154,8 @@ import {
   IMG_TAG_START,
 } from "./utils/appHelpers.jsx";
 
-// 3D 骰子面（1-6 点）
-// 2D 骰子面（静态展示，白底黑点）
+// 3D 骰子面(1-6 点)
+// 2D 骰子面(静态展示,白底黑点)
 const StaticDice = ({ value }) => {
   const dots = {
     1: [[1,1]],
@@ -259,11 +259,11 @@ const DiceFace = ({ value, animate = false, onDone }) => {
           transition: done ? "" : "none",
         }}
       >
-        {/* 顶面(5) — 结果面，最亮 */}
+        {/* 顶面(5) - 结果面,最亮 */}
         <div className={faceCls} style={{ ...fs, transform: `rotateX(90deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%)" }}>
           <Dots n={5} />
         </div>
-        {/* 底面(2) — 最暗 */}
+        {/* 底面(2) - 最暗 */}
         <div className={faceCls} style={{ ...fs, transform: `rotateX(-90deg) translateZ(${H}px)`, background: "linear-gradient(135deg, #d0d0d0 0%, #c0c0c0 100%)" }}>
           <Dots n={2} />
         </div>
@@ -288,24 +288,24 @@ const DiceFace = ({ value, animate = false, onDone }) => {
   );
 };
 
-// 从文本中提取角色名（启发式规则）
-// 优先级：1. Name:/name：/名字：/姓名：模式 2. 纯文本第一行（需通过启发式判定） 3. null
+// 从文本中提取角色名(启发式规则)
+// 优先级:1. Name:/name:/名字:/姓名:模式 2. 纯文本第一行(需通过启发式判定) 3. null
 const extractNameFromText = (text) => {
   if (!text) return null;
 
   // 1. 匹配显式 Name: 前缀
   const namePatterns = [
     /^name:\s*(.+?)(\n|$)/im,
-    /^name：\s*(.+?)(\n|$)/im,
-    /^名字：\s*(.+?)(\n|$)/im,
-    /^姓名：\s*(.+?)(\n|$)/im,
+    /^name:\s*(.+?)(\n|$)/im,
+    /^名字:\s*(.+?)(\n|$)/im,
+    /^姓名:\s*(.+?)(\n|$)/im,
   ];
   for (const p of namePatterns) {
     const m = text.match(p);
     if (m) return m[1].trim();
   }
 
-  // 2. 兜底：取第一行，用启发式规则判定
+  // 2. 兜底:取第一行,用启发式规则判定
   const firstLine = text.replace(/<[^>]+>/g, "").split("\n").find(l => l.trim().length > 0);
   const candidate = firstLine ? firstLine.trim() : null;
   const isFieldLabel = (str) =>
@@ -339,7 +339,7 @@ const App = () => {
     const now = Date.now();
 
     lines.forEach((line, index) => {
-      const parts = line.split(/[:：]/);
+      const parts = line.split(/[::]/);
       if (parts.length >= 2) {
         const desc = parts[0].trim();
         const url = parts.slice(1).join(":").trim();
@@ -414,7 +414,7 @@ const App = () => {
       document.head.appendChild(styleTag);
     }
 
-    // 这里直接把 url 放进去即可，浏览器会自动去下载
+    // 这里直接把 url 放进去即可,浏览器会自动去下载
     styleTag.innerHTML = `
     @font-face { font-family: '${name}'; src: url('${url}'); font-display: swap; }
     body { --app-font: '${name}' !important; }
@@ -484,7 +484,7 @@ const App = () => {
 
   // [新增] 重置图标
   const handleResetIcon = async (appId) => {
-    if (await customConfirm("确定恢复默认图标吗？", "恢复图标")) {
+    if (await customConfirm("确定恢复默认图标吗?", "恢复图标")) {
       setCustomIcons((prev) => {
         const newState = { ...prev };
         delete newState[appId];
@@ -685,7 +685,7 @@ const App = () => {
     setPendingHint(hint);
   };
 
-  // [新增] 核心回退逻辑：根据消息 ID 删除它生成的所有 Facts 和 Events
+  // [新增] 核心回退逻辑:根据消息 ID 删除它生成的所有 Facts 和 Events
   const rollbackTrackerData = (sourceMsgId) => {
     if (!sourceMsgId) return;
 
@@ -840,12 +840,12 @@ const App = () => {
     true,
     "echoes_real_time_enabled",
   );
-  // 追踪哪些引导弹窗已经显示过（只弹一次）
+  // 追踪哪些引导弹窗已经显示过(只弹一次)
   const [dialogsShown, setDialogsShown, dialogsShownLoaded] = useStickyState(
     {},
     "echoes_dialogs_shown",
   );
-  // App 图标红点/气泡：记录哪些 app 有未查看的自动生成内容
+  // App 图标红点/气泡:记录哪些 app 有未查看的自动生成内容
   // 格式: { [appId]: { type: "dot" | "bubble", text?: string } }
   const [unseenAuto, setUnseenAuto, unseenAutoLoaded] = useStickyState(
     {},
@@ -860,10 +860,10 @@ const App = () => {
   const chatScrollRef = useRef(null);
   const virtuosoRef = useRef(null);
   const isAtBottomRef = useRef(true);
-  // 触发按钮引导（新手第一次发完消息后无操作5秒弹出）
+  // 触发按钮引导(新手第一次发完消息后无操作5秒弹出)
   const [showTriggerGuide, setShowTriggerGuide] = useState(false);
   const triggerGuideTimerRef = useRef(null);
-  // 50轮后无聊引导（AI回复后5秒无输入，弹出8秒）
+  // 50轮后无聊引导(AI回复后5秒无输入,弹出8秒)
   const [showIdleGuide, setShowIdleGuide] = useState(false);
   const idleGuideTimerRef = useRef(null);
   const idleGuideDismissRef = useRef(null);
@@ -891,8 +891,8 @@ const App = () => {
       const result = await generateContent(
         {
           prompt: `用户描述: "${creationInput}"
-        
-          请根据以上简短描述，生成一个完整、详细的角色卡。确保所有细节都有逻辑支撑。`,
+
+          请根据以上简短描述,生成一个完整、详细的角色卡。确保所有细节都有逻辑支撑。`,
           systemInstruction: CHARACTER_CREATION_PROMPT,
           isJson: true,
         },
@@ -902,7 +902,7 @@ const App = () => {
 
       if (result) {
         setGeneratedPreview(result);
-        showToast("success", "角色生成成功！");
+        showToast("success", "角色生成成功!");
       }
     } catch (error) {
       showToast("error", "生成失败: " + error.message);
@@ -917,7 +917,7 @@ const App = () => {
 
     const cleaned = cleanCharacterJson(generatedPreview);
     const finalDescription = generatedPreview.description || cleaned.rawText;
-    // 优先级：generatedPreview.name > cleaned.name > 从 finalDescription 文本提取 > "Unknown"
+    // 优先级:generatedPreview.name > cleaned.name > 从 finalDescription 文本提取 > "Unknown"
     const finalName =
       (generatedPreview.name && generatedPreview.name !== "Unknown" ? generatedPreview.name : null) ||
       (cleaned.name && cleaned.name !== "Unknown" ? cleaned.name : null) ||
@@ -935,7 +935,7 @@ const App = () => {
       ...entry,
       group: finalName, // 使用角色名作为分组
     }));
-    // 合并：预设在前，角色卡世界书追加在后
+    // 合并:预设在前,角色卡世界书追加在后
     setWorldBook((prev) => {
       const presetIds = new Set(prev.filter(e => e.id.startsWith('preset_')).map(e => e.id));
       const newEntries = groupedWorldBook.filter(e => !presetIds.has(e.id));
@@ -1067,9 +1067,9 @@ const App = () => {
   // --- TRACKER HANDLERS ---
 
   const handleDeleteTrackerItem = async (type, id) => {
-    if (!(await customConfirm("确定删除这条记录吗？"))) return;
+    if (!(await customConfirm("确定删除这条记录吗?"))) return;
 
-    // 修复点：兼容 "fact" (User Facts) 和 "userFact"
+    // 修复点:兼容 "fact" (User Facts) 和 "userFact"
     if (type === "userFact" || type === "fact") {
       setUserFacts((prev) => prev.filter((i) => i.id !== id));
     } else if (type === "charFact") {
@@ -1088,7 +1088,7 @@ const App = () => {
           prev.map((i) => (i.id === id ? { ...i, content: newContent } : i)),
         );
       } else if (type === "charFact") {
-        // [新增] 之前漏了这个分支，导致 CharFacts 编辑会跑到 else 里去改 SharedEvents
+        // [新增] 之前漏了这个分支,导致 CharFacts 编辑会跑到 else 里去改 SharedEvents
         setCharFacts((prev) =>
           prev.map((i) => (i.id === id ? { ...i, content: newContent } : i)),
         );
@@ -1108,7 +1108,7 @@ const App = () => {
 
   // 删除状态记录函数
   const handleDeleteStatus = async (index) => {
-    if (await customConfirm("确定删除这条状态记录？")) {
+    if (await customConfirm("确定删除这条状态记录?")) {
       const newHistory = [...statusHistory];
       newHistory.splice(index, 1);
       setStatusHistory(newHistory);
@@ -1145,7 +1145,7 @@ const App = () => {
     }
   }, [activeApp]);
 
-  // --- [新增] 数据结构迁移：自动给旧数据加上分组 ---
+  // --- [新增] 数据结构迁移:自动给旧数据加上分组 ---
   useEffect(() => {
     // 1. 迁移表情包
     setCharStickers((prev) =>
@@ -1198,7 +1198,7 @@ const App = () => {
     let styleEl = document.getElementById("echoes-skin-style");
     if (!skinCSS) {
       if (styleEl) styleEl.remove();
-      
+
       // Reset meta theme-color
       let metaThemeColor = document.querySelector("meta[name='theme-color']");
       if (metaThemeColor) {
@@ -1243,14 +1243,14 @@ const App = () => {
             const json = JSON.parse(e.target.result);
             const { rawText, worldBook, name } = cleanCharacterJson(json);
             setInputKey(rawText);
-            // 合并：保留预设在前，角色卡世界书追加在后
+            // 合并:保留预设在前,角色卡世界书追加在后
             const newWB = worldBook || [];
             setWorldBook((prev) => {
               const existing = new Set(prev.map(e => e.id));
               const unique = newWB.filter(e => !existing.has(e.id));
               return [...prev, ...unique];
             });
-            // 从 rawText 提取名字（双轨兼容：Name: 模式 + 第一行启发式），兜底用 cleanCharacterJson 返回的 name
+            // 从 rawText 提取名字(双轨兼容:Name: 模式 + 第一行启发式),兜底用 cleanCharacterJson 返回的 name
             const finalName = extractNameFromText(rawText) || (name && name !== "Unknown" ? name : "角色");
             setPersona((prev) => ({
               ...prev,
@@ -1304,7 +1304,7 @@ const App = () => {
   const deleteWorldBookGroup = async (groupName) => {
     if (
       await customConfirm(
-        `确定删除分组 "${groupName}" 下的所有条目吗？`,
+        `确定删除分组 "${groupName}" 下的所有条目吗?`,
         "删除分组",
       )
     ) {
@@ -1326,7 +1326,7 @@ const App = () => {
 
     setCharStickers((prev) => [
       ...prev,
-      // 添加一个占位符，确保分组能显示出来
+      // 添加一个占位符,确保分组能显示出来
       {
         id: `placeholder_${Date.now()}`,
         group: name,
@@ -1341,7 +1341,7 @@ const App = () => {
   const deleteStickerGroup = async (groupName) => {
     if (
       await customConfirm(
-        `确定删除库 "${groupName}" 及其中所有表情包吗？`,
+        `确定删除库 "${groupName}" 及其中所有表情包吗?`,
         "删除表情包库",
       )
     ) {
@@ -1454,7 +1454,7 @@ const App = () => {
         showToast("success", "头像读取成功");
       } catch (err) {
         console.error("Image Processing Error", err);
-        showToast("error", "图片处理失败，请重试");
+        showToast("error", "图片处理失败,请重试");
       }
     }
   };
@@ -1482,7 +1482,7 @@ const App = () => {
         // 2. 压缩图片
         const compressedBase64 = await compressImage(file);
 
-        // 3. [关键修改] 确定分组：如果有传入 targetGroup 就用它，否则用默认值
+        // 3. [关键修改] 确定分组:如果有传入 targetGroup 就用它,否则用默认值
         const finalGroup = targetGroup || "自定义表情";
 
         const newSticker = {
@@ -1527,7 +1527,7 @@ const App = () => {
 
   // 删除表情包
   const handleDeleteSticker = async (id) => {
-    if (await customConfirm("确定删除这个表情包吗？")) {
+    if (await customConfirm("确定删除这个表情包吗?")) {
       if (editingSticker?.source === "user") {
         setUserStickers((prev) => prev.filter((s) => s.id !== id));
       } else {
@@ -1584,25 +1584,25 @@ const App = () => {
   // 统计分类数据预览
   const getCategoryPreview = (data, catId) => {
     const cat = BACKUP_CATEGORIES[catId];
-    if (!cat) return "—";
+    if (!cat) return "-";
     const firstKey = cat.keys[0];
     const val = data[firstKey];
-    if (val === undefined) return "—";
-    if (catId === "chat") return val?.length ? `${val.length} 条消息` : "—";
-    if (catId === "persona") return val?.name || "—";
-    if (catId === "worldbook") return val?.length ? `${val.length} 条目` : "—";
+    if (val === undefined) return "-";
+    if (catId === "chat") return val?.length ? `${val.length} 条消息` : "-";
+    if (catId === "persona") return val?.name || "-";
+    if (catId === "worldbook") return val?.length ? `${val.length} 条目` : "-";
     if (catId === "memory") {
       const mem = data["echoes_long_memory"];
-      return mem ? `${mem.length} 字符` : "—";
+      return mem ? `${mem.length} 字符` : "-";
     }
     if (catId === "stickers") {
       const total = (data["echoes_char_stickers"]?.length || 0) + (data["echoes_user_stickers"]?.length || 0);
-      return total > 0 ? `${total} 组` : "—";
+      return total > 0 ? `${total} 组` : "-";
     }
     if (catId === "config") {
       const rules = data["echoes_custom_rules"];
       const style = data["echoes_chat_style"];
-      return rules ? `${style || "default"}` : style || "—";
+      return rules ? `${style || "default"}` : style || "-";
     }
     if (catId === "social") {
       const forum = data["echoes_forum_data"];
@@ -1610,10 +1610,10 @@ const App = () => {
       const parts = [];
       if (forum?.posts?.length) parts.push(`${forum.posts.length} 帖子`);
       if (diaries?.length) parts.push(`${diaries.length} 日记`);
-      return parts.length ? parts.join(" · ") : "—";
+      return parts.length ? parts.join(" · ") : "-";
     }
-    if (catId === "smartwatch") return val?.length ? `${val.length} 地点` : "—";
-    return "—";
+    if (catId === "smartwatch") return val?.length ? `${val.length} 地点` : "-";
+    return "-";
   };
 
   const exportFullBackup = async () => {
@@ -1626,7 +1626,7 @@ const App = () => {
         catch { allData[key] = localStorage.getItem(key); }
       }
     }
-    // 从 IndexedDB 补充读取（useStickyState 迁移到了 IndexedDB）
+    // 从 IndexedDB 补充读取(useStickyState 迁移到了 IndexedDB)
     try {
       const idbKeys = [
         "echoes_chat_history", "echoes_status_history", "echoes_persona",
@@ -1667,7 +1667,7 @@ const App = () => {
         }
       }
     } catch (e) { console.warn("IndexedDB backup skipped:", e); }
-    // 所有分类都显示，有数据的默认勾选
+    // 所有分类都显示,有数据的默认勾选
     const categories = Object.keys(BACKUP_CATEGORIES).map((id) => ({
       id,
       selected: BACKUP_CATEGORIES[id].keys.some((k) => allData[k] !== undefined && allData[k] !== null),
@@ -1759,21 +1759,21 @@ const App = () => {
     }
     setShowImportModal(false);
     setImportData(null);
-    showToast("success", `已恢复 ${restored} 个数据项，请刷新页面使设置生效`);
+    showToast("success", `已恢复 ${restored} 个数据项,请刷新页面使设置生效`);
   };
 
   // 兼容旧接口
   const exportChatData = () => exportFullBackup();
   const importChatData = (event) => importFullBackup(event);
 
-  // ── 统一生成前置检查（API > 角色设定）──
+  // ── 统一生成前置检查(API > 角色设定)──
   const checkCanGenerate = () => {
     if (!apiConfig.baseUrl || !apiConfig.key) {
-      showToast("error", "未配置 API 信息，请在设置中输入 Base URL 和 Key");
+      showToast("error", "未配置 API 信息,请在设置中输入 Base URL 和 Key");
       return false;
     }
     if (!inputKey) {
-      showToast("error", "角色设定为空，请先完善设定");
+      showToast("error", "角色设定为空,请先完善设定");
       return false;
     }
     return true;
@@ -1796,7 +1796,7 @@ const App = () => {
         headers: { Authorization: `Bearer ${apiConfig.key}` },
       });
       if (!res.ok) {
-        // /models 端点不存在（如 Minimax），降级为 chat completion 测试
+        // /models 端点不存在(如 Minimax),降级为 chat completion 测试
         if (res.status === 404) {
           const chatRes = await fetch(`${url}/chat/completions`, {
             method: "POST",
@@ -1812,7 +1812,7 @@ const App = () => {
           });
           if (chatRes.ok) {
             setAvailableModels([]);
-            showToast("success", "连接成功 (该 API 不支持模型列表，请手动输入模型名)");
+            showToast("success", "连接成功 (该 API 不支持模型列表,请手动输入模型名)");
             setIsFetchingModels(false);
             return;
           }
@@ -1836,7 +1836,7 @@ const App = () => {
       }
     } catch (e) {
       console.error("Fetch Models Failed", e);
-      showToast("error", "拉取模型失败，请检查配置");
+      showToast("error", "拉取模型失败,请检查配置");
     } finally {
       setIsFetchingModels(false);
     }
@@ -1863,7 +1863,7 @@ const App = () => {
         headers: { Authorization: `Bearer ${apiConfig.key}` },
       });
 
-      // /models 端点不存在（如 Minimax），降级为 chat completion 测试
+      // /models 端点不存在(如 Minimax),降级为 chat completion 测试
       if (res.status === 404) {
         const modelToTest = apiConfig.model || "gpt-4o";
         res = await fetch(`${url}/chat/completions`, {
@@ -1892,7 +1892,7 @@ const App = () => {
       }
 
       setConnectionStatus("success");
-      showToast("success", "连接成功，配置已保存");
+      showToast("success", "连接成功,配置已保存");
       setTimeout(() => setShowLockSettings(false), 1000);
     } catch (e) {
       console.error("Connection Test Failed", e);
@@ -2005,7 +2005,7 @@ const App = () => {
   const generateBrowser = () =>
     runGenerator("browser", setBrowserHistory, prompts.browser);
 
-  // 事件触发分析：分析聊天历史，决定触发哪些应用更新
+  // 事件触发分析:分析聊天历史,决定触发哪些应用更新
   const triggerAppEvents = async () => {
     if (!persona) return;
     const charName = persona.name || "Character";
@@ -2027,7 +2027,7 @@ const App = () => {
       );
 
       if (data) {
-        // 在异步调用前保存所有需要的值，避免闭包问题
+        // 在异步调用前保存所有需要的值,避免闭包问题
         const savedPersonaName = persona?.name || "角色";
         const savedCharName = charName;
         const savedUserName = effectiveUserName;
@@ -2041,14 +2041,14 @@ const App = () => {
         const savedCustomRules = customRules;
         const savedInputKey = inputKey;
 
-        // 发帖触发 → 生成论坛帖子（10%概率）
+        // 发帖触发 → 生成论坛帖子(10%概率)
         if (data.post_event && forumData.isInitialized && Math.random() < 0.1) {
             if (window.__forumGenerateChatEventPost) {
               window.__forumGenerateChatEventPost(true);
             }
         }
 
-        // 位置移动触发 → 更新智能家（80%概率）
+        // 位置移动触发 → 更新智能家(80%概率)
         if (data.triggerLocation && savedSmartWatchLocations.length > 0 && Math.random() < 0.8) {
           setTimeout(async () => {
             setLoading((prev) => ({ ...prev, sw_update: true }));
@@ -2088,21 +2088,21 @@ const App = () => {
             }
           }, 1000);
         }
-        // 重要事件触发 → 写日记（10%概率）
+        // 重要事件触发 → 写日记(10%概率)
         if (data.triggerDiary && Math.random() < 0.1) {
           setTimeout(async () => {
             const ok = await runGenerator("diary", setDiaries, prompts.diary);
             if (ok) { markUnseenDot("diary"); if (typeof showToast === "function") showToast("info", `${savedCharName}写了一篇日记`); }
           }, 2000);
         }
-        // 浏览器搜索触发（20%概率）
+        // 浏览器搜索触发(20%概率)
         if (data.triggerBrowser && Math.random() < 0.2) {
           setTimeout(async () => {
             const ok = await runGenerator("browser", setBrowserHistory, prompts.browser);
             if (ok) { markUnseenDot("browser"); if (typeof showToast === "function") showToast("info", `${savedCharName}的浏览记录更新了`); }
           }, 3000);
         }
-        // 购物触发 → 更新账单（80%概率）
+        // 购物触发 → 更新账单(80%概率)
         if (data.triggerReceipt && Math.random() < 0.8) {
           setTimeout(async () => {
             const ok = await runGenerator("receipt", setReceipts, prompts.receipt);
@@ -2120,7 +2120,7 @@ const App = () => {
       name: "Char",
       enName: null,
       title: "Connected Soul",
-      bio: "手动模式，所有设定需手动填入。",
+      bio: "手动模式,所有设定需手动填入。",
       mbti: null,
       tags: [],
     };
@@ -2142,11 +2142,11 @@ const App = () => {
 
   const unlockDevice = async () => {
     if (!inputKey) return;
-    // 不再检查 apiConfig，也不设置 isConnecting 状态，实现秒开
+    // 不再检查 apiConfig,也不设置 isConnecting 状态,实现秒开
     try {
-      // 1. 本地解析名字（双轨兼容：Name: 模式 + 第一行启发式 + JSON 兜底）
+      // 1. 本地解析名字(双轨兼容:Name: 模式 + 第一行启发式 + JSON 兜底)
       let extractedName = extractNameFromText(inputKey) || "Unknown";
-      // 如果提取失败且 inputKey 本身是合法 JSON，尝试从 JSON name 字段获取
+      // 如果提取失败且 inputKey 本身是合法 JSON,尝试从 JSON name 字段获取
       if (extractedName === "Unknown") {
         try {
           const temp = JSON.parse(inputKey);
@@ -2154,10 +2154,10 @@ const App = () => {
         } catch (e) {}
       }
 
-      // 2. 构造基础 Persona，去除无效字段
+      // 2. 构造基础 Persona,去除无效字段
       const localPersona = {
         name: extractedName,
-        enName: null, // 设为 null，UI层会判断不显示
+        enName: null, // 设为 null,UI层会判断不显示
         title: "Connected Soul",
         bio: "档案已加载。详细设定将直接用于对话生成。",
         mbti: null, // 设为 null
@@ -2167,26 +2167,26 @@ const App = () => {
       setPersona(localPersona);
       setIsLocked(false);
       resetDailyFlags();
-      // 迁移：清除旧版 chatHistory 中的 smartwatch_update 消息
+      // 迁移:清除旧版 chatHistory 中的 smartwatch_update 消息
       setChatHistory((prev) => prev.filter((msg) => msg.type !== "smartwatch_update"));
       showToast("success", "终端已解锁");
 
-      // 离线智能家检测：三个条件都满足时自动生成角色离线生活轨迹
+      // 离线智能家检测:三个条件都满足时自动生成角色离线生活轨迹
       if (smartWatchLocations.length > 0 && realTimeEnabled && lastInteractionTimeLoaded) {
         const gapMs = Date.now() - lastInteractionTime;
         const twoHours = 2 * 3600000;
         if (gapMs > twoHours) {
-          setLastInteractionTime(Date.now()); // 重置，避免重复触发
+          setLastInteractionTime(Date.now()); // 重置,避免重复触发
           setTimeout(() => {
             generateOfflineSmartWatchUpdates(gapMs);
           }, 500);
         }
       }
 
-      // 注意：已移除自动生成音乐的逻辑
+      // 注意:已移除自动生成音乐的逻辑
     } catch (e) {
       console.error("Unlock Error", e);
-      showToast("error", "解析失败，请检查文件");
+      showToast("error", "解析失败,请检查文件");
     }
   };
 
@@ -2195,7 +2195,7 @@ const App = () => {
     if (
       !(await customConfirm(
         // 替换 window.confirm
-        "确定要登出吗？这将彻底清除当前角色的所有本地数据，无法恢复。",
+        "确定要登出吗?这将彻底清除当前角色的所有本地数据,无法恢复。",
         "清除数据",
       ))
     ) {
@@ -2275,11 +2275,11 @@ const App = () => {
     try {
       const compressedBase64 = await compressImage(file);
 
-      // 同时存 IndexedDB（供 AI 调用）和消息对象（供渲染）
+      // 同时存 IndexedDB(供 AI 调用)和消息对象(供渲染)
       const imageKey = `img_${Date.now()}`;
       await echoesDB.setItem(imageKey, compressedBase64);
 
-      // 发送图片消息，imageData 直接存在消息上方便渲染
+      // 发送图片消息,imageData 直接存在消息上方便渲染
       handleUserSend("[图片]", "image", null, {
         imageKey,
         imageData: compressedBase64,
@@ -2287,17 +2287,17 @@ const App = () => {
       setShowImageModal(false);
     } catch (err) {
       console.error("图片处理失败:", err);
-      showToast("error", "图片处理失败，请重试");
+      showToast("error", "图片处理失败,请重试");
     }
 
     // 重置 input 允许重复选同一文件
     event.target.value = "";
   };
 
-  // 发送假图片（原有功能）
+  // 发送假图片(原有功能)
   const handleSendFakeImage = async () => {
     const desc = await customPrompt(
-      "请输入图片描述：",
+      "请输入图片描述:",
       "",
       "发送图片",
     );
@@ -2425,7 +2425,7 @@ ${longMemory || "None."}
 [Literary Style Requirements] Literary Style: Warm, Plain, and Grounded.
 1. Narrative Voice: Adopt a calm, leisurely, and kind observer's perspective. Tell the story slowly with warmth, avoiding dramatic or judgmental tones. Maintain a third-person perspective for {{char}} (referring to them by Name/He/She), and a first-person perspective for {{user}} (addressing {{user}} as 'I' or 'me').
 2. Diction ("白描/Bai Miao"): Use simple, unadorned spoken language. Avoid flowery adjectives. Rely on precise verbs and nouns to create a clean, "fresh water" texture.
-3. Atmosphere: Focus on the "smoke and fire" of daily life. Deeply engage the senses—describe the specific smell of food, the texture of objects, and ambient sounds to make the scene tangible.
+3. Atmosphere: Focus on the "smoke and fire" of daily life. Deeply engage the senses-describe the specific smell of food, the texture of objects, and ambient sounds to make the scene tangible.
 4. Emotional Restraint: Do NOT state emotions directly. Reveal deep feelings solely through subtle physical actions, micro-expressions, and environmental details. Keep the emotional temperature constant and gentle.
 5. Rhythm: Mimic the bouncy, elastic rhythm of natural speech. Use short, crisp sentences mixed with relaxed narration.
 6. Output Structure: This must be a unified, cohesive narrative stream. Output the entire response as **ONE SINGLE, CONTINUOUS** message (IMPORTANT). At least 300 Chinese characters.`;
@@ -2506,11 +2506,11 @@ Requirements:
     sticker = null,
     extraData = null,
   ) => {
-    // 如果用户名为空，弹出二次确认（仅首次）
+    // 如果用户名为空,弹出二次确认(仅首次)
     if (!dialogsShown.sendEmptyName && (!userName || !userName.trim())) {
       setDialogsShown((prev) => ({ ...prev, sendEmptyName: true }));
       const confirmed = await customConfirm(
-        "还没设定个人信息，AI 可能无法正确理解你的身份。建议先去「用户设定」中填写你的名字和自我介绍。\n\n是否确定继续发送？",
+        "还没设定个人信息,AI 可能无法正确理解你的身份。建议先去「用户设定」中填写你的名字和自我介绍。\n\n是否确定继续发送?",
         "提醒",
         false
       );
@@ -2576,7 +2576,7 @@ Requirements:
       ...(realTimeEnabled ? { timestamp: Date.now() } : {}),
     };
 
-    // 跳过下一次 Time Gap Notice（刚开启真实时间感知时）
+    // 跳过下一次 Time Gap Notice(刚开启真实时间感知时)
     if (skipNextGapNoticeRef.current) {
       skipNextGapNoticeRef.current = false;
       lastUserSendTimeRef.current = Date.now();
@@ -2585,7 +2585,7 @@ Requirements:
 
     setChatHistory((prev) => [...prev, newMsg]);
     setChatInput("");
-    // 发送后滚动到底部——用 requestAnimationFrame 确保 DOM 已更新
+    // 发送后滚动到底部--用 requestAnimationFrame 确保 DOM 已更新
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (virtuosoRef.current) {
@@ -2598,7 +2598,7 @@ Requirements:
     setLastInteractionTime(Date.now());
     setMsgCountSinceSummary((prev) => prev + 1);
     setShowUserStickerPanel(false);
-    // 新手引导：发完消息5秒内没点触发按钮则弹出提示
+    // 新手引导:发完消息5秒内没点触发按钮则弹出提示
     if (!dialogsShown.triggerGuide) {
       clearTimeout(triggerGuideTimerRef.current);
       setShowTriggerGuide(false);
@@ -2608,7 +2608,7 @@ Requirements:
     }
   };
 
-  // 无聊引导：50轮后 AI 回复完 5 秒无输入弹出
+  // 无聊引导:50轮后 AI 回复完 5 秒无输入弹出
   const idleAfterResponse = () => {
     if (dialogsShown.idleGuide) return;
     const userTurns = chatHistory.filter(m => m.sender === "me").length;
@@ -2625,7 +2625,7 @@ Requirements:
     }, 8000);
   };
 
-  // 反馈气泡：当天20轮以上聊天且没打开过反馈页，标记气泡
+  // 反馈气泡:当天20轮以上聊天且没打开过反馈页,标记气泡
   const checkFeedbackBubble = () => {
     if (dialogsShown.feedbackBubbleToday) return;
     const userTurns = chatHistory.filter(m => m.sender === "me").length;
@@ -2648,7 +2648,7 @@ Requirements:
 
   // 2. 触发 AI 回复 (完整替换版)
   const triggerAIResponse = async (
-    param1 = null, // 可以是重生成索引(number)，也可以是新消息内容(string)
+    param1 = null, // 可以是重生成索引(number),也可以是新消息内容(string)
     hint = "",
     overrideContext = null,
   ) => {
@@ -2673,7 +2673,7 @@ Requirements:
     const backupHistory = [...chatHistory];
     let newHistory = [...chatHistory];
 
-    // 如果是重生成，回滚历史
+    // 如果是重生成,回滚历史
     if (regenIndex !== null) {
       // 回退被替换消息生成的 tracker 数据
       for (let i = regenIndex; i < chatHistory.length; i++) {
@@ -2681,7 +2681,7 @@ Requirements:
       }
       newHistory = chatHistory.slice(0, regenIndex);
     }
-    // 如果是带内容触发（来自音乐等界面），先插入用户消息
+    // 如果是带内容触发(来自音乐等界面),先插入用户消息
     else if (userContent) {
       const userMsg = {
         id: `msg_${Date.now()}_u`,
@@ -2693,7 +2693,7 @@ Requirements:
       newHistory = [...newHistory, userMsg];
     }
 
-    // 立即同步状态，确保 UI 和后续逻辑基于最新的历史记录
+    // 立即同步状态,确保 UI 和后续逻辑基于最新的历史记录
     setChatHistory(newHistory);
 
     setLoading((prev) => ({ ...prev, chat: true }));
@@ -2704,7 +2704,7 @@ Requirements:
     const abortController = new AbortController();
     abortControllerRef.current = abortController;
 
-    // isTyping 开始后，如果用户在底部则滚到底部（显示"正在输入中"）
+    // isTyping 开始后,如果用户在底部则滚到底部(显示"正在输入中")
     if (isAtBottomRef.current && virtuosoRef.current) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -2718,7 +2718,7 @@ Requirements:
     const effectiveUserName = userName || "你";
 
     // --- 2. 格式化历史记录 (用于发送给 AI) ---
-    // 支持多模态：带图片的消息用 image_url 格式，其余用文本
+    // 支持多模态:带图片的消息用 image_url 格式,其余用文本
     const recentTurns = getRecentTurns(newHistory, contextLimit);
     let historyText = "";
     let historyMessages = null; // null 表示纯文本模式
@@ -2753,7 +2753,7 @@ Requirements:
     const hasRealImages = recentTurns.some((m) => m.isImage && m.imageKey);
 
     if (hasRealImages) {
-      // 多模态模式：构建 messages 数组
+      // 多模态模式:构建 messages 数组
       historyMessages = [];
       for (const m of recentTurns) {
         const role = m.sender === "me" ? "user" : "assistant";
@@ -2772,7 +2772,7 @@ Requirements:
                 ],
               });
             } else {
-              // 图片数据丢失，降级为纯文本
+              // 图片数据丢失,降级为纯文本
               historyMessages.push({ role, content: textContent });
             }
           } catch (e) {
@@ -2808,7 +2808,7 @@ Requirements:
     const stickerInst = getStickerInstruction(charStickers, stickersEnabled);
     let styleInst = stylePrompts[chatStyle];
 
-    // 当短信风格 + 现实模式同时开启时，强调面对面相处的语境
+    // 当短信风格 + 现实模式同时开启时,强调面对面相处的语境
     if (chatStyle === "dialogue" && interactionMode === "offline") {
       styleInst += `\n\n[CRITICAL REALITY NOTE]: The IM/burst texting style above is a LANGUAGE convention, NOT a physical setting. {{char}} and {{user}} are PHYSICALLY TOGETHER in the same space right now. Do NOT describe them looking at phones, texting each other, or typing messages. All actions and dialogue happen face-to-face in the real world. Use the short, fragmented IM language style to convey natural speech, not digital messaging.`;
 
@@ -2825,8 +2825,8 @@ Requirements:
       styleInst += `\n\n[FORMATTING OVERRIDE]: You have switched to a NEW writing style (${chatStyle}). IGNORE the formatting patterns of previous messages in history. You must strictly adhere to the new style defined above immediately.`;
     }
 
-    // 核心修复：对 finalHint 进行占位符替换处理
-    // 构建独立的 Special Instruction（放在 Directives 之前，模型关注度更高）
+    // 核心修复:对 finalHint 进行占位符替换处理
+    // 构建独立的 Special Instruction(放在 Directives 之前,模型关注度更高)
     let specialInst = "";
     if (finalHint) {
       const processedHint = replacePlaceholders(
@@ -2837,7 +2837,7 @@ Requirements:
       specialInst = `\n**[INSTRUCTION - HIGHEST PRIORITY]**: ${processedHint}\nThis could be about writing style or plot. You MUST follow this instruction above all other style rules.`;
     }
 
-    // 时间流逝感知：用户超过 1 小时未回复（需要真实时间感知开启）
+    // 时间流逝感知:用户超过 1 小时未回复(需要真实时间感知开启)
     const gapMs = Date.now() - lastUserSendTimeRef.current;
     if (realTimeEnabled && gapMs > 3600000) {
       const gapH = Math.floor(gapMs / 3600000);
@@ -2846,24 +2846,24 @@ Requirements:
       specialInst += `\n[Time Gap Notice]: The user has been away for ${gapDesc}. Decide whether to continue the previous topic (if it was significant, emotional, or unfinished) or naturally transition to what you have been doing or a new topic. Do not explicitly mention the time gap unless it feels natural.`;
     }
 
-    // 角色日常生活节奏：线上模式 60% 概率触发
+    // 角色日常生活节奏:线上模式 60% 概率触发
     if (interactionMode === "online" && Math.random() < 0.6) {
       specialInst += `\n[Life Context]: Consider whether {{char}} is focusing on chatting with {{user}}, or they might be doing something right now based on their routine and personality (e.g. meal time, bedtime, school, work, hobbies, meeting people). If relevant, they might naturally mention it in conversation.`;
 
     // Pre-replace {{char}}/{{user}} in specialInst before it gets injected via {{SPECIAL_INSTRUCTION}}
     // Note: any code that appends to specialInst after this point will NOT get auto-replaced.
-    // Currently: Life Context is above this, Crisis Support is below — we handle crisis separately.
+    // Currently: Life Context is above this, Crisis Support is below - we handle crisis separately.
     }
 
-    // 情绪支持：检测用户消息中的危机/情绪关键词
-    // * 作为通配符，匹配任意字符（含零字符）
+    // 情绪支持:检测用户消息中的危机/情绪关键词
+    // * 作为通配符,匹配任意字符(含零字符)
     const crisisPatterns = [
       "什么*都做不好", "活着*什么意义", "撑不下去了", "没有人*听我说话", "活不下去","累了","好累",
       "我*受够了", "崩溃了", "完蛋了", "不知道*怎么办", "该怎么办",
       "想*死", "我是不是*有问题", "是不是*我的问题", "这种事*都做不好",
       "为什么*就我", "他们*根本不理解", "他们*根本不懂", "他们*都不懂",
-      "没有人*能帮我", "问你*也没用", "和你*没用","有点*难受", "很*难受", "我*难受", "有点*难受", "很*难过", "我*难过", "心情*不好", "其实我*被", "其实我*不", 
-      "算了*你不懂", "是不是*不该存在", "我*没用", "想*说话", "很*无语", "有点*无语", 
+      "没有人*能帮我", "问你*也没用", "和你*没用","有点*难受", "很*难受", "我*难受", "有点*难受", "很*难过", "我*难过", "心情*不好", "其实我*被", "其实我*不",
+      "算了*你不懂", "是不是*不该存在", "我*没用", "想*说话", "很*无语", "有点*无语",
       "我感觉*怎么办", "我觉得*怎么办", "我不想*怎么办", "服了", "不行了", "不开心",
       "我好*怕", "我*担心", "我*害怕", "我*不好", "我*会不会", "我*不行", "我*不舒服",
     ];
@@ -2873,28 +2873,28 @@ Requirements:
       return regex.test(lastUserMsg);
     });
     if (crisisMatched) {
-      const emotionalSupportPrompt = `情感支持指令：如果{{user}}表现出负面情绪（焦虑、愤怒、悲伤、绝望等），在保持{{char}}人设的前提下，遵循如下原则：**1.验证但不放大**：承认{{user}}的感受是真实和合理的，但不要情绪化地回应。避免"天哪""太可怕了""我也觉得……"这类共鸣式表达，不会过度共情到让{{user}}停留在情绪中。**2.赋予掌控感**：通过提问让{{user}}成为决策者。"你觉得最想先处理哪个部分？""你之前有没有遇到过类似的情况？"让{{user}}感到自己有能力应对。如{{user}}没有表露出负面情绪，则忽略本指令。`;
+      const emotionalSupportPrompt = `情感支持指令:如果{{user}}表现出负面情绪(焦虑、愤怒、悲伤、绝望等),在保持{{char}}人设的前提下,遵循如下原则:**1.验证但不放大**:承认{{user}}的感受是真实和合理的,但不要情绪化地回应。避免"天哪""太可怕了""我也觉得......"这类共鸣式表达,不会过度共情到让{{user}}停留在情绪中。**2.赋予掌控感**:通过提问让{{user}}成为决策者。"你觉得最想先处理哪个部分?""你之前有没有遇到过类似的情况?"让{{user}}感到自己有能力应对。如{{user}}没有表露出负面情绪,则忽略本指令。`;
       specialInst += `\n[Crisis Support Protocol]: ${emotionalSupportPrompt}`;
     }
 
-    // 转发上下文（仅当轮有效，API 返回后自动清空）
-    // 转发消息的完整内容已在消息 text 中，随正常上下文受条数限制
+    // 转发上下文(仅当轮有效,API 返回后自动清空)
+    // 转发消息的完整内容已在消息 text 中,随正常上下文受条数限制
     const rawForwardContext = overrideContext || forwardContext;
     const finalForwardSection = rawForwardContext
       ? `\n**Forwarded Content Context**: ${replacePlaceholders(rawForwardContext, persona.name, userName || "你")}`
       : "";
 
-    // 论坛互动上下文（隐式传给AI，用户不可见）
+    // 论坛互动上下文(隐式传给AI,用户不可见)
     const forumInteractionSection = forumInteractionContext
       ? `\n**Recent Forum Interaction**: ${replacePlaceholders(forumInteractionContext, persona.name, userName || "你")}`
       : "";
 
-    // 智能家离线上下文（角色在用户不在时做了什么）
+    // 智能家离线上下文(角色在用户不在时做了什么)
     const swOfflineSection = smartWatchOfflineContext
       ? `\n**{{char}}'s recent activity in the past ${smartWatchOfflineGapDesc}**:\n${replacePlaceholders(smartWatchOfflineContext, persona.name, effectiveUserName)}`
       : "";
 
-    // 对 specialInst 中的 {{char}}/{{user}} 进行预替换（注入 prompt 时外层的同名替换已发生）
+    // 对 specialInst 中的 {{char}}/{{user}} 进行预替换(注入 prompt 时外层的同名替换已发生)
     if (specialInst) {
       specialInst = specialInst
         .replaceAll("{{char}}", persona.name)
@@ -2903,12 +2903,12 @@ Requirements:
 
     // 交互模式 instruction 抽取到 prompts.js 中
     let modeInstruction = interactionMode === "online" ? prompts.mode_online : prompts.mode_offline;
-    // 预替换 modeInstruction 中的 {{char}}/{{user}}（注入 prompt 时外层的同名替换已发生）
+    // 预替换 modeInstruction 中的 {{char}}/{{user}}(注入 prompt 时外层的同名替换已发生)
     modeInstruction = modeInstruction
       .replaceAll("{{char}}", persona.name)
       .replaceAll("{{user}}", effectiveUserName);
 
-    // 多模态模式下，历史已通过 messages 数组传递，prompt 里不需要重复
+    // 多模态模式下,历史已通过 messages 数组传递,prompt 里不需要重复
     const historyForPrompt = historyMessages ? "" : historyText;
 
     const prompt = prompts.chat
@@ -2948,14 +2948,14 @@ Requirements:
 
     // --- 4. 调用 API ---
     try {
-      // 构建 messages 数组（多模态模式下带图片）
+      // 构建 messages 数组(多模态模式下带图片)
       let messagesParam = undefined;
       if (historyMessages) {
-        // 多模态模式：将完整 prompt 拆成 system + 对话历史消息
+        // 多模态模式:将完整 prompt 拆成 system + 对话历史消息
         messagesParam = [
           ...historyMessages,
-          // 最后一条用户消息包含完整 prompt（含角色设定等）
-          // 这样模型既能看到图片，又能读到完整的上下文指令
+          // 最后一条用户消息包含完整 prompt(含角色设定等)
+          // 这样模型既能看到图片,又能读到完整的上下文指令
           { role: "user", content: prompt },
         ];
       }
@@ -3032,7 +3032,7 @@ Requirements:
         // 处理 AI 返回的消息内容
         if (responseData.messages && Array.isArray(responseData.messages)) {
           const newMsgs = responseData.messages.flatMap((item, index) => {
-            // 如果 message 是对象且带 stickerId（无 text），视为表情包消息
+            // 如果 message 是对象且带 stickerId(无 text),视为表情包消息
             if (typeof item === "object" && item !== null && item.stickerId && !item.text) {
               const sticker = charStickers.find((s) => s.id === item.stickerId);
               if (sticker) {
@@ -3044,11 +3044,11 @@ Requirements:
                   status: index === responseData.messages.length - 1 ? responseData.status : null,
                 }];
               }
-              // sticker 不存在就跳过，不生成 [object Object]
+              // sticker 不存在就跳过,不生成 [object Object]
               return [];
             }
 
-            // 如果 message 是骰子对象（无 text），视为骰子消息
+            // 如果 message 是骰子对象(无 text),视为骰子消息
             if (typeof item === "object" && item !== null && item.dice && !item.text) {
               const diceResult = item.dice.result || 1;
               return [{
@@ -3069,17 +3069,17 @@ Requirements:
             let isVoice =
               typeof item === "object" && item !== null && item.isVoice === true;
 
-            // 支持文字标记：「语音」开头也视为语音，[表情包] 开头去掉前缀
+            // 支持文字标记:「语音」开头也视为语音,[表情包] 开头去掉前缀
             if (!isVoice && typeof actualText === "string" && actualText.startsWith("[语音]")) {
               isVoice = true;
               actualText = actualText.replace("[语音]", "").trim();
             }
-            // [表情包] 文本转成普通描述消息（去掉前缀，不显示 [object Object]）
+            // [表情包] 文本转成普通描述消息(去掉前缀,不显示 [object Object])
             if (typeof actualText === "string" && actualText.startsWith("[表情包]")) {
               actualText = actualText.replace("[表情包]", "").trim();
             }
 
-            // 语音消息统一加前缀（兼容老渲染逻辑）
+            // 语音消息统一加前缀(兼容老渲染逻辑)
             const displayText = isVoice ? `[语音消息] ${actualText}` : actualText;
 
             return [{
@@ -3096,7 +3096,7 @@ Requirements:
             }];
           });
 
-          // 处理表情包（兼容旧格式顶层 stickerId）
+          // 处理表情包(兼容旧格式顶层 stickerId)
           if (responseData.stickerId) {
             const sticker = charStickers.find(
               (s) => s.id === responseData.stickerId,
@@ -3178,7 +3178,7 @@ Requirements:
     } finally {
       setLoading((prev) => ({ ...prev, chat: false }));
       abortControllerRef.current = null;
-      // 无聊引导：50轮后，AI回复完5秒无输入则弹出
+      // 无聊引导:50轮后,AI回复完5秒无输入则弹出
       idleAfterResponse();
       checkFeedbackBubble();
     }
@@ -3239,13 +3239,13 @@ Requirements:
 
     if (msg.isTransfer && msg.transfer) {
       try {
-        // 正则匹配: 找 ¥ 后面的数字，以及可选的括号内的内容
+        // 正则匹配: 找 ¥ 后面的数字,以及可选的括号内的内容
         const match = newText.match(/¥\s*([\d\.]+)(?:\s*\((.*)\))?/);
         if (match) {
           const newAmount = match[1];
-          const newNote = match[2] || ""; // 如果没有括号内容，就是空字符串
+          const newNote = match[2] || ""; // 如果没有括号内容,就是空字符串
 
-          // 更新底层数据，这样气泡UI才会变！
+          // 更新底层数据,这样气泡UI才会变!
           msg.transfer = {
             ...msg.transfer,
             amount: newAmount,
@@ -3267,7 +3267,7 @@ Requirements:
   const handleDeleteWithConfirm = async (index) => {
     const msgToDelete = chatHistory[index];
 
-    if (await customConfirm("确定要删除这条消息吗？", "删除消息")) {
+    if (await customConfirm("确定要删除这条消息吗?", "删除消息")) {
       if (msgToDelete && msgToDelete.id) {
         rollbackTrackerData(msgToDelete.id);
       }
@@ -3292,7 +3292,7 @@ Requirements:
 
     if (
       await customConfirm(
-        `确定要删除选中的 ${selectedMsgs.size} 条消息吗？`,
+        `确定要删除选中的 ${selectedMsgs.size} 条消息吗?`,
         "批量删除",
       )
     ) {
@@ -3393,7 +3393,7 @@ ${charFactsList || "None"}
           let content = m.text || "";
           if (m.isVoice) content = "[语音]";
           if (m.isLocation) content = `[位置: ${m.location.name}, 地址: ${m.location.address}]`;
-          // 如果没有文本也没有特殊类型，可能是空
+          // 如果没有文本也没有特殊类型,可能是空
           if (!content) content = "[图片/表情]";
 
           return `${sender}: ${content}`;
@@ -3440,7 +3440,7 @@ Requirements:
   ] = useStickyState([], "echoes_sw_locations");
   const [smartWatchLogs, setSmartWatchLogs, smartWatchLogsLoaded] =
     useStickyState([], "echoes_sw_logs");
-  // 智能家离线上下文（注入 AI prompt，跟随智能家 log 变动）
+  // 智能家离线上下文(注入 AI prompt,跟随智能家 log 变动)
   const [smartWatchOfflineContext, setSmartWatchOfflineContext] = useState("");
   const [smartWatchOfflineGapDesc, setSmartWatchOfflineGapDesc] = useState("");
   const formatSWContext = (logs) => {
@@ -3490,14 +3490,14 @@ Requirements:
     if (!persona) return;
     if (!checkCanGenerate()) return;
 
-    // 如果世界书为空或没有启用条目，弹出二次确认
+    // 如果世界书为空或没有启用条目,弹出二次确认
     const hasEnabledEntries = worldBook && worldBook.length > 0 && worldBook.some((e) => e.enabled);
     if (!hasEnabledEntries && !dialogsShown.smartWatchNoWorld) {
       setDialogsShown((prev) => ({ ...prev, smartWatchNoWorld: true }));
       const confirmed = await customConfirm(
         worldBook.length === 0
-          ? "世界书中没有任何条目，可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化？"
-          : "世界书中的条目处于关闭状态，可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化？",
+          ? "世界书中没有任何条目,可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化?"
+          : "世界书中的条目处于关闭状态,可能会在「无世界观设定」的环境中生成初始内容。\n\n是否确定继续初始化?",
         "提醒",
         false
       );
@@ -3507,7 +3507,7 @@ Requirements:
     setLoading((prev) => ({ ...prev, smartwatch: true }));
 
     try {
-      // --- 关键修复：补全占位符替换逻辑 ---
+      // --- 关键修复:补全占位符替换逻辑 ---
       const effectiveUserName = userName || "User";
       const cleanCharDesc = replacePlaceholders(
         inputKey,
@@ -3522,25 +3522,25 @@ Requirements:
 
       const systemPrompt = prompts.system
         .replaceAll("{{char}}", persona.name)
-        // 修复：添加角色描述和 Tracker 上下文
+        // 修复:添加角色描述和 Tracker 上下文
         .replaceAll(
           "{{CHAR_DESCRIPTION}}",
           cleanCharDesc + "\n" + charTrackerContext,
         )
-        // 修复：添加用户人设
+        // 修复:添加用户人设
         .replaceAll("{{USER_PERSONA}}", userPersona + "\n" + trackerContext)
         .replaceAll("{{user}}", effectiveUserName)
-        // 修复：添加自定义规则
+        // 修复:添加自定义规则
         .replaceAll("{{CUSTOM_RULES}}", customRules)
         .replaceAll("{{WORLD_INFO}}", cleanWorldInfo)
-        // 修复：添加长期记忆
+        // 修复:添加长期记忆
         .replaceAll("{{LONG_MEMORY}}", longMemory || "None");
 
       const genPrompt = prompts.smartwatch_step1_gen
         .replaceAll("{{char}}", persona.name)
         .replaceAll("{{user}}", effectiveUserName);
 
-      // 第一发请求：生成地点
+      // 第一发请求:生成地点
       const step1Data = await generateContent(
         { prompt: genPrompt, systemInstruction: systemPrompt },
         apiConfig,
@@ -3564,7 +3564,7 @@ Requirements:
         .replaceAll("{{GENERATED_LOCATIONS}}", generatedLocsStr)
         .replaceAll("{{IMAGE_LIBRARY}}", imageLibraryStr);
 
-      // 第二发请求：匹配图片
+      // 第二发请求:匹配图片
       const step2Data = await generateContent(
         {
           prompt: matchPrompt,
@@ -3703,7 +3703,7 @@ Requirements:
       const gapM = Math.floor((gapMs % 3600000) / 60000);
       const gapDesc = gapH > 0 ? `${gapH}小时${gapM > 0 ? gapM + "分钟" : ""}` : `${gapM}分钟`;
 
-      // 离线时间基准：最后一句话的时间 vs 当前时间
+      // 离线时间基准:最后一句话的时间 vs 当前时间
       const lastMsgTime = new Date(lastInteractionTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
       const currentTime = getCurrentTimeObj().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
 
@@ -3782,8 +3782,8 @@ Requirements:
             fixedItem = JSON.parse(jsonString);
           } catch (e) { /* keep original */ }
 
-          // 反向推算时间戳：LLM 返回的 "time" 字段（HH:MM）代表角色在离开期间某个时刻
-          // 最早的事件对应现在 - gapMs，最晚的事件接近现在
+          // 反向推算时间戳:LLM 返回的 "time" 字段(HH:MM)代表角色在离开期间某个时刻
+          // 最早的事件对应现在 - gapMs,最晚的事件接近现在
           const frac = data.length > 1 ? i / (data.length - 1) : 1; // 0(最早) → 1(最晚)
           const eventMs = now.getTime() - gapMs + frac * gapMs;
           const eventDate = new Date(eventMs);
@@ -3806,13 +3806,13 @@ Requirements:
           };
         });
 
-        // prompt 要求 LLM 返回最早→最晚，reverse 后 prepend 让最新在最前面
+        // prompt 要求 LLM 返回最早→最晚,reverse 后 prepend 让最新在最前面
         newLogs.reverse();
         setSmartWatchLogs((prev) => [...newLogs, ...prev]);
-        // 更新离线上下文（AI 会在系统 prompt 中看到）
+        // 更新离线上下文(AI 会在系统 prompt 中看到)
         setSmartWatchOfflineContext(formatSWContext(newLogs));
         setSmartWatchOfflineGapDesc(gapDesc);
-        showToast("success", `在你离开期间，智能家有 ${newLogs.length} 条新活动`);
+        showToast("success", `在你离开期间,智能家有 ${newLogs.length} 条新活动`);
         markUnseenDot("smartwatch");
       }
     } catch (e) {
@@ -3840,7 +3840,7 @@ Requirements:
   const [showPostModal, setShowPostModal] = useState(false);
   const [showForumSettings, setShowForumSettings] = useState(false); // ID设置弹窗
 
-  // 发帖表单 (拆分草稿，解决串台问题)
+  // 发帖表单 (拆分草稿,解决串台问题)
   const [postTab, setPostTab] = useState("me"); // 'me' or 'char'
   const [postDrafts, setPostDrafts] = useState({
     me: { title: "", content: "" },
@@ -3857,7 +3857,7 @@ Requirements:
 
   /* --- MAIN RENDER --- */
 
-  // 挑选最关键的几个数据作为“准备就绪”的判断依据
+  // 挑选最关键的几个数据作为"准备就绪"的判断依据
   const isDataReady =
     personaLoaded &&
     chatHistoryLoaded &&
@@ -4033,7 +4033,7 @@ Requirements:
                 <div className="flex-1 h-[1px] bg-gray-300/50"></div>
               </div>
 
-              {/* 创作助手按钮：仅在核心设定为空时显示 */}
+              {/* 创作助手按钮:仅在核心设定为空时显示 */}
               {!inputKey && (
               <button
                 onClick={() => {
@@ -4066,7 +4066,7 @@ Requirements:
               </button>
               )}
 
-              {/* 直接进入：仅在核心设定为空时显示 */}
+              {/* 直接进入:仅在核心设定为空时显示 */}
               {!inputKey && (
                 <button
                   onClick={unlockDeviceDirect}
@@ -4213,7 +4213,7 @@ Requirements:
       <a href="#main-content" className="skip-link">
         跳转到主要内容
       </a>
-      
+
       {/* Screen Reader Announcements */}
       <div
         id="sr-announcer"
@@ -4221,7 +4221,7 @@ Requirements:
         aria-atomic="true"
         className="sr-only"
       />
-      
+
       <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-blue-100/30 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-orange-50/40 rounded-full blur-3xl pointer-events-none"></div>
       {activeMsgToast && (
@@ -4270,7 +4270,7 @@ Requirements:
                           onClick={() =>
                             setIsUserStickerEditMode(!isUserStickerEditMode)
                           }
-                          // 这里我建议把 px-1 改成 px-2，这样跟后面两个按钮大小更一致，你可以看看效果
+                          // 这里我建议把 px-1 改成 px-2,这样跟后面两个按钮大小更一致,你可以看看效果
                           className={`text-[10px] px-2 py-1 rounded-full transition-colors ${
                             isUserStickerEditMode
                               ? "bg-red-50 text-red-500 font-bold"
@@ -4298,7 +4298,7 @@ Requirements:
                           }}
                           className="text-[10px] text-gray-600 hover:text-gray-400 px-2 py-1 rounded-full cursor-pointer transition-colors flex items-center gap-1"
                         >
-                          {/* 注意：你原代码这里用的是 Download 图标，我保留了，如果需要 Link 图标请自行替换 */}
+                          {/* 注意:你原代码这里用的是 Download 图标,我保留了,如果需要 Link 图标请自行替换 */}
                           <Download size={10} /> 批量
                         </button>
                       </div>
@@ -4315,10 +4315,10 @@ Requirements:
                         }`}
                         onClick={() => {
                           if (isUserStickerEditMode) {
-                            // 编辑模式：点击进入编辑，标记来源为 user
+                            // 编辑模式:点击进入编辑,标记来源为 user
                             setEditingSticker({ ...s, source: "user" });
                           } else {
-                            // 正常模式：发送表情
+                            // 正常模式:发送表情
                             handleUserSend(null, "sticker", s);
                           }
                         }}
@@ -4340,7 +4340,7 @@ Requirements:
                     ))}
                     {userStickers.length === 0 && (
                       <p className="col-span-5 text-center text-xs text-gray-400 py-4">
-                        暂无表情，请上传
+                        暂无表情,请上传
                       </p>
                     )}
                   </div>
@@ -4405,7 +4405,7 @@ Requirements:
                   key={app.id}
                   label={app.label}
                   unseen={!unseenAutoLoaded ? null : unseenAuto[app.id] || null}
-                  // 核心逻辑：如果有自定义图标，显示图片；否则显示默认 Lucide 图标
+                  // 核心逻辑:如果有自定义图标,显示图片;否则显示默认 Lucide 图标
                   icon={
                     customIcons[app.id] ? (
                       <img
@@ -4426,7 +4426,7 @@ Requirements:
                 />
               ))}
 
-              {/* --- 登出按钮 (保持不变，放在列表最下方) --- */}
+              {/* --- 登出按钮 (保持不变,放在列表最下方) --- */}
               <div className="col-span-4 mt-2">
                 <AppIcon
                   icon={<LogOut strokeWidth={1.5} className="text-red-500" />}
@@ -4493,7 +4493,7 @@ Requirements:
                   </span>
                 </div>
 
-                {/* --- 开始：身份档案显示逻辑 (包含编辑和查看) --- */}
+                {/* --- 开始:身份档案显示逻辑 (包含编辑和查看) --- */}
                 {showEditPersona ? (
                   /* 1. 编辑模式 (Edit Mode) */
                   <div className="glass-card p-4 rounded-2xl text-left space-y-3">
@@ -4514,7 +4514,7 @@ Requirements:
                       className="w-full h-48 bg-transparent text-xs text-gray-600 resize-none outline-none custom-scrollbar"
                       value={inputKey}
                       onChange={(e) => setInputKey(e.target.value)}
-                      placeholder="手动输入人物设定时，首行建议以 Name: 角色名 格式开始。"
+                      placeholder="手动输入人物设定时,首行建议以 Name: 角色名 格式开始。"
                     />
                     <button
                       onClick={() => {
@@ -4539,7 +4539,7 @@ Requirements:
                       )}
                     </div>
 
-                    {/* 核心修改：直接显示 Raw Prompt (inputKey) */}
+                    {/* 核心修改:直接显示 Raw Prompt (inputKey) */}
                     <div className="space-y-2">
                       <div className="flex justify-between items-end px-1">
                         <span className="text-[10px] font-bold uppercase text-gray-400">
@@ -4560,15 +4560,15 @@ Requirements:
                       >
                         <p className="text-[10px] leading-relaxed text-gray-600 whitespace-pre-wrap">
                           {inputKey ||
-                            "暂无设定数据，请点击编辑手动输入... "}
+                            "暂无设定数据,请点击编辑手动输入... "}
                         </p>
                       </div>
                       <p className="text-[9px] text-gray-400 text-center">
-                        *此处信息将直接传给模型，点击卡片可修改
+                        *此处信息将直接传给模型,点击卡片可修改
                       </p>
                     </div>
 
-                    {/* MBTI 等额外信息保留（如果有的话） */}
+                    {/* MBTI 等额外信息保留(如果有的话) */}
                     {persona.mbti && (
                       <div className="grid grid-cols-2 gap-3 mt-4">
                         <div className="glass-card p-4 rounded-xl text-left">
@@ -4589,7 +4589,7 @@ Requirements:
                 )}
                 {/* --- 结束 --- */}
 
-                {/* --- [修改后] 身份档案界面底部：显示角色信息 (Char Facts) --- */}
+                {/* --- [修改后] 身份档案界面底部:显示角色信息 (Char Facts) --- */}
                 <div className="px-1 text-left mt-8">
                   <div className="flex justify-between items-center mb-3 border-b border-gray-200/50 pb-2">
                     <div className="flex items-center gap-2">
@@ -4606,7 +4606,7 @@ Requirements:
                         <p className="text-[10px] text-gray-400">
                           暂无信息
                           <br />
-                          随着对话深入，将了解TA的喜好与秘密
+                          随着对话深入,将了解TA的喜好与秘密
                         </p>
                       </div>
                     )}
@@ -4841,7 +4841,7 @@ Requirements:
                     <span className="text-xs font-bold uppercase text-gray-500">
                       重生成指令
                     </span>
-                    <button 
+                    <button
                       onClick={() => setRegenerateTarget(null)}
                       aria-label="关闭重生成面板"
                     >
@@ -4853,7 +4853,7 @@ Requirements:
                     name="regen-hint"
                     autoFocus
                     type="text"
-                    placeholder="例：语气更温柔一点..."
+                    placeholder="例:语气更温柔一点..."
                     value={regenHint}
                     onChange={(e) => setRegenHint(e.target.value)}
                     className="w-full p-2 bg-white/50 border border-gray-200 rounded-lg text-sm mb-2 outline-none"
@@ -5157,12 +5157,12 @@ Requirements:
                         <X size={14} /> 取消生成
                       </button>
                     ) : (
-                      <>
+                      <div className="relative">
                         {/* 无聊引导 */}
                         {showIdleGuide && (
-                          <div className="relative w-full mb-2 flex justify-center animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <div className="bg-[#1a1a1a]/90 backdrop-blur-md text-white text-[11px] font-medium px-4 py-2.5 rounded-2xl shadow-xl border border-white/20 text-center leading-relaxed max-w-[280px]">
-                            有时如果不知道该聊什么，可以去小红书搜搜“番外指令”或“ai聊天梗”找找灵感。
+                          <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 whitespace-nowrap animate-in slide-in-from-bottom-2 fade-in duration-300 z-50">
+                            <div className="bg-[#1a1a1a]/90 backdrop-blur-md text-white text-[11px] font-medium px-4 py-2.5 rounded-2xl shadow-xl border border-white/20 text-center leading-relaxed">
+                            有时如果不知道该聊什么，可以去小红书搜搜"番外指令"或"ai聊天梗"找找灵感。
                             </div>
                           </div>
                         )}
@@ -5234,7 +5234,7 @@ Requirements:
                                   : "发消息..."
                             }
                             rows={1}
-                            // 注意：这里加了 w-full 和 pr-10 (右侧留白给按钮)，去掉了 flex-grow (因为父容器已经是 flex-grow)
+                            // 注意:这里加了 w-full 和 pr-10 (右侧留白给按钮),去掉了 flex-grow (因为父容器已经是 flex-grow)
                             className={`w-full min-w-0 border rounded-2xl py-2.5 pl-4 pr-10 text-sm focus:outline-none transition-all shadow-inner resize-none custom-scrollbar ${
                               isVoiceMode
                                 ? "bg-[#7A2A3A]/10 border-[#7A2A3A]/30 text-[#7A2A3A] placeholder:text-[#7A2A3A]/50"
@@ -5256,7 +5256,7 @@ Requirements:
                           )}
                         </div>
 
-                        {/* 右侧：按钮组 (只保留发送/触发按钮) */}
+                        {/* 右侧:按钮组 (只保留发送/触发按钮) */}
                         <div className="flex gap-1 shrink-0 items-end pb-1">
                           {chatInput.trim().length > 0 ? (
                             /* 发送按钮 */
@@ -5297,7 +5297,7 @@ Requirements:
                             </div>
                           )}
                         </div>
-                      </>
+                      </div>
                     )}
                   </div>
                 )}
@@ -5399,7 +5399,7 @@ Requirements:
                 }`}
                 title="切换日记/经历"
               >
-                {/* 如果显示经历，图标变成日记本(表示点它可以回日记)；反之亦然 */}
+                {/* 如果显示经历,图标变成日记本(表示点它可以回日记);反之亦然 */}
                 {showEventsInDiary ? (
                   <Book size={16} />
                 ) : (
@@ -5409,7 +5409,7 @@ Requirements:
             }
           >
             <div className="space-y-6 pb-20 pt-4">
-              {/* === 内容区：根据开关切换显示 === */}
+              {/* === 内容区:根据开关切换显示 === */}
               {showEventsInDiary ? (
                 /* --- A. 共同经历列表 (原 Identity 里的代码移过来) --- */
                 <div className="animate-in slide-in-from-right-4">
@@ -5510,7 +5510,7 @@ Requirements:
                             onClick={() => {
                               const newMsg = {
                                 sender: "me",
-                                text: `【转发${persona?.name || "角色"}的日记】\n日期：${d.date}\n内容：${d.content.replace(/<[^>]*>/g, "")}`,
+                                text: `【转发${persona?.name || "角色"}的日记】\n日期:${d.date}\n内容:${d.content.replace(/<[^>]*>/g, "")}`,
                                 isForward: true,
                                 forwardData: { content: d.content.replace(/<[^>]*>/g, ""), type: "diary", date: d.date },
                                 time: formatTime(getCurrentTimeObj()),
@@ -5587,7 +5587,7 @@ Requirements:
                           const itemsStr = r.items.map(item => `${item.name}: ${item.price}`).join("\n");
                           const newMsg = {
                             sender: "me",
-                            text: `【转发${persona?.name || "角色"}的消费记录】\n${r.createdAt ? `时间：${formatSmartTime(r.createdAt)}\n` : ""}商家：${r.store}\n${itemsStr}\n合计：${r.total}${r.thought ? `\n\n${persona?.name || "角色"}在作出这笔消费时的心理活动：${r.thought}` : ""}`,
+                            text: `【转发${persona?.name || "角色"}的消费记录】\n${r.createdAt ? `时间:${formatSmartTime(r.createdAt)}\n` : ""}商家:${r.store}\n${itemsStr}\n合计:${r.total}${r.thought ? `\n\n${persona?.name || "角色"}在作出这笔消费时的心理活动:${r.thought}` : ""}`,
                             isForward: true,
                             forwardData: { store: r.store, items: r.items, total: r.total, thought: r.thought, createdAt: r.createdAt, type: "receipt" },
                             time: formatTime(getCurrentTimeObj()),
@@ -5704,7 +5704,7 @@ Requirements:
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-6">
                     <p className="text-xs text-gray-400">暂无监控数据</p>
                     <p className="text-[10px] text-gray-300">
-                      请确认已开启世界书，然后初始化系统
+                      请确认已开启世界书,然后初始化系统
                     </p>
                     <button
                       onClick={initSmartWatch}
@@ -5945,10 +5945,10 @@ Requirements:
                           <button
                             onClick={() => {
                               const timeStr = formatSmartTime(log.id) || log.displayTime;
-                              const avSuffix = log.avData ? `\n音视频：${log.avData}` : "";
+                              const avSuffix = log.avData ? `\n音视频:${log.avData}` : "";
                               const newMsg = {
                                 sender: "me",
-                                text: `【转发${persona?.name || "角色"}的监控日志】\n地点：${log.locationName}\n时间：${timeStr}\n状态：${log.action}${log.thought ? `\n\n${persona?.name || "角色"}当时的心理活动：${log.thought}` : ""}${avSuffix}`,
+                                text: `【转发${persona?.name || "角色"}的监控日志】\n地点:${log.locationName}\n时间:${timeStr}\n状态:${log.action}${log.thought ? `\n\n${persona?.name || "角色"}当时的心理活动:${log.thought}` : ""}${avSuffix}`,
                                 isForward: true,
                                 forwardData: { locationName: log.locationName, action: log.action, time: timeStr, thought: log.thought, type: "smartwatch" },
                                 time: formatTime(getCurrentTimeObj()),
@@ -6042,7 +6042,7 @@ Requirements:
                           onClick={() => {
                             const newMsg = {
                               sender: "me",
-                              text: `【转发${persona?.name || "角色"}的浏览记录】\n搜索：${item.query}\n时间：${item.id ? formatSmartTime(item.id) : item.timestamp}\n详情：${item.detail}${item.thought ? `\n\n${persona?.name || "角色"}在搜索时的心理活动：${item.thought}` : ""}`,
+                              text: `【转发${persona?.name || "角色"}的浏览记录】\n搜索:${item.query}\n时间:${item.id ? formatSmartTime(item.id) : item.timestamp}\n详情:${item.detail}${item.thought ? `\n\n${persona?.name || "角色"}在搜索时的心理活动:${item.thought}` : ""}`,
                               isForward: true,
                               forwardData: { query: item.query, timestamp: item.timestamp, id: item.id, detail: item.detail, thought: item.thought, type: "browser" },
                               time: formatTime(getCurrentTimeObj()),
@@ -6085,7 +6085,7 @@ Requirements:
                           onClick={() => {
                             const newMsg = {
                               sender: "me",
-                              text: `【转发${persona?.name || "角色"}的隐私浏览记录】\n搜索：${item.query}\n时间：${item.id ? formatSmartTime(item.id) : item.timestamp}\n详情：${item.detail}${item.thought ? `\n\n${persona?.name || "角色"}在隐私搜索时的心理活动：${item.thought}` : ""}`,
+                              text: `【转发${persona?.name || "角色"}的隐私浏览记录】\n搜索:${item.query}\n时间:${item.id ? formatSmartTime(item.id) : item.timestamp}\n详情:${item.detail}${item.thought ? `\n\n${persona?.name || "角色"}在隐私搜索时的心理活动:${item.thought}` : ""}`,
                               isForward: true,
                               forwardData: { query: item.query, timestamp: item.timestamp, id: item.id, detail: item.detail, thought: item.thought, type: "incognito" },
                               time: formatTime(getCurrentTimeObj()),
@@ -6237,7 +6237,7 @@ Requirements:
                 <input
                   id="loc-name-input"
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 pr-9 text-sm focus:border-[#7A2A3A] focus:outline-none transition-colors" // pr-9 留出按钮位置
-                  placeholder="可输入地点类型如“餐厅”并点击右侧按钮"
+                  placeholder="可输入地点类型如"餐厅"并点击右侧按钮"
                 />
                 {/* [复用] 位置弹窗里的代写按钮 */}
                 <GhostButton
@@ -6335,7 +6335,7 @@ Requirements:
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
-            {/* 假图片输入（原有功能） */}
+            {/* 假图片输入(原有功能) */}
             <button
               onClick={handleSendFakeImage}
               className="w-full py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
@@ -6496,7 +6496,7 @@ const AppIcon = ({ icon, label, onClick, unseen }) => (
     data-app-link={label}
     className="flex flex-col items-center gap-2.5 cursor-pointer group w-20 relative"
   >
-    {/* 气泡提示（反馈用） */}
+    {/* 气泡提示(反馈用) */}
     {unseen?.type === "bubble" && (
       <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap animate-in fade-in slide-in-from-bottom-1 duration-200">
         <div className="bg-[#1a1a1a]/90 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-xl shadow-lg border border-white/20 relative">
@@ -6526,15 +6526,15 @@ const AppIcon = ({ icon, label, onClick, unseen }) => (
 );
 
 const SoulLink = () => (
-  // 调整：去掉所有定位 class，只保留绝对定位和居中，尺寸改小
+  // 调整:去掉所有定位 class,只保留绝对定位和居中,尺寸改小
   <div className="absolute left-[50%] top-[40%] -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none flex items-center justify-center">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
-      // 修改2：添加黑色描边
+      // 修改2:添加黑色描边
       stroke="black"
-      // 修改3：设置描边宽度（可根据需要微调，例如 1 或 2）
+      // 修改3:设置描边宽度(可根据需要微调,例如 1 或 2)
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -6562,7 +6562,7 @@ const StickerGroup = ({
 }) => {
   const [isExpanded, setIsExpanded] = React.useState(false); // 默认折叠
 
-  // 过滤出当前组的表情，并排除掉占位符(isPlaceholder)
+  // 过滤出当前组的表情,并排除掉占位符(isPlaceholder)
   const groupStickers = stickers.filter((s) => s.group === group);
   const visibleStickers = groupStickers.filter((s) => !s.isPlaceholder);
 
@@ -6572,7 +6572,7 @@ const StickerGroup = ({
     <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 transition-all mb-3">
       {/* 标题头 */}
       <div className="flex justify-between items-center h-6">
-        {/* 左侧：折叠 + 标题 */}
+        {/* 左侧:折叠 + 标题 */}
         <div
           className="flex items-center gap-2 cursor-pointer h-full"
           onClick={() => setIsExpanded(!isExpanded)}
@@ -6592,7 +6592,7 @@ const StickerGroup = ({
           </span>
         </div>
 
-        {/* 右侧：操作按钮组 */}
+        {/* 右侧:操作按钮组 */}
         <div className="flex items-center gap-2">
           {/* 改名 */}
           <button
@@ -6646,7 +6646,7 @@ const StickerGroup = ({
         >
           {visibleStickers.length === 0 && (
             <div className="text-center py-4 text-[10px] text-gray-400 italic">
-              暂无表情，请上传
+              暂无表情,请上传
             </div>
           )}
 
@@ -6669,8 +6669,8 @@ const StickerGroup = ({
             {/* [修改] 组内上传按钮 - 对应当前分组 */}
             <label
               className="
-                    aspect-square border border-dashed border-gray-300 rounded-xl 
-                    flex flex-col items-center justify-center cursor-pointer 
+                    aspect-square border border-dashed border-gray-300 rounded-xl
+                    flex flex-col items-center justify-center cursor-pointer
                     text-gray-400 hover:text-[#7A2A3A] hover:border-[#7A2A3A] hover:bg-white
                     transition-all duration-300 relative
                 "
@@ -6680,9 +6680,9 @@ const StickerGroup = ({
                 type="file"
                 className="hidden"
                 accept="image/*"
-                // 关键点：调用 handleStickerUpload 时，传入当前的 group 名字
+                // 关键点:调用 handleStickerUpload 时,传入当前的 group 名字
                 onChange={(e) => handleStickerUpload(e, "char", group)}
-                // 点击时清空，确保能连续上传同一张图
+                // 点击时清空,确保能连续上传同一张图
                 onClick={(e) => (e.target.value = null)}
               />
             </label>
