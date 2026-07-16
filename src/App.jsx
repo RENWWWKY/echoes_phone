@@ -3162,7 +3162,11 @@ Requirements:
             if (newMsgs.length > 0 && newMsgs[newMsgs.length - 1].status) {
               delete newMsgs[newMsgs.length - 1].status;
             }
-            const amount = responseData.transfer.amount;
+            let amount = responseData.transfer.amount;
+            // 防御：AI 有时把 amount 返回成对象而非数字
+            if (typeof amount === "object" && amount !== null) {
+              amount = amount.value || amount.price || String(amount);
+            }
             const reason = responseData.transfer.reason || "";
             newMsgs.push({
               sender: "char",
