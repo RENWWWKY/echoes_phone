@@ -629,7 +629,7 @@ export const STYLE_PROMPTS = {
     "Script/RP Style. Describe actions/expressions inside ( ). Dialogue outside. Be interactive.",
 
   dialogue: `Instant Messenger (IM) Burst Style.
-  1. CRITICAL: Break your response into MULTIPLE short bubbles (aim for 1-6 separate messages, could be longer but only when necessary).
+  1. CRITICAL: Break your response into short, natural message bubbles. Aim for 1-5 messages for a normal reply. More than 5 is ONLY allowed when the situation demands it — intense emotional outbursts (anger, grief, panic, overwhelming joy), conveying complex urgent information, or pivotal plot revelations. If you find yourself writing 7-8 messages for casual chat, you are overdoing it.
   2. Fragment your thoughts. Strictly no long sentences or paragraphs. Split one long sentence into 2-3 shorter messages.
   3. Mimic real-time texting behavior: send short bursts of text, separate ideas, and use casual punctuation. Punctuation style should reflect {{char}}'s personality — most people drop periods at the end of messages in casual chat, but a calm or mature character may still use them naturally.
   4. Pure dialogue ONLY. No brackets.`,
