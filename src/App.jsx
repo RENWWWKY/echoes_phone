@@ -5206,7 +5206,7 @@ Requirements:
                         {showIdleGuide && (
                           <div className="absolute bottom-full mb-3 right-8 whitespace-nowrap animate-in slide-in-from-bottom-2 fade-in duration-300 z-50">
                             <div className="bg-[#1a1a1a]/90 backdrop-blur-md text-white text-[11px] font-medium px-4 py-2.5 rounded-2xl shadow-xl border border-white/20 text-center leading-relaxed">
-                            有时如果不知道该聊什么，可以去小红书搜搜"番外指令"或"ai聊天梗"找找灵感。
+                            有时如果不知道该聊什么，可以去小红书搜搜“番外指令”或“ai聊天梗”找找灵感。
                             </div>
                           </div>
                         )}
