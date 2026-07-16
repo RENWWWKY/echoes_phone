@@ -1123,7 +1123,7 @@ export const TransferBubble = ({ msg, isMe, onInteract }) => {
                 e.stopPropagation();
                 onInteract("reject");
               }}
-              className="px-1.5 py-0.5 bg-white hover:bg-gray-100 text-black text-[9px] rounded font-bold shadow-sm"
+              className="px-1.5 py-0.5 bg-white/15 hover:bg-white/25 text-white text-[9px] rounded font-bold backdrop-blur-sm"
             >
               退还
             </button>
@@ -1132,7 +1132,7 @@ export const TransferBubble = ({ msg, isMe, onInteract }) => {
                 e.stopPropagation();
                 onInteract("accept");
               }}
-              className="px-2 py-1 bg-white text-black hover:bg-gray-100 text-[10px] rounded-md font-bold shadow-sm"
+              className="px-1.5 py-0.5 bg-white/15 hover:bg-white/25 text-white text-[9px] rounded font-bold backdrop-blur-sm"
             >
               收款
             </button>
