@@ -5201,7 +5201,7 @@ Requirements:
                         <X size={14} /> 取消生成
                       </button>
                     ) : (
-                      <div className="relative">
+                      <div className="relative flex items-end gap-1">
                         {/* 无聊引导 */}
                         {showIdleGuide && (
                           <div className="absolute bottom-full mb-3 right-8 whitespace-nowrap animate-in slide-in-from-bottom-2 fade-in duration-300 z-50">
