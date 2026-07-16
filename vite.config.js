@@ -10,8 +10,8 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      // 2. 提示更新模式（检测到新版本时弹窗让用户确认）
-      registerType: "prompt",
+      // 2. 自动更新模式（新版本自动替换旧 SW，无需用户确认）
+      registerType: "autoUpdate",
 
       // 3. 包含图标�?favicon
       includeAssets: [
