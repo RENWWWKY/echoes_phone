@@ -3191,7 +3191,6 @@ Requirements:
     } catch (e) {
       console.error("triggerAIResponse error:", e);
       if (regenIndex !== null) setChatHistory(backupHistory);
-      showToast("error", "生成失败: " + (e.message || "未知错误"));
     } finally {
       setLoading((prev) => ({ ...prev, chat: false }));
       abortControllerRef.current = null;
