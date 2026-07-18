@@ -5033,7 +5033,7 @@ Requirements:
                                 }
 
                                 return (
-                                  <div style={{ width: 'fit-content', maxWidth: 'min(280px, 100%)' }}>
+                                  <div style={{ width: 'fit-content', maxWidth: 'min(280px, 100%)', overflow: 'hidden' }}>
                                     {displayQuote && (
                                       <div className={`text-xs mb-1 px-2.5 py-1 rounded-lg border-l-2 overflow-hidden ${msg.sender === "me" ? "bg-white/90 border-white/50 text-gray-800" : "bg-black/10 border-gray-400 text-gray-600"}`} style={{ maxWidth: '240px' }}>
                                         <div className="truncate"><span className="font-bold">{displayQuote.sender === "char" ? (persona?.name || "char") : "你"}:</span> {displayQuote.text?.length > 20 ? displayQuote.text.substring(0, 20) + "..." : displayQuote.text}</div>
@@ -5277,11 +5277,11 @@ Requirements:
 
                         <div className="relative flex-grow">
                           {quoteTarget && (
-                            <div className="flex items-center gap-2 mb-1 px-3 py-1.5 bg-black/60 backdrop-blur-md text-white text-[11px] rounded-lg border border-white/10 overflow-hidden" style={{ width: 'fit-content', maxWidth: '280px' }}>
-                              <span className="flex-1 truncate min-w-0">
-                                <span className="font-bold opacity-70">引用 {(persona?.name || "char")}:</span> {(quoteTarget.text || "").substring(0, 30)}{(quoteTarget.text || "").length > 30 ? "..." : ""}
+                            <div className="flex items-start gap-2 mb-1 px-3 py-1.5 bg-black/60 backdrop-blur-md text-white text-[11px] rounded-lg border border-white/10" style={{ width: 'fit-content', maxWidth: '220px' }}>
+                              <span className="flex-1 line-clamp-2">
+                                <span className="font-bold opacity-70">引用 {(persona?.name || "char")}:</span> {(quoteTarget.text || "").substring(0, 40)}{(quoteTarget.text || "").length > 40 ? "..." : ""}
                               </span>
-                              <button onClick={() => { setQuoteTarget(null); document.getElementById("chat-input")?.focus(); }} className="text-white/50 hover:text-white shrink-0">
+                              <button onClick={() => { setQuoteTarget(null); document.getElementById("chat-input")?.focus(); }} className="text-white/50 hover:text-white shrink-0 mt-0.5">
                                 <XCircle size={14} />
                               </button>
                             </div>
