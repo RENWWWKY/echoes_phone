@@ -5035,8 +5035,8 @@ Requirements:
                                 return (
                                   <div>
                                     {displayQuote && (
-                                      <div className={`text-xs mb-1 px-2.5 py-1 rounded-lg border-l-2 truncate max-w-[240px] ${msg.sender === "me" ? "bg-white/90 border-white/50 text-gray-800" : "bg-black/10 border-gray-400 text-gray-600"}`}>
-                                        <span className="font-bold shrink-0">{displayQuote.sender === "char" ? (persona?.name || "char") : "你"}:</span> <span className="align-middle">{displayQuote.text?.length > 35 ? displayQuote.text.substring(0, 35) + "..." : displayQuote.text}</span>
+                                      <div className={`text-xs mb-1 px-2.5 py-1 rounded-lg border-l-2 overflow-hidden ${msg.sender === "me" ? "bg-white/90 border-white/50 text-gray-800" : "bg-black/10 border-gray-400 text-gray-600"}`} style={{ maxWidth: '240px' }}>
+                                        <div className="truncate"><span className="font-bold">{displayQuote.sender === "char" ? (persona?.name || "char") : "你"}:</span> {displayQuote.text?.length > 20 ? displayQuote.text.substring(0, 20) + "..." : displayQuote.text}</div>
                                       </div>
                                     )}
                                     <div className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm whitespace-pre-wrap select-text ${msg.sender === "me" ? "bg-[#2C2C2C] text-white rounded-tr-none" : "bg-white border border-gray-100 text-gray-800 rounded-tl-none"}`}>
@@ -5277,9 +5277,9 @@ Requirements:
 
                         <div className="relative flex-grow">
                           {quoteTarget && (
-                            <div className="flex items-center gap-2 mb-1 px-3 py-1.5 bg-black/60 backdrop-blur-md text-white text-[11px] rounded-lg border border-white/10">
-                              <span className="flex-1 truncate">
-                                <span className="font-bold opacity-70">引用 {(persona?.name || "char")}:</span> {(quoteTarget.text || "").substring(0, 60)}{(quoteTarget.text || "").length > 60 ? "..." : ""}
+                            <div className="flex items-center gap-2 mb-1 px-3 py-1.5 bg-black/60 backdrop-blur-md text-white text-[11px] rounded-lg border border-white/10 w-full min-w-0">
+                              <span className="flex-1 truncate min-w-0">
+                                <span className="font-bold opacity-70">引用 {(persona?.name || "char")}:</span> {(quoteTarget.text || "").substring(0, 30)}{(quoteTarget.text || "").length > 30 ? "..." : ""}
                               </span>
                               <button onClick={() => { setQuoteTarget(null); document.getElementById("chat-input")?.focus(); }} className="text-white/50 hover:text-white shrink-0">
                                 <XCircle size={14} />
